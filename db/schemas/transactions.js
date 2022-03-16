@@ -1,19 +1,18 @@
 const transactionSchema = {
-    owner: {
-        type: Number,
-    },
-    patient: {
-        type: Number,
-    },
-    type: {
-        type: String,
-    },
-    amount: {
-        type: Number,
-    },
-    date: {
-        type: Date,
-        default: Date.now
+    type: 'object',
+    properties: {
+        patient: {
+            type: "number",
+        },
+        title: {
+            type: "string",
+        },
+        amount: {
+            type: "number",
+        },
+        datetime: {
+            type: "string"
+        }
     }
 };
 

@@ -25,9 +25,13 @@ const patientschema = {
         color: {
             type: "string",
         },
+        health: {
+            type: "string",
+        },
         owner: {
             type: "number",
         },
+    
     },
 };
 
