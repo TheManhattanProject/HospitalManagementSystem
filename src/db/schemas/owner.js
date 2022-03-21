@@ -16,6 +16,9 @@ const ownerschema={
         address: {
             type: "string",
         },
+        password: {
+            type: "string",
+        },
     
 }
 }

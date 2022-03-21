@@ -30,7 +30,7 @@ const patientschema = {
         },
         owner: {
             type: "number",
-        },
+        }
     
     },
 };

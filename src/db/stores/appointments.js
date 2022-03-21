@@ -49,4 +49,4 @@ class AppointmentsStore {
 
 }
 
-module.exports = new TodoItemStore();
+module.exports = new AppointmentsStore();

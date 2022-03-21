@@ -1,6 +1,8 @@
-const Datastore = require('nedb-promises');
+import path from "path";
+const Datastore = require('nedb');
 const Ajv = require('ajv');
 const ownerSchema= require('../schemas/owner');
+const remote = window.require("electron").remote;
 
 class ownerStore {
     constructor() {
@@ -10,8 +12,10 @@ class ownerStore {
         });
 
         this.schemaValidator = ajv.compile(ownerSchema);
-        const dbPath = `${process.cwd()}/owner.db`;
-        this.db = Datastore.create({
+        const dbPath = path.join(remote.app.getPath("../Userdata/"), "/owner.db");
+        // const dbPath = `${process.cwd()}/owner.db`;
+        this.db = new Datastore({
+            autoload: true,
             filename: dbPath,
             timestampData: true,
         });
@@ -38,4 +42,4 @@ class ownerStore {
     
 }
 
-module.exports = new ownerStore();
+export default new ownerStore();

@@ -22,7 +22,10 @@ const veternarianschema ={
         },
         speciality: {
             type: 'string',
-        }
+        },
+        password: {
+            type: 'string',
+        },
 
     }
 }
