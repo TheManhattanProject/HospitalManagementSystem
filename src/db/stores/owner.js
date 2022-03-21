@@ -12,8 +12,7 @@ class ownerStore {
         });
 
         this.schemaValidator = ajv.compile(ownerSchema);
-        const dbPath = path.join(remote.app.getPath("../Userdata/"), "/owner.db");
-        // const dbPath = `${process.cwd()}/owner.db`;
+        const dbPath = path.join(remote.app.getPath("userData"), "/owner.db");
         this.db = new Datastore({
             autoload: true,
             filename: dbPath,
@@ -30,6 +29,7 @@ class ownerStore {
         if (isValid) {
             return this.db.insert(data);
         }
+        return "Invalid data";
     }
 
     read(_id) {

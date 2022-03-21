@@ -9,8 +9,9 @@ export default function Login() {
 
 function login(){
   var result = ownerStore.read(username);
+  console.log(result);
   if(result){
-      if(result.password == password){
+      if(result.password === password){
           return result;
       }else{
           return null;
@@ -27,7 +28,7 @@ function login(){
         <form className="login-form">
           <input type="text" placeholder="username" onChange={e => setUserName(e.target.value)}/>
           <input type="password" placeholder="password" onChange={e => setPassword(e.target.value)}/>
-          <button onClick={login()}>login</button>
+          <button onClick={login}>login</button>
           <p className="message">Not registered? <a href="/register">Create an account</a></p>
         </form>
       </div>
