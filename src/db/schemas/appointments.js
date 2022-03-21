@@ -10,10 +10,16 @@ const appointmentsSchema = {
         veterinarian: {
             type: "number",
         },
-        title: {
+        reason: {
             type: "string"
         },
         datetime: {
+            type: "string"
+        },
+        completed: {
+            type: "boolean"
+        },
+        prescription: {
             type: "string"
         }
     }

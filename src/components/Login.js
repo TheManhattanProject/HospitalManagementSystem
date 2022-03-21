@@ -1,11 +1,17 @@
 import ownerStore from "../db/stores/owner";
 import React from "react";
 import {useState} from "react";
-const { ipcRenderer } = window.require('electron');
+import { useEffect } from "react/cjs/react.production.min";
 
 export default function Login() {
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
+
+  useEffect(() => {
+    if (localStorage.getItem("user") != null) {
+      window.location.href = "/dashboard";
+    }
+  }, [])
 
   async function login(event){
   event.preventDefault();
@@ -16,8 +22,9 @@ export default function Login() {
   else if (result === "Invalid email") {
     alert(result);
   }
-
-  console.log(result);
+  else {
+    localStorage.setItem("user", result._id);
+  }
 }
     return (
     <div>

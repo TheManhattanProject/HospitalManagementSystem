@@ -13,16 +13,13 @@ const patientschema = {
         species: {
             type: "string",
         },
-        breed: {
-            type: "string",
-        },
         bodyweight: {
             type: "number",
         },
         color: {
             type: "string",
         },
-        health: {
+        fertility: {
             type: "string",
         },
         owner: {

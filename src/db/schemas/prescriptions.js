@@ -1,19 +1,19 @@
-const filesSchema = {
+const prescriptionsSchema = {
     type: "object",
     properties: {
-        path: {
+        diagnosis: {
             type: "string",
         },
-        title: {
+        investigations: {
             type: "string",
         },
-        appointment: {
+        Treatment: {
             type: "string",
         },
-        category: {
+        nextAppointment: {
             type: "string",
-        }
+        },
     }
 }
 
-module.exports = filesSchema;
+module.exports = prescriptionsSchema;
