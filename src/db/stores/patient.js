@@ -47,6 +47,9 @@ class PatientStore {
         return await this.db.remove({id: id});
     }
 
+    async getPets(id){
+        return await this.db.find({owner: id});
+    }
 }
 
 module.exports = new PatientStore();

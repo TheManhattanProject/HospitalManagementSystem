@@ -1,9 +1,6 @@
 const veternarianschema ={
     type: "object",
     properties: {
-        id:{
-            type: 'number',
-        },
         name: {
             type: 'string',
         },
@@ -26,7 +23,6 @@ const veternarianschema ={
         password: {
             type: 'string',
         },
-
     }
 }
 module.exports = veternarianschema;

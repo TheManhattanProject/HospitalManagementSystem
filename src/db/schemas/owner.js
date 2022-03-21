@@ -1,9 +1,6 @@
 const ownerschema={
     type: "object",
     properties: {
-        id: {
-            type: "number",
-        },
         name: {
             type: "string",
         },
@@ -19,7 +16,6 @@ const ownerschema={
         password: {
             type: "string",
         },
-    
-}
+    }
 }
 module.exports=ownerschema;

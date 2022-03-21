@@ -1,9 +1,6 @@
 const reportschema = {
     type: "object",
     properties : {
-        id: {
-            type: "number",
-        },
         patient: {
             type: "number",
         },

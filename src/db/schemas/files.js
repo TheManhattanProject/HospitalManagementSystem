@@ -1,9 +1,6 @@
 const filesSchema = {
     type: "object",
     properties: {
-        id: {
-            type: "number",
-        },
         path: {
             type: "string",
         },

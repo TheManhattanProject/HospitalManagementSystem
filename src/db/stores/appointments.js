@@ -47,6 +47,14 @@ class AppointmentsStore {
         return await this.db.remove({id: id});
     }
 
+    async getPastAppointments(id){
+        return await this.db.find({owner: id});
+    }
+
+    async getHistory(id){
+        return await this.db.find({patient: id});
+    }
+
 }
 
 module.exports = new AppointmentsStore();

@@ -1,9 +1,6 @@
 const appointmentsSchema = {
     type: "object",
     properties: {
-        id: {
-            type: "number",
-        },
         owner: {
             type: "number",
         },

@@ -1,9 +1,6 @@
 const patientschema = {
     type: "object",
     properties: {
-        id: {
-            type: "number",
-        },
         name: {
             type: "string"
         },
@@ -29,9 +26,8 @@ const patientschema = {
             type: "string",
         },
         owner: {
-            type: "number",
+            type: "string",
         }
-    
     },
 };
 
