@@ -23,9 +23,21 @@ class PatientStore {
 
     async create(data) {
         const isValid = this.validate(data);
+        let newpatient;
         if (isValid) {
-            return await this.db.insert(data);
+            this.db.insert(data, (err, newDoc) => {
+                if (err) {
+                    console.log(err);
+                    newpatient = err;
+                }
+                else{
+                    console.log(newDoc);
+                    newpatient = newDoc;
+                }
+            })
+            return newpatient;
         }
+        return "Invalid data";
     }
 
     async read(_id) {
@@ -49,6 +61,15 @@ class PatientStore {
 
     async getPets(id){
         return await this.db.find({owner: id});
+    }
+
+  async  getPatient(_id){
+        const patient = await this.read(_id);
+        if(!patient){
+            return null;
+        }
+        return patient;
+        
     }
 }
 

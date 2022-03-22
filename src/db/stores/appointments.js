@@ -54,7 +54,13 @@ class AppointmentsStore {
     async getHistory(id){
         return await this.db.find({patient: id});
     }
+    async getAppointments(id){
+        const appointments = await this.read(id);
+        if (appointments) {
+            return appointments;
+        }               
+        return null;
 
 }
-
+}
 module.exports = new AppointmentsStore();

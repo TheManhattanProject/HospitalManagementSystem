@@ -46,7 +46,13 @@ class VeternarianStore {
     async delete(id){
         return await this.db.remove({id: id});
     }
+    async getVeterinarian(id){
+        const vet = await this.read(id);
+        if(!vet){
+            return null;
+        }
+        return vet;
 
 }
-
+}
 module.exports = new VeternarianStore();

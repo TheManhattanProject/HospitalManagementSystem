@@ -12,13 +12,17 @@ export default function Dashboard(){
     const [pets, setPets] = useState([]);
     const [appointments, setAppointments] = useState([]);
 
-    useEffect(()=> {
+    const getData = () => {
         let user = localStorage.getItem("user");
         if (!user) {
             window.location.href = "/";
         }
         setPets(patientStore.getPets(user))
         setAppointments(appointmentStore.getPastAppointments(user))
+    }
+    
+    useEffect(()=> {
+        getData();
     }, [])
 
     return (

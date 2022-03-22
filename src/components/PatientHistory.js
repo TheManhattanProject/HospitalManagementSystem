@@ -12,12 +12,20 @@ export default function Patienthistory() {
     const [patient, setPatient] = useState(null);
     const [appointment, setAppointment] = useState([]);
     const [appointments, setAppointments] = useState([]);
-    setPatient(patientStore.getPatient(pid));
-    setAppointment(appointmentStore.getLastAppointment(pid));
-    setAppointments(appointmentStore.getAppointments(pid));
-    let temp = appointment;
-    temp.veterinarian = appointmentStore.getVeterinarian(appointment.veterinarian);
-    setAppointment(temp);
+
+    const getData = () => {
+      setPatient(patientStore.getPatient(pid));
+      setAppointment(appointmentStore.getLastAppointment(pid));
+      setAppointments(appointmentStore.getAppointments(pid));
+      let temp = appointment;
+      temp.veterinarian = appointmentStore.getVeterinarian(appointment.veterinarian);
+      setAppointment(temp);
+    };
+
+    useEffect(() => {
+      localStorage.getItem("user") ? getData() : window.location.href = "/";
+    }, []);
+
 
   return (
     <div>

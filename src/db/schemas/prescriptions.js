@@ -7,7 +7,7 @@ const prescriptionsSchema = {
         investigations: {
             type: "string",
         },
-        Treatment: {
+        treatment: {
             type: "string",
         },
         nextAppointment: {

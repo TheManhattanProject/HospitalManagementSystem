@@ -13,6 +13,9 @@ const appointmentsSchema = {
         reason: {
             type: "string"
         },
+        remarks: {
+            type: "string"
+        },
         datetime: {
             type: "string"
         },

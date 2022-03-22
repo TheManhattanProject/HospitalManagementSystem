@@ -3,16 +3,14 @@ const vaccineSchema = {
     properties: {
         name: {
             type: 'string',
+        },
+        datetime : {
+            type: "string",
+        },
+        patient:{
+            type: "string",
+        }
     }
-    ,
-    datetime : {
-        type: "string",
-    }
-    ,
-    patient:{
-        type: "string",
-    }
-}
 }
 
 module.exports = vaccineSchema;
