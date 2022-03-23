@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react/cjs/react.production.min";
+import { useEffect, useState } from "react";
 import patientStore from "../db/stores/patient";
-import veterinarianStore from "../db/stores/veterinarian";
+import veternarianStore from "../db/stores/veternarian";
 
 
 export default function AppointmentCard(props) {
@@ -10,7 +10,7 @@ export default function AppointmentCard(props) {
     function getData() {
       let temp = appointment;
       temp.patient = patientStore.getPatient(appointment.patient);
-      temp.veterinarian = veterinarianStore.getVeterinarian(appointment.veterinarian);
+      temp.veternarian = veternarianStore.getVeterinarian(appointment.veternarian);
       setAppointment(temp);
     }
 

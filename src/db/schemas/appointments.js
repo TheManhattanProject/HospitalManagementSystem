@@ -19,9 +19,6 @@ const appointmentsSchema = {
         datetime: {
             type: "string"
         },
-        completed: {
-            type: "boolean"
-        },
         prescription: {
             type: "string"
         }

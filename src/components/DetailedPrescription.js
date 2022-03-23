@@ -2,8 +2,8 @@ import {useSearchParams} from 'react-router-dom';
 import {useEffect, useState} from 'react';
 import prescriptionStore from '../db/stores/prescriptions';
 import patientStore from '../db/stores/patient';
-import appointmentStore from '../db/stores/appointment';
-import veterinarianStore from '../db/stores/veterinarian';
+import appointmentStore from '../db/stores/appointments';
+import veterinarianStore from '../db/stores/veternarian';
 import filesStore from '../db/stores/files';
 
 export default function DetailedPrescription() {
@@ -58,7 +58,9 @@ export default function DetailedPrescription() {
                     <p>Next Date Of Visit: {appointment.prescription.nextAppointment}</p>
                 </div>
             </div>
+        
             <a href={`/patient/history?id=${appointment.patient._id}`}>Go Back</a>
+       
         </div>
     )
 }

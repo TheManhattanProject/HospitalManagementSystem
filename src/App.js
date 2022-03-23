@@ -4,9 +4,10 @@ import Login from './components/Login';
 import Register from './components/Register';
 import Dashboard from './components/Dashboard';
 import YourPets from './components/YourPets';
-import PatientHistory from './components/Patienthistory';
-import AddPatient from './components/AddPatient';
+import PatientHistory from './components/PatientHistory';
+import AddPatient from './components/Addpatient';
 import DetailedPrescription from './components/DetailedPrescription';
+import BookAppointment from './components/BookAppointment';
 
 function App() {
   return (
@@ -17,9 +18,10 @@ function App() {
           <Route path="/register" element={<Register />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/patients" element={<YourPets />} />
-          <Route path="/patient/history" element={<PatientHistory />} />
+          <Route path="/patient/history/" element={<PatientHistory />} />
           <Route path="/patient/add" element={<AddPatient />} />
           <Route path="/prescription" element={<DetailedPrescription />} />
+          <Route path="/appointment" element={<BookAppointment />} />
         </Routes> 
       </Router>
     </div>

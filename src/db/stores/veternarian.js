@@ -1,6 +1,9 @@
+import path from "path";
+import Login from "../../components/Login";
 const Datastore = require('nedb-promises');
 const Ajv = require('ajv');
 const veternarianSchema= require('../schemas/veternarian');
+const remote = window.require("electron").remote;
 
 class VeternarianStore {
     constructor() {
@@ -10,7 +13,7 @@ class VeternarianStore {
         });
 
         this.schemaValidator = ajv.compile(veternarianSchema);
-        const dbPath = `${process.cwd()}/veternarian.db`;
+        const dbPath = path.join(remote.app.getPath("userData"), "/veternarian.db");
         this.db = Datastore.create({
             filename: dbPath,
             timestampData: true,
@@ -52,7 +55,19 @@ class VeternarianStore {
             return null;
         }
         return vet;
+    }
 
+    async login(email, password){
+        const vet = await this.findOne({email: email});
+        if(!vet){
+            return null;
+        }
+        if(vet.password === password){
+            return vet;
+        }
+        return null;
+
+    }
 }
-}
-module.exports = new VeternarianStore();
+
+export default new VeternarianStore();

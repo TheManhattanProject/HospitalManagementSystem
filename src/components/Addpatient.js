@@ -2,7 +2,9 @@ import React from 'react';
 import patientStore from '../db/stores/patient';
 import vaccineStore from '../db/stores/vaccine';
 import {useState,useEffect} from 'react';
-import VaccinationForm from './VaccinationForm'
+import Popup from 'reactjs-popup';
+import 'reactjs-popup/dist/index.css';
+// import VaccinationForm from './VaccinationForm'
 
 export default function Addpatient(props) {
   const [owner, setOwner] = useState('');
@@ -28,8 +30,11 @@ export default function Addpatient(props) {
   const [vaccinations, setVaccinations] = useState("");
   const [vaccineName, setVaccineName] = useState("");
   const [vaccineDate, setVaccineDate] = useState();
-  
-    const handleSubmit = (e) => {
+
+  const [open, setOpen] = useState(false);  
+  const closeModal = () => setOpen(false);
+
+    const handleSubmit = async (e) => {
         e.preventDefault();
         const patient = {
             name: name,
@@ -42,7 +47,11 @@ export default function Addpatient(props) {
             owner: owner
         }
 
-        let result = patientStore.create(patient);
+
+        let result = await patientStore.create(patient);
+        console.log(result);
+        
+            
         for (let i = 0; i < vaccinations.length; i++) {
             const vaccination = {
                 name: vaccinations[i].name,
@@ -51,6 +60,7 @@ export default function Addpatient(props) {
             }
             vaccineStore.create(vaccination);
         }
+        // window.location.href = "/dashboard";
     }
 
     const addVaccine = (e) => {
@@ -59,7 +69,7 @@ export default function Addpatient(props) {
             name: vaccineName,
             datetime: vaccineDate,
         }
-        setVaccinations((vaccinations) => vaccinations.push(temp));
+        setVaccinations([...vaccinations, temp])
     }
 
     return (
@@ -78,6 +88,10 @@ export default function Addpatient(props) {
                         <div className="form-group">
                             <label>Age</label>
                             <input type="text" className="form-control" value={age} onChange={e => setAge(e.target.value)} />
+                        </div>
+                        <div className="form-group">
+                            <label>Species</label>
+                            <input type="text" className="form-control" value={species} onChange={e => setSpecies(e.target.value)} />
                         </div>
                         <div className="form-group">
                             <label>Sex</label>
@@ -103,39 +117,27 @@ export default function Addpatient(props) {
                         </div>
                         <p>Vaccination Chart</p>
                         <div className="vaccinations">
-                            {vaccinations.map((vaccination)=> (
+                            {vaccinations.length && vaccinations.map((vaccination)=> (
                                 <div className="vaccinationCard">
                                     <p>{vaccination.name}</p>
                                     <p>{vaccination.datetime}</p>
                                 </div>
                             ))}
-                            <div class="modal fade" id="vaccinationForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                                <div class="modal-dialog" role="document">
-                                    <div class="modal-content">
-                                        <div class="modal-header text-center">
-                                            <h4 class="modal-title w-100 font-weight-bold">Vaccine</h4>
-                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                            <span aria-hidden="true">&times;</span>
-                                            </button>
+                            <Popup trigger={<button> Add vaccine</button>} open={open} closeOnDocumentClick onClose={closeModal} position="right center" modal>
+                                <div>
+                                    <form onSubmit={addVaccine}>
+                                        <div className="form-group">
+                                            <label>Vaccine Name</label>
+                                            <input type="text" className="form-control" value={vaccineName} onChange={e => setVaccineName(e.target.value)} />
+                                            <input type="date" className="form-control" value={vaccineDate} onChange={e => setVaccineDate(e.target.value)} />
+                                            <button type="submit" className="btn btn-primary">Add</button>
                                         </div>
-                                        <div class="modal-body mx-3">
-                                            <form className="login-form">
-                                                <input type="text" placeholder="Vaccine Name" value={vaccineName} onChange={(e)=>setVaccineName(e.target.value)}/>
-                                                <input type="date" value={vaccineDate} onChange={(e)=>setVaccineDate(e.target.value)}/>
-                                                <button onClick ={addVaccine}>Submit</button>
-                                            </form>
-                                        </div>
-                                        <div class="modal-footer d-flex justify-content-center">
-                                            <button class="btn btn-default" data-toggle="modal" data-target="#vaccinationForm">Login</button>
-                                        </div>
-                                    </div>
+                                    </form>
                                 </div>
-                            </div>
-                            <div class="text-center">
-                                <a href="" class="btn btn-default btn-rounded mb-4" data-toggle="modal" data-target="#vaccinationForm">Add Vaccination</a>
-                            </div>
-                        </div>
+                            </Popup>
                     </div>
+                    </div>
+
                 </div>
                 <button type="submit" className="btn btn-primary">Submit</button>
                 <a href="/dashboard">Go Back</a>

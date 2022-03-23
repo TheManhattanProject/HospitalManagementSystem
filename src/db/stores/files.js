@@ -1,6 +1,8 @@
+import path from "path";
 const Datastore = require('nedb-promises');
 const Ajv = require('ajv');
 const filesSchema= require('../schemas/files');
+const remote = window.require("electron").remote;
 
 class FilesStore {
     constructor() {
@@ -10,7 +12,7 @@ class FilesStore {
         });
 
         this.schemaValidator = ajv.compile(filesSchema);
-        const dbPath = `${process.cwd()}/files.db`;
+        const dbPath = path.join(remote.app.getPath("userData"), "/files.db");
         this.db = Datastore.create({
             filename: dbPath,
             timestampData: true,
@@ -47,6 +49,14 @@ class FilesStore {
         return await this.db.remove({id: id});
     }
 
+    async getReports(appointment_id) {
+        return await this.db.find({appointment: appointment_id, title: 'report'})
+    }
+
+    async getPhotos(appointment_id) {
+        return await this.db.find({appointment: appointment_id, title: 'photo'})
+    }
+
 }
 
-module.exports = new FilesStore();
+export default new FilesStore();

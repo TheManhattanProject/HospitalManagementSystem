@@ -1,6 +1,8 @@
+import path from "path";
 const Datastore = require('nedb-promises');
 const Ajv = require('ajv');
 const reportsSchema= require('../schemas/reports');
+const remote = window.require("electron").remote;
 
 class ReportsStore {
     constructor() {
@@ -10,7 +12,7 @@ class ReportsStore {
         });
 
         this.schemaValidator = ajv.compile(reportsSchema);
-        const dbPath = `${process.cwd()}/reports.db`;
+        const dbPath = path.join(remote.app.getPath("userData"), "/reports.db");
         this.db = Datastore.create({
             filename: dbPath,
             timestampData: true,
@@ -49,4 +51,4 @@ class ReportsStore {
 
 }
 
-module.exports = new ReportsStore();
+export default new ReportsStore();

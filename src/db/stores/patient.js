@@ -1,6 +1,8 @@
+import path from "path";
 const Datastore = require('nedb-promises');
 const Ajv = require('ajv');
 const patientSchema= require('../schemas/patient');
+const remote = window.require("electron").remote;
 
 class PatientStore {
     constructor() {
@@ -10,7 +12,7 @@ class PatientStore {
         });
 
         this.schemaValidator = ajv.compile(patientSchema);
-        const dbPath = `${process.cwd()}/patient.db`;
+        const dbPath = path.join(remote.app.getPath("userData"), "/patient.db");
         this.db = Datastore.create({
             filename: dbPath,
             timestampData: true,
@@ -22,22 +24,15 @@ class PatientStore {
     }
 
     async create(data) {
+        console.log(data);
         const isValid = this.validate(data);
-        let newpatient;
         if (isValid) {
-            this.db.insert(data, (err, newDoc) => {
-                if (err) {
-                    console.log(err);
-                    newpatient = err;
-                }
-                else{
-                    console.log(newDoc);
-                    newpatient = newDoc;
-                }
-            })
-            return newpatient;
+            const doc = await this.db.insert(data);
+            return doc;
+        } else {
+            return isValid.errors;
         }
-        return "Invalid data";
+        
     }
 
     async read(_id) {
@@ -71,6 +66,14 @@ class PatientStore {
         return patient;
         
     }
+
+    async getLastPatient(owner_id){
+        const patient = await this.db.find({owner: owner_id}).sort({createdAt: -1}).limit(1);
+        if(!patient.length){
+            return null;
+        }
+        return patient[0];
+    }
 }
 
-module.exports = new PatientStore();
+export default new PatientStore();

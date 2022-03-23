@@ -24,25 +24,13 @@ class ownerStore {
         return this.schemaValidator(data);
     }
 
-    create(data) {
-        data.id = this.getNextId();
+    async create(data) {
         const isValid = this.validate(data);
-        let newOwner;
         if (isValid) {
-            console.log("inside");
-            this.db.insert(data, (err, newDoc) => {
-                if (err) {
-                    console.log(err);
-                    newOwner = err;
-                }
-                else{
-                    console.log(newDoc);
-                    newOwner = newDoc;
-                }
-            })
-            return newOwner;
+            return await this.db.insert(data);
+        } else {
+            return isValid.errors;
         }
-        return "Invalid data";
     }
 
     read(_id) {

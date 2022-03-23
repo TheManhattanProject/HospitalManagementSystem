@@ -9,16 +9,16 @@ export default function BookAppointment(){
     const [doctors, setDoctors] = useState([]);
     const [currentPatient, setCurrentPatient] = useState();
 
-    const getData = () => {
+    console.log(currentPatient);
+
+    const getData = async () => {
         let user = localStorage.getItem("user");
         if (!user) {
             window.location.href = "/";
         }
-        setDoctors(veternarianStore.getDoctors(user));
-        setPatients(patientStore.getPets(user))
-        if (patients.length) {
-            setCurrentPatient(patients[0]);
-        }
+        setDoctors(await veternarianStore.readAll());
+        setPatients(await patientStore.getPets(user))
+        setCurrentPatient(await patientStore.getLastPatient(user));
     }
 
     useEffect(() => {
@@ -27,19 +27,19 @@ export default function BookAppointment(){
 
     return (
         <div className="container">
-            <div className="pet-names">
+            {patients.length && <div className="pet-names">
                 {patients.map(patient => <p>{patient.name}</p>)}
-            </div>
+            </div>}
             <div className="row">
-                <div className="col-md-6">
-                <p>Pet Name: {currentPatient.name}</p>
+                {currentPatient && <div className="col-md-6">
+                    <p>Pet Name: {currentPatient.name}</p>
                     <p>Species: {currentPatient.species}</p>
                     <p>Age: {currentPatient.age}</p>
                     <p>Sex: {currentPatient.sex}</p>
                     <p>Body Weight: {currentPatient.bodyweight}</p>
                     <p>Body Color: {currentPatient.color}</p>
-                </div>
-                <div className="col-md-6">
+                </div>}
+                {doctors.length && <div className="col-md-6">
                     <label for="doctor">Doctor's Name:</label>
                     <select name="doctor" id="cars">
                         {doctors.map(doctor => <option value={doctor._id}>{doctor.name}</option>)}
@@ -48,8 +48,9 @@ export default function BookAppointment(){
                     <input type="text" name="reason" id="reason" />
                     <label for="remarks">Special Remarks:</label>
                     <input type="text" name="remarks" id="remarks" />
-                </div>
+                </div>}
             </div>
+            <button onClick={() => window.location.href = "/dashboard"}>Back</button>
         </div>
     );
 }
