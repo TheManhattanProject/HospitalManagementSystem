@@ -4,6 +4,7 @@ const Datastore = require('nedb-promises');
 const Ajv = require('ajv');
 const appointmentsSchema= require('../schemas/appointments');
 const veternarianStore = require('./veternarian');
+const patientStore = require('./patient');
 const remote = window.require("electron").remote;
 
 class AppointmentsStore {
@@ -65,12 +66,46 @@ class AppointmentsStore {
         }               
         return null;
     }
+    async getVetPets(id){
+        const appointments = await this.db.find({veternarian: id});
+        let pets =[]
+        if (appointments.length) {
+            for (let i = 0; i < appointments.length; i++) {
+                const pet = await patientStore.read(appointments[i].patient);
+                pets.push(pet);
+            }
+            pets.filter((v,i,a)=>a.findLastIndex(v2=>(v2.place === v.place))===i)
+            return pets;
+        }
+        return null;
+    }
+
+    
     async getLastAppointment(id){
         const appointments = await this.getAppointments(id)
         if (appointments.length) {
             let appt = appointments[appointments.length - 1];
             appt.veternarian = await veternarianStore.read(appt.veternarian);
             return appt;
+        }               
+        return null;
+    }
+
+    async getVetTodayAppointments(id){
+        const appointments = await this.db.find({veternarian: id});
+        if (appointments) {
+            let today = [];
+            let now = new Date();
+            for (let i = 0; i < appointments.length; i++) {
+                let date = new Date(appointments[i].datetime);
+                if (date.getDate() === now.getDate() && date.getMonth() === now.getMonth() && date.getFullYear() === now.getFullYear()) {
+                    today.push(appointments[i]);
+                }
+            }
+            if (today.length) {
+                return today;
+            }
+            return null;
         }               
         return null;
     }

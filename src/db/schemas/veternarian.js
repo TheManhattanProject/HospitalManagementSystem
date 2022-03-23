@@ -4,6 +4,9 @@ const veternarianschema ={
         name: {
             type: 'string',
         },
+        gender:{
+            type: 'string'
+        },
         email: {
             type: 'string',
             format: 'email',

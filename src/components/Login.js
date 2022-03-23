@@ -12,6 +12,9 @@ export default function Login() {
     if (localStorage.getItem("user") != null) {
       window.location.href = "/dashboard";
     }
+    if (localStorage.getItem("vet") != null) {
+      window.location.href = "/vet/dashboard";
+    }
   }, [])
 
   async function login(event){
@@ -25,7 +28,9 @@ export default function Login() {
     }
     else {
       localStorage.setItem("user", result._id);
+      localStorage.setItem("vet", null);
     }
+  }
 
     async function logindoctor(event){
       event.preventDefault();
@@ -37,7 +42,8 @@ export default function Login() {
         alert(result);
       }
       else {
-        localStorage.setItem("user", result._id);
+        localStorage.setItem("vet", result._id);
+        localStorage.setItem("user", null);
       }
     }
   
@@ -66,4 +72,3 @@ export default function Login() {
     </div>
     );
   }
-}

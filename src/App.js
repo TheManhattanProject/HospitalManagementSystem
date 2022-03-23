@@ -8,6 +8,7 @@ import PatientHistory from './components/PatientHistory';
 import AddPatient from './components/Addpatient';
 import DetailedPrescription from './components/DetailedPrescription';
 import BookAppointment from './components/BookAppointment';
+import VetDashboard from './components/VetDashboard';
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
           <Route path="/patient/add" element={<AddPatient />} />
           <Route path="/prescription" element={<DetailedPrescription />} />
           <Route path="/appointment" element={<BookAppointment />} />
+          <Route path="/vet/dashboard" element={<VetDashboard />} />
         </Routes> 
       </Router>
     </div>

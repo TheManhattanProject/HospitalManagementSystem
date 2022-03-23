@@ -42,7 +42,7 @@ class VeternarianStore {
     async update(id, data){
         const isValid = this.validate(data);
         if(isValid){
-            return await this.db.update({id: id}, data);
+            return await this.db.update({_id: id}, data);
         }
     }
 

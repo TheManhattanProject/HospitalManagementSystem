@@ -14,20 +14,19 @@ export default function DetailedPrescription() {
     const [reports, setReports] = useState();
     const [photos, setPhotos] = useState();
 
-    const getData = () => {
-        setAppointment(appointmentStore.getAppointment(pid));
-        let temp = appointment;
-        temp.veterinarian = veterinarianStore.getVeterinarian(appointment.veterinarian);
-        temp.prescription = prescriptionStore.getPrescription(appointment.prescription);
-        temp.patient = patientStore.getPatient(appointment.patient);
-        setAppointment(temp);
-        setReports(filesStore.getReports(appointment));
-        setPhotos(filesStore.getPhotos(appointment));
-    }
-
     useEffect(() => {
-        localStorage.getItem("user") ? getData() : window.location.href = "/";
-    }, []);
+        const getData = async() => {
+            let appt = await appointmentStore.getAppointment(pid);
+            setAppointment(appt);
+            appt.veterinarian = await veterinarianStore.getVeterinarian(appt.veterinarian);
+            appt.prescription = await prescriptionStore.getPrescription(appt.prescription);
+            appt.patient = await patientStore.getPatient(appt.patient);
+            setAppointment(appt);
+            setReports(await filesStore.getReports(appt._id));
+            setPhotos(await filesStore.getPhotos(appt._id));
+        }
+        localStorage.getItem("user") ? getData() : localStorage.getItem("vet")? getData() : window.location.href = "/";
+    }, [pid]);
 
     return (
         <div className="container">

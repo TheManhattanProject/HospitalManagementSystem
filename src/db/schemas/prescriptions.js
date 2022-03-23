@@ -1,16 +1,19 @@
 const prescriptionsSchema = {
     type: "object",
     properties: {
-        diagnosis: {
+        patient: {
             type: "string",
         },
-        investigations: {
-            type: "string",
-        },
-        treatment: {
+        veternarian: {
             type: "string",
         },
         nextAppointment: {
+            type: "string",
+        },
+        investigation: {
+            type: "string",
+        },
+        diagnosis: {
             type: "string",
         },
     }

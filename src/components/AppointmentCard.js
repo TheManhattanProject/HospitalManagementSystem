@@ -5,25 +5,26 @@ import veternarianStore from "../db/stores/veternarian";
 
 export default function AppointmentCard(props) {
 
-    const [appointment, setAppointment] = useState(props.appointment);
-
-    function getData() {
-      let temp = appointment;
-      temp.patient = patientStore.getPatient(appointment.patient);
-      temp.veternarian = veternarianStore.getVeterinarian(appointment.veternarian);
-      setAppointment(temp);
-    }
+    const [patient, setPatient] = useState();
+    const [veternarian, setVet] = useState();
+    
 
     useEffect(() => {
-        getData();
-    }, []);
+      function getData() {
+        let patient = patientStore.getPatient(props.appointment.patient);
+        let veternarian = veternarianStore.getVeterinarian(props.appointment.veternarian);
+        setPatient(patient);
+        setVet(veternarian);
+      }
+      getData();
+    }, [props.appointment.patient, props.appointment.veternarian]);
 
   return (
     <div className="appointmentCard">
-        <h3>{appointment.veterinarian.name}</h3>
-        <p>{appointment.datetime}</p>
-        <p>{appointment.patient.name}</p>
-        <a href={`/prescription?id=${appointment._id}`}>View Prescription</a>
+        <h3>{veternarian && veternarian.name}</h3>
+        <p>{props.appointment.datetime}</p>
+        <p>{patient && patient.name}</p>
+        <a href={`/prescription?id=${props.appointment._id}`}>View Prescription</a>
     </div>
   );
 }

@@ -49,7 +49,9 @@ class VaccineStore {
         return await this.db.remove({id: id});
     }
 
-
+    async getVaccinations(id){
+        return await this.db.find({patient: id});
+    }
 }
 
 export default new VaccineStore();
