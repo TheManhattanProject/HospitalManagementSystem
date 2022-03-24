@@ -12,7 +12,10 @@ const filesSchema = {
         },
         category: {
             type: "string",
-        }
+        },
+        remarks: {
+            type: "string",
+        },
     }
 }
 

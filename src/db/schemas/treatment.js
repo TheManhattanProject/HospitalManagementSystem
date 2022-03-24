@@ -13,8 +13,6 @@ const treatmentschema = {
         prescription : {
             type: "string",
         },
-     
-      
     }
 }
 module.exports = treatmentschema;

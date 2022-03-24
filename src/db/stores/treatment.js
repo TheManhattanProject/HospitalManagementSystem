@@ -1,7 +1,7 @@
 import path from "path";
 const Datastore = require('nedb-promises');
 const Ajv = require('ajv');
-const treatmentSchema= require('../schemas/reports');
+const treatmentSchema= require('../schemas/treatment');
 const remote = window.require("electron").remote;
 
 class TreatmentStore {

@@ -12,7 +12,7 @@ export default function Register() {
     const [qualification, setQualification] = useState();
     const [speciality, setSpeciality] = useState();
     const [experience, setExperience] = useState();
-    function register(event){
+    async function register(event){
       //hash password
       event.preventDefault();
       const vet = {
@@ -27,7 +27,7 @@ export default function Register() {
         
 
     }
-    let result = veternarianStore.create(vet);
+    let result = await veternarianStore.create(vet);
     console.log(result);
     window.location.href = "/login";
     

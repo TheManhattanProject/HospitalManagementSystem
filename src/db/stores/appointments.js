@@ -61,10 +61,7 @@ class AppointmentsStore {
     }
     async getAppointments(id){
         const appointments = await this.db.find({patient: id});
-        if (appointments) {
-            return appointments;
-        }               
-        return null;
+        return appointments
     }
     async getVetPets(id){
         const appointments = await this.db.find({veternarian: id});
@@ -77,7 +74,7 @@ class AppointmentsStore {
             pets.filter((v,i,a)=>a.findLastIndex(v2=>(v2.place === v.place))===i)
             return pets;
         }
-        return null;
+        return [];
     }
 
     
@@ -102,12 +99,9 @@ class AppointmentsStore {
                     today.push(appointments[i]);
                 }
             }
-            if (today.length) {
-                return today;
-            }
-            return null;
+            return today;
         }               
-        return null;
+        return [];
     }
 }
 export default new AppointmentsStore();

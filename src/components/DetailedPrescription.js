@@ -5,6 +5,7 @@ import patientStore from '../db/stores/patient';
 import appointmentStore from '../db/stores/appointments';
 import veterinarianStore from '../db/stores/veternarian';
 import filesStore from '../db/stores/files';
+import treatmentStore from '../db/stores/treatment'
 
 export default function DetailedPrescription() {
 
@@ -13,6 +14,7 @@ export default function DetailedPrescription() {
     const [appointment, setAppointment] = useState();
     const [reports, setReports] = useState();
     const [photos, setPhotos] = useState();
+    const [treatments, setTreatments] = useState([]);
 
     useEffect(() => {
         const getData = async() => {
@@ -24,6 +26,7 @@ export default function DetailedPrescription() {
             setAppointment(appt);
             setReports(await filesStore.getReports(appt._id));
             setPhotos(await filesStore.getPhotos(appt._id));
+            setTreatments(await treatmentStore.getTreatments(appt.prescription._id));
         }
         localStorage.getItem("user") ? getData() : localStorage.getItem("vet")? getData() : window.location.href = "/";
     }, [pid]);
@@ -47,16 +50,37 @@ export default function DetailedPrescription() {
                     <p>Date Of Visit: {appointment.datetime}</p>
                     <p>Diagnosis: {appointment.prescription.diagnosis}</p>
                     <p>Investigations: {appointment.prescription.investigations}</p>
-                    <p>Treatment: {appointment.prescription.treatment}</p>
+                    {/* <p>Treatment: {appointment.prescription.treatment}</p> */}
                 </div>
                 <div className="col-md-4">
-                    <p>Investigation Reports</p>
-                    {reports.map(report => (<p>{report.title}</p>))}
+                    {/* <p>Investigation Reports</p>
+                    {reports.map(report => (<p>{report.title}</p>))} */}
                     <p>Photos</p>
                     {photos.map(report => (<p>{report.title}</p>))}
                     <p>Next Date Of Visit: {appointment.prescription.nextAppointment}</p>
                 </div>
             </div>
+            <h3>Treatments</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Sl No.</th>
+                        <th>Drug Name / Treatment</th>
+                        <th>Frequency</th>
+                        <th>Remarks</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {treatments.length!==0 && treatments.map((t,i) => (
+                        <tr key={t._id}>
+                            <td>{i+1}</td>
+                            <td><input type="text" value={t.drug}/></td>
+                            <td><input type="text" value={t.frequency}/></td>
+                            <td><input type="text" value={t.remarks}/></td>
+                        </tr>
+                    ))}
+                </tbody>
+            </table>
         
             <a href={`/patient/history?id=${appointment.patient._id}`}>Go Back</a>
        

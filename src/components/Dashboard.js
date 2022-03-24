@@ -12,6 +12,12 @@ export default function Dashboard(){
     const [pets, setPets] = useState([]);
     const [appointments, setAppointments] = useState([]);
 
+    function logout(){
+        localStorage.removeItem("user");
+        window.location.href = "/";
+
+    }
+
     const getData = async() => {
         let user = localStorage.getItem("user");
         if (!user) {
@@ -44,6 +50,7 @@ export default function Dashboard(){
             </div>
             <a href={`/appointment`}>BookAppointment</a>
             <a href={`/patients`}>Your pets</a>
+            <button onClick={logout}>Logout</button>
 
 
         </div>

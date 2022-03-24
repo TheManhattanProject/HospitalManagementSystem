@@ -58,7 +58,7 @@ class VeternarianStore {
     }
 
     async login(email, password){
-        const vet = await this.findOne({email: email});
+        const vet = await this.db.findOne({email: email});
         if(!vet){
             return null;
         }

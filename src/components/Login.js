@@ -65,7 +65,7 @@ export default function Login() {
             <input type="text" placeholder="email" onChange={e => setEmail(e.target.value)}/>
             <input type="password" placeholder="password" onChange={e => setPassword(e.target.value)}/>
             <button onClick={logindoctor}>login</button>
-            <p className="message">Not registered? <a href="/register-doctor">Create an account</a></p>
+            <p className="message">Not registered? <a href="/vet/register">Create an account</a></p>
           </form>
         </div>
       </div>

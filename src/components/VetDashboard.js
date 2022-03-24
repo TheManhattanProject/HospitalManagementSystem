@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import appointmentsStore from '../db/stores/appointments';
 import VetAppointmentCard from './VetAppointmentCard';
 import Pet from './Pet';
+import Sidebar from './Sidebar';
 
 export default function VetDashboard() {
 
@@ -11,10 +12,13 @@ export default function VetDashboard() {
     const getData = async () => {
         let user = localStorage.getItem("vet");
         if (user) {
-            let appointments = await appointmentsStore.getVetTodayAppointments(user);
-            setAppointments(appointments);
-            let patients = await appointmentsStore.getVetPets(user);
-            setPatients(patients);
+            let appt = await appointmentsStore.getVetTodayAppointments(user);
+            setAppointments(appt);
+            let pets = await appointmentsStore.getVetPets(user);
+            setPatients(pets);
+        }
+        else {
+            window.location.href = "/login"
         }
     }
 
@@ -28,6 +32,7 @@ export default function VetDashboard() {
             <div className="row">
                 <div className="col-md-6">
                     <h3>Today's Appointments</h3>
+                    <Sidebar/>
                     <div className="appointments">
                         {appointments.length!==0 && appointments.map(appointment => <VetAppointmentCard key={appointment._id} appointment={appointment} />)}
                     </div>
