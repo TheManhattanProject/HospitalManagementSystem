@@ -33,7 +33,11 @@ export default function BookAppointment(){
             datetime: date
         }
         console.log(appointment)
-        await appointmentStore.create(appointment);
+        const result = await appointmentStore.create(appointment);
+        if (result){
+            window.location.href = "/dashboard";
+        }
+        
     }
     
 

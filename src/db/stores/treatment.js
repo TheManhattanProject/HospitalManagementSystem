@@ -48,6 +48,9 @@ class TreatmentStore {
     async delete(id){
         return await this.db.remove({id: id});
     }
+    async getTreatments(id){
+        return await this.db.find({prescription: id});
+    }
 
 }
 

@@ -160,6 +160,8 @@ export default function AddPrescription() {
         }
 
         console.log(await investigationStore.readAll())
+
+        window.location.href = `/patient/history?id=${patient._id}&apptid=${appointment._id}`;
         
 
 
