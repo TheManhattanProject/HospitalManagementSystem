@@ -58,13 +58,12 @@ export default function Addpatient(props) {
                 datetime: vaccinations[i].date,
                 patient: result._id
             }
-            vaccineStore.create(vaccination);
+            await vaccineStore.create(vaccination);
         }
-        // window.location.href = "/dashboard";
+         window.location.href = "/dashboard";
     }
 
-    const addVaccine = (e) => {
-        e.preventDefault()
+    const addVaccine = () => {
         const temp = {
             name: vaccineName,
             datetime: vaccineDate,
@@ -117,22 +116,20 @@ export default function Addpatient(props) {
                         </div>
                         <p>Vaccination Chart</p>
                         <div className="vaccinations">
-                            {vaccinations.length && vaccinations.map((vaccination)=> (
+                            {vaccinations.length!==0 && vaccinations.map((vaccination)=> (
                                 <div className="vaccinationCard">
                                     <p>{vaccination.name}</p>
                                     <p>{vaccination.datetime}</p>
                                 </div>
                             ))}
-                            <Popup trigger={<button> Add vaccine</button>} open={open} closeOnDocumentClick onClose={closeModal} position="right center" modal>
+                            <Popup trigger={<button type="button"> Add vaccine</button>} open={open} closeOnDocumentClick onClose={closeModal} position="right center" modal>
                                 <div>
-                                    <form onSubmit={addVaccine}>
-                                        <div className="form-group">
-                                            <label>Vaccine Name</label>
-                                            <input type="text" className="form-control" value={vaccineName} onChange={e => setVaccineName(e.target.value)} />
-                                            <input type="date" className="form-control" value={vaccineDate} onChange={e => setVaccineDate(e.target.value)} />
-                                            <button type="submit" className="btn btn-primary">Add</button>
-                                        </div>
-                                    </form>
+                                    <div className="form-group">
+                                        <label>Vaccine Name</label>
+                                        <input type="text" className="form-control" value={vaccineName} onChange={e => setVaccineName(e.target.value)} />
+                                        <input type="date" className="form-control" value={vaccineDate} onChange={e => setVaccineDate(e.target.value)} />
+                                        <button type="button" onClick ={addVaccine} className="btn btn-primary">Add</button>
+                                    </div>
                                 </div>
                             </Popup>
                     </div>

@@ -27,8 +27,10 @@ export default function Login() {
       alert(result);
     }
     else {
+      console.log(result);
       localStorage.setItem("user", result._id);
-      localStorage.setItem("vet", null);
+      localStorage.removeItem("vet");
+      window.location.href = "/dashboard";
     }
   }
 
@@ -42,8 +44,10 @@ export default function Login() {
         alert(result);
       }
       else {
+        console.log(result);
         localStorage.setItem("vet", result._id);
-        localStorage.setItem("user", null);
+        localStorage.removeItem("user");
+        window.location.href = "/vet/dashboard";
       }
     }
   

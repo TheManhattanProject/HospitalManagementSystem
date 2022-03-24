@@ -6,27 +6,30 @@ import appointmentStore from '../db/stores/appointments';
 import veterinarianStore from '../db/stores/veternarian';
 import filesStore from '../db/stores/files';
 import treatmentStore from '../db/stores/treatment'
+import investigationStore from '../db/stores/investigation';
 
 export default function DetailedPrescription() {
 
     const [searchParams, setSearchParams] = useSearchParams();
     const pid = searchParams.get("id");
     const [appointment, setAppointment] = useState();
-    const [reports, setReports] = useState();
-    const [photos, setPhotos] = useState();
+    const [reports, setReports] = useState([]);
+    const [photos, setPhotos] = useState([]);
     const [treatments, setTreatments] = useState([]);
 
     useEffect(() => {
         const getData = async() => {
-            let appt = await appointmentStore.getAppointment(pid);
+            let appt = await appointmentStore.read(pid);
             setAppointment(appt);
             appt.veterinarian = await veterinarianStore.getVeterinarian(appt.veterinarian);
             appt.prescription = await prescriptionStore.getPrescription(appt.prescription);
             appt.patient = await patientStore.getPatient(appt.patient);
             setAppointment(appt);
-            setReports(await filesStore.getReports(appt._id));
             setPhotos(await filesStore.getPhotos(appt._id));
-            setTreatments(await treatmentStore.getTreatments(appt.prescription._id));
+            if (appt.prescription) {
+                setReports(await investigationStore.getReports(appt.prescription._id));
+                setTreatments(await treatmentStore.getTreatments(appt.prescription._id));
+            }
         }
         localStorage.getItem("user") ? getData() : localStorage.getItem("vet")? getData() : window.location.href = "/";
     }, [pid]);
@@ -34,7 +37,7 @@ export default function DetailedPrescription() {
     return (
         <div className="container">
             <h1>History</h1>
-            <div className="row">
+            {appointment && <div className="row">
                 <div className="col-md-4">
                     <p>Pet Name: {appointment.patient.name}</p>
                     <p>Species: {appointment.patient.species}</p>
@@ -45,21 +48,21 @@ export default function DetailedPrescription() {
                 </div>
                 <div className="col-md-4">
                     <p>Last Visit</p>
-                    <p>Doctor's Name: {appointment.veterinarian.name}</p>
+                    {appointment.veterinarian && <p>Doctor's Name: {appointment.veterinarian.name}</p>}
                     <p>Reason Of Visit: {appointment.reason}</p>
                     <p>Date Of Visit: {appointment.datetime}</p>
-                    <p>Diagnosis: {appointment.prescription.diagnosis}</p>
-                    <p>Investigations: {appointment.prescription.investigations}</p>
+                    {appointment.prescription && <p>Diagnosis: {appointment.prescription.diagnosis}</p>}
+                    {appointment.prescription && <p>Investigations: {appointment.prescription.investigations}</p>}
                     {/* <p>Treatment: {appointment.prescription.treatment}</p> */}
                 </div>
                 <div className="col-md-4">
                     {/* <p>Investigation Reports</p>
                     {reports.map(report => (<p>{report.title}</p>))} */}
                     <p>Photos</p>
-                    {photos.map(report => (<p>{report.title}</p>))}
-                    <p>Next Date Of Visit: {appointment.prescription.nextAppointment}</p>
+                    {photos.length!==0 && photos.map(report => (<p>{report.title}</p>))}
+                    {appointment.prescription && <p>Next Date Of Visit: {appointment.prescription.nextAppointment}</p>}
                 </div>
-            </div>
+            </div>}
             <h3>Treatments</h3>
             <table>
                 <thead>
@@ -82,7 +85,7 @@ export default function DetailedPrescription() {
                 </tbody>
             </table>
         
-            <a href={`/patient/history?id=${appointment.patient._id}`}>Go Back</a>
+            {appointment && <a href={`/patient/history?id=${appointment.patient._id}&apptid=${appointment._id}`}>Go Back</a>}
        
         </div>
     )

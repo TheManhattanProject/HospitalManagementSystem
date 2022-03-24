@@ -10,9 +10,9 @@ export default function AppointmentCard(props) {
     
 
     useEffect(() => {
-      function getData() {
-        let patient = patientStore.getPatient(props.appointment.patient);
-        let veternarian = veternarianStore.getVeterinarian(props.appointment.veternarian);
+      async function getData() {
+        let patient = await patientStore.getPatient(props.appointment.patient);
+        let veternarian = await veternarianStore.getVeterinarian(props.appointment.veternarian);
         setPatient(patient);
         setVet(veternarian);
       }
@@ -24,7 +24,7 @@ export default function AppointmentCard(props) {
         <h3>{veternarian && veternarian.name}</h3>
         <p>{props.appointment.datetime}</p>
         <p>{patient && patient.name}</p>
-        <a href={`/prescription?id=${props.appointment._id}`}>View Prescription</a>
+        {patient && <a href={`/patient/history?id=${patient._id}&apptid=${props.appointment._id}`}>View Prescription</a>}
     </div>
   );
 }

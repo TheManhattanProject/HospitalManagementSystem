@@ -2,13 +2,13 @@ const appointmentsSchema = {
     type: "object",
     properties: {
         owner: {
-            type: "number",
+            type: "string",
         },
         patient: {
-            type: "number",
+            type: "string",
         },
         veterinarian: {
-            type: "number",
+            type: "string",
         },
         reason: {
             type: "string"

@@ -13,7 +13,7 @@ export default function VetAppointmentCard(props) {
     useEffect(() => {
       async function getData() {
         let patient = await patientStore.getPatient(props.appointment.patient);
-        let owner = await patientStore.getPatient(patient.owner);
+        let owner = await ownerStore.read(patient.owner);
         setPatient(patient);
         setOwner(owner);
       }
@@ -31,7 +31,7 @@ export default function VetAppointmentCard(props) {
                 <p>Owned By {owner && owner.name}</p>
             </div>
             <div className="open-button">
-                <a href={`/prescription/new?id=${props.appointment._id}`}>Open</a>
+                {patient && <a href={`/patient/history?id=${patient._id}&apptid=${props.appointment._id}`}>Open</a>}
             </div>
         </div>
     </div>

@@ -39,14 +39,14 @@ export default function Dashboard(){
             <h1>Home</h1>
             <h3>Your Pets</h3>
             <div className="pets">
-                {pets.length && pets.map(pet => <Pet key={pet._id} pet={pet} />)}
+                {pets.length!==0 && pets.map(pet => <Pet key={pet._id} pet={pet} />)}
                 <div className="add-pets">
                     <a href="/patient/add">Add Patient</a>
                 </div>
             </div>
             <h3>Previous Visits</h3>
             <div className="appointments">
-                {appointments.length && appointments.map(appointment => <AppointmentCard key={appointment._id} appointment={appointment}/>)}
+                {appointments.length!==0 && appointments.map(appointment => <AppointmentCard key={appointment._id} appointment={appointment}/>)}
             </div>
             <a href={`/appointment`}>BookAppointment</a>
             <a href={`/patients`}>Your pets</a>

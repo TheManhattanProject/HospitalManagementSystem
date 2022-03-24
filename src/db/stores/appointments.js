@@ -1,10 +1,10 @@
 
 import path from "path";
+import patientStore from "./patient";
+import veternarianStore from "./veternarian";
 const Datastore = require('nedb-promises');
 const Ajv = require('ajv');
 const appointmentsSchema= require('../schemas/appointments');
-const veternarianStore = require('./veternarian');
-const patientStore = require('./patient');
 const remote = window.require("electron").remote;
 
 class AppointmentsStore {
@@ -44,7 +44,9 @@ class AppointmentsStore {
     async update(id, data){
         const isValid = this.validate(data);
         if(isValid){
-            return await this.db.update({id: id}, data);
+            let data_old = await this.read(id);
+            data = {...data_old, ...data};
+            return await this.db.update({_id: id}, data);
         }
     }
 
@@ -66,12 +68,13 @@ class AppointmentsStore {
     async getVetPets(id){
         const appointments = await this.db.find({veternarian: id});
         let pets =[]
-        if (appointments.length) {
+        if (appointments.length>0) {
             for (let i = 0; i < appointments.length; i++) {
-                const pet = await patientStore.read(appointments[i].patient);
+                let pet = await patientStore.read(appointments[i].patient);
+                console.log(pet)
                 pets.push(pet);
             }
-            pets.filter((v,i,a)=>a.findLastIndex(v2=>(v2.place === v.place))===i)
+            pets = [...new Set(pets)];
             return pets;
         }
         return [];

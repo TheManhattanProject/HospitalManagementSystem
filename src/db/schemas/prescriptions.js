@@ -10,9 +10,6 @@ const prescriptionsSchema = {
         nextAppointment: {
             type: "string",
         },
-        investigation: {
-            type: "string",
-        },
         diagnosis: {
             type: "string",
         },

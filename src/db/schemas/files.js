@@ -10,12 +10,6 @@ const filesSchema = {
         appointment: {
             type: "string",
         },
-        category: {
-            type: "string",
-        },
-        remarks: {
-            type: "string",
-        },
     }
 }
 

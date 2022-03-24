@@ -20,8 +20,16 @@ export default function Register() {
         address: address
     }
     let result = ownerStore.create(owner);
-    console.log(result);
-
+    if (result === "Email already exists") {
+        alert(result);
+        }
+    else if (result === "Invalid email") {
+        alert(result);
+        }
+    else {
+        localStorage.setItem("user", result._id);
+        window.location.href = "/dashboard";
+    }
   }
     return (    
         <div>

@@ -10,7 +10,7 @@ import DetailedPrescription from './components/DetailedPrescription';
 import BookAppointment from './components/BookAppointment';
 import VetDashboard from './components/VetDashboard';
 import VetRegister from './components/DoctorRegister';
-
+import AddPrescription from './components/AddPrescription';
 
 function App() {
   return (
@@ -21,13 +21,14 @@ function App() {
           <Route path="/register" element={<Register />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/patients" element={<YourPets />} />
-          <Route path="/patient/history/" element={<PatientHistory />} />
+          <Route path="/patient/history" element={<PatientHistory />} />
           <Route path="/patient/add" element={<AddPatient />} />
           <Route path="/prescription" element={<DetailedPrescription />} />
           <Route path="/appointment" element={<BookAppointment />} />
           <Route path="/vet/dashboard" element={<VetDashboard />} />
           <Route path="/vet/register" element={<VetRegister />} />
-        </Routes> 
+          <Route path ="/prescription/new" element={<AddPrescription />} />
+        </Routes>
       </Router>
     </div>
   );

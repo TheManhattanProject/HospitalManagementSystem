@@ -21,6 +21,13 @@ export default function VetDashboard() {
             window.location.href = "/login"
         }
     }
+    function logout(){
+        localStorage.removeItem("vet");
+        localStorage.removeItem("user");
+        window.location.href = "/";
+    }
+
+    console.log(patients);
 
     useEffect(() => {
         getData();
@@ -43,6 +50,7 @@ export default function VetDashboard() {
                         {patients.length!==0 && patients.map(patient => <Pet key={patient._id} pet={patient} />)}
                     </div>
                 </div>
+                <button onClick={logout}>Logout</button>
             </div>
         </div>
     );
