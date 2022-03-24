@@ -9,7 +9,9 @@ import appointmentStore from "../db/stores/appointments";
 import treatmentStore from "../db/stores/treatment";   
 import investigationStore from "../db/stores/investigation";
 import Creatable from 'react-select/creatable';
+import InventoryStore from "../db/stores/inventory";
 const {dialog} = window.require('electron').remote;
+
 
 
 export default function AddPrescription() {
@@ -37,6 +39,7 @@ export default function AddPrescription() {
     const [files, setFiles] = useState([]);
     const [images, setImages] = useState([]);
     const [remark, setRemark] = useState("");
+    const [inventory, setInventory] = useState([]);
 
 
 
@@ -51,6 +54,8 @@ export default function AddPrescription() {
             setPatient(patient);
             setAppointment(appt);
             setOldTreatments(await treatmentStore.readAll());
+            setInventory(await InventoryStore.readAll());
+
         }
         getData();
     }, [pid]);
@@ -156,6 +161,7 @@ export default function AddPrescription() {
             const fileres = await investigationStore.create(files[i]);
         }
         for (let i = 0; i < images.length; i++) {
+            images[i].prescription = result._id;
             const image_result = await fileStore.create(images[i]);
         }
 

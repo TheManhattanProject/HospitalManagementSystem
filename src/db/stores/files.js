@@ -2,7 +2,9 @@ import path from "path";
 const Datastore = require('nedb-promises');
 const Ajv = require('ajv');
 const filesSchema= require('../schemas/files');
-const remote = window.require("electron").remote;
+const {remote, ipcRenderer} = window.require("electron");
+
+const appDir = path.join(remote.app.getAppPath("userData"), "photos");
 
 class FilesStore {
     constructor() {
@@ -26,6 +28,10 @@ class FilesStore {
     async create(data) {
         const isValid = this.validate(data);
         if (isValid) {
+            const filePath = path.join( appDir, data.prescription, data.title);
+            // fs.copyFileSync( data.path, filePath );
+            ipcRenderer.send("copy-file", data.path, filePath);
+            data.path = filePath;
             return await this.db.insert(data);
         }
     }
@@ -49,12 +55,8 @@ class FilesStore {
         return await this.db.remove({id: id});
     }
 
-    async getReports(appointment_id) {
-        return await this.db.find({appointment: appointment_id, title: 'report'})
-    }
-
-    async getPhotos(appointment_id) {
-        return await this.db.find({appointment: appointment_id, title: 'photo'})
+    async getPhotos(id) {
+        return await this.db.find({prescription: id});
     }
 
 }

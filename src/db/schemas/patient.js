@@ -24,6 +24,9 @@ const patientschema = {
         },
         owner: {
             type: "string",
+        },
+        profile: {
+            type: "string",
         }
     },
 };

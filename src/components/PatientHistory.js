@@ -55,7 +55,7 @@ export default function Patienthistory() {
       
 
   return (
-    <div>
+    <div className='container'>
       <h1>History</h1>
      {patient && <div className="row">
         <div className="col-md-4">

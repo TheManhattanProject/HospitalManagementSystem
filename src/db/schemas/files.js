@@ -7,7 +7,7 @@ const filesSchema = {
         title: {
             type: "string",
         },
-        appointment: {
+        prescription: {
             type: "string",
         },
     }

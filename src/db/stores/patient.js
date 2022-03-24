@@ -2,7 +2,9 @@ import path from "path";
 const Datastore = require('nedb-promises');
 const Ajv = require('ajv');
 const patientSchema= require('../schemas/patient');
-const remote = window.require("electron").remote;
+const {remote, ipcRenderer} = window.require("electron");
+
+const appDir = path.join(remote.app.getAppPath("userData"), "profile_photos");
 
 class PatientStore {
     constructor() {
@@ -27,7 +29,13 @@ class PatientStore {
         console.log(data);
         const isValid = this.validate(data);
         if (isValid) {
-            const doc = await this.db.insert(data);
+            let doc = await this.db.insert(data);
+            if (doc) {
+                const filePath = path.join( appDir,  `${doc._id}.jpg` );
+                ipcRenderer.send('copy-file', data.file, filePath);
+                data.profile = filePath;
+                doc = await this.db.update({_id: doc._id}, data);
+            }
             return doc;
         } else {
             return isValid.errors;

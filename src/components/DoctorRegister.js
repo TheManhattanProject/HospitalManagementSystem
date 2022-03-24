@@ -29,7 +29,16 @@ export default function Register() {
     }
     let result = await veternarianStore.create(vet);
     console.log(result);
-    window.location.href = "/login";
+    if (result === "Email already exists") {
+        alert(result);
+        }
+    else if (result === "Invalid email") {
+        alert(result);
+        }
+    else {
+        localStorage.setItem("vet", result._id);
+        window.location.href = "/vet/dashboard";
+    }
     
 
   }

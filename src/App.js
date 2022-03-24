@@ -11,6 +11,7 @@ import BookAppointment from './components/BookAppointment';
 import VetDashboard from './components/VetDashboard';
 import VetRegister from './components/DoctorRegister';
 import AddPrescription from './components/AddPrescription';
+import Inventory from './components/Inventory';
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
           <Route path="/vet/dashboard" element={<VetDashboard />} />
           <Route path="/vet/register" element={<VetRegister />} />
           <Route path ="/prescription/new" element={<AddPrescription />} />
+          <Route path="/inventory" element={<Inventory />} />
         </Routes>
       </Router>
     </div>

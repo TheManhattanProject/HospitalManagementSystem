@@ -50,6 +50,7 @@ export default function VetDashboard() {
                         {patients.length!==0 && patients.map(patient => <Pet key={patient._id} pet={patient} />)}
                     </div>
                 </div>
+                <a href={`/inventory`}>Inventory</a>
                 <button onClick={logout}>Logout</button>
             </div>
         </div>

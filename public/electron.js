@@ -1,8 +1,11 @@
 const electron = require("electron/main");
 const app = electron.app;
+const ipcMain = electron.ipcMain;
 const BrowserWindow = electron.BrowserWindow;
 const path = require("path");
 const isDev = require("electron-is-dev");
+const fs = require("fs");
+const open = require("open");
 
 let mainWindow;
 function createWindow() {
@@ -34,3 +37,23 @@ app.on("activate", () => {
     createWindow();
   }
 });
+
+ipcMain.handle("copy-file", async(event, arg) => {
+  // var fs = require('fs');
+  var dir = arg[1].substring(0, arg[1].lastIndexOf("/"));
+  console.log(dir);
+  if (!fs.existsSync(dir)) {
+    console.log("does not exist");
+    fs.mkdirSync(dir, {
+      recursive: true
+    });
+  }
+  let res = fs.copyFileSync( arg[0], arg[1] );
+  console.log(res);
+});
+
+ipcMain.handle("open-file", async(event, arg) => {
+  let res = await open(arg);
+  console.log(res);
+});
+
