@@ -1,0 +1,9 @@
+.appointmentCard {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+.pet-details{
+    display: flex;
+}

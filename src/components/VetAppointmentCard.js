@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import patientStore from "../db/stores/patient";
 import veternarianStore from "../db/stores/veternarian";
 import ownerStore from "../db/stores/owner";
+import './styles/VetAppointmentCard.css';
 
 
 export default function VetAppointmentCard(props) {
