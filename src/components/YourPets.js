@@ -1,15 +1,18 @@
 import { useEffect, useState } from "react";
 import patientStore from "../db/stores/patient";
 import Pet from "./Pet";
+import {Navigate} from "react-router-dom";
+import Header from "./Header";
 
 export default function YourPets() {
 
     const [pets, setPets] = useState([]);
+    const [redirect, setRedirect] = useState();
     
     const getData = async() => {
         let user = localStorage.getItem("user");
         if (!user) {
-            window.location.href = "/";
+            setRedirect("/");
         }
         setPets(await patientStore.getPets(user))
     }
@@ -19,16 +22,25 @@ export default function YourPets() {
         getData();
     }, [])
 
+    if(redirect){
+        return <Navigate to={redirect} />
+    }
+
     return (
+        <div className="outer"> 
+        <Header/>
+        <div className="out">
         <div className="pets-container">
             <h1>Your Pets</h1>
             {pets.length && <div className="pets">
                 {pets.map(pet => <Pet key={pet._id} pet={pet} />)}
                 <div className="add-pets">
-                    <a href="/patient/add">Add Patient</a>
+                    <button type="button" onClick={setRedirect("/patient/add")}>Add Patient</button>
                 </div>
             </div>}
-            <button onClick={() => window.location.href = "/dashboard"}>Back</button>
+            <button onClick={() =>setRedirect("/dashboard")}>Back</button>
+        </div>
+        </div>  
         </div>
     );
 }

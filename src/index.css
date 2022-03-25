@@ -13,13 +13,15 @@ code {
 }
 
 .container-out{
-  background: #F1F7FF;
+  background-color: #F1F7FF;
   padding: 2rem;
-  min-height: 100vh;
+  display: flex;
+  flex-grow:1;
+  z-index: 10;
 }
 
 .container-in{
-  background: #FFFFFF;
+  background-color: #FFFFFF;
   border: 1px solid #B7B7B7;
   box-sizing: border-box;
   box-shadow: 4px 4px 5px rgba(0, 0, 0, 0.25);
@@ -31,8 +33,14 @@ button{
   background: #002A6A;
   color: #FFFFFF;
   border-radius: 0.4rem;
-
+  padding: 0.3rem 0.5rem;
+  border: #002A6A solid 2px;
 }
+
+button:hover {
+  cursor: pointer;
+}
+
 .sub-heading{
   font-size: 1.5rem;
   font-weight: bold;
@@ -43,4 +51,20 @@ button{
   color: #FFFFFF;
   border-radius: 0.4rem;
   padding: 0.5rem;
+}
+.main-container{
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.App{
+  display: flex;
+  flex-grow: 1;
+}
+
+.out{
+  display: flex;
+  flex-grow: 1;
+  flex-direction: column;
 }

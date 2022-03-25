@@ -10,12 +10,14 @@ import treatmentStore from "../db/stores/treatment";
 import investigationStore from "../db/stores/investigation";
 import Creatable from 'react-select/creatable';
 import InventoryStore from "../db/stores/inventory";
-const {dialog} = window.require('electron').remote;
+import { Navigate } from 'react-router-dom';
+// const {dialog} = window.require('electron').remote;
 
 
 
 export default function AddPrescription() {
 
+    const [redirect, setRedirect] = useState();
     const [searchParams, setSearchParams] = useSearchParams();
     const pid = searchParams.get("id");
     const [patient, setPatient] = useState();
@@ -47,7 +49,7 @@ export default function AddPrescription() {
         async function getData(){
             let user = localStorage.getItem("vet");
             if (!user) {
-                window.location.href = "/";
+                setRedirect("/vet/login")
             }
             let appt = await appointmentStore.read(pid);
             let patient = await patientStore.read(appt.patient);
@@ -113,24 +115,24 @@ export default function AddPrescription() {
         setInvestigationpath(e.path);
     }
 
-    function saveimage() {
+    // function saveimage() {
 
-        dialog.showOpenDialog({
-           properties: ['openFile', 'multiSelections']
-       }, function (file) {
-           if (file !== undefined) {
-            let temp = {
-                title: file[0].split("\\").pop(),
-                path: file[0],
-                appointment: appointment._id,
-                category: "image",
-                remarks: remark         
-            }
+    //     dialog.showOpenDialog({
+    //        properties: ['openFile', 'multiSelections']
+    //    }, function (file) {
+    //        if (file !== undefined) {
+    //         let temp = {
+    //             title: file[0].split("\\").pop(),
+    //             path: file[0],
+    //             appointment: appointment._id,
+    //             category: "image",
+    //             remarks: remark         
+    //         }
 
-            setImages([...images, temp]);
-           }            
-       }
-       )}
+    //         setImages([...images, temp]);
+    //        }            
+    //    }
+    //    )}
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -167,9 +169,8 @@ export default function AddPrescription() {
 
         console.log(await investigationStore.readAll())
 
-        window.location.href = `/patient/history?id=${patient._id}&apptid=${appointment._id}`;
-        
-
+        // window.location.href = `/patient/history?id=${patient._id}&apptid=${appointment._id}`;
+        setRedirect(`/patient/history?id=${patient._id}&apptid=${appointment._id}`);
 
     }
     function removetreatment(i){
@@ -179,8 +180,9 @@ export default function AddPrescription() {
         
     }
 
-            
-            
+    if (redirect) {
+        return <Navigate to={redirect} />
+    }        
 
     return (
         <div>
@@ -263,7 +265,7 @@ export default function AddPrescription() {
                 <button onClick={handleSubmit}>Submit</button>
 
             </form>
-            {patient && appointment && <a href={`/patient/history?id=${patient._id}&apptid=${appointment._id}`}>Back</a>}
+            {patient && appointment && <button type="button" onClick={() => setRedirect(`/patient/history?id=${patient._id}&apptid=${appointment._id}`)}>Back</button>}
         </div>          
     )
 }

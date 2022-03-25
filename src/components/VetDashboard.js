@@ -4,11 +4,14 @@ import VetAppointmentCard from './VetAppointmentCard';
 import Pet from './Pet';
 import Sidebar from './Sidebar';
 import './styles/VetDashboard.css';
+import {Navigate} from 'react-router-dom';
+import Header from './Header';
 
 export default function VetDashboard() {
 
     const [appointments, setAppointments] = useState([]);
     const [patients, setPatients] = useState([]);
+    const [redirect, setRedirect] = useState();
 
     const getData = async () => {
         let user = localStorage.getItem("vet");
@@ -19,13 +22,13 @@ export default function VetDashboard() {
             setPatients(pets);
         }
         else {
-            window.location.href = "/login"
+            setRedirect("/login");
         }
     }
     function logout(){
         localStorage.removeItem("vet");
         localStorage.removeItem("user");
-        window.location.href = "/";
+        setRedirect("/login");
     }
 
     console.log(patients);
@@ -34,7 +37,14 @@ export default function VetDashboard() {
         getData();
     }, []);
 
+    if(redirect){
+        return <Navigate to={redirect} />
+    }
+
     return (
+        <div className="outer">
+           <div className="out"> 
+        <Header/>
         <div className="container">
         <h1>Home</h1>
             <div className="row">
@@ -51,9 +61,11 @@ export default function VetDashboard() {
                         {patients.length!==0 && patients.map(patient => <Pet key={patient._id} pet={patient} />)}
                     </div>
                 </div>
-                <a href={`/inventory`}>Inventory</a>
+                <button type="button" onClick={setRedirect(`/inventory`)}>Inventory</button>
                 <button onClick={logout}>Logout</button>
             </div>
+        </div>
+        </div>
         </div>
     );
 

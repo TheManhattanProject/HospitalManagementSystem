@@ -1,5 +1,5 @@
 
-import { BrowserRouter as Router, Route, Routes} from 'react-router-dom';
+import { HashRouter as Router, Route, Routes} from 'react-router-dom';
 import Login from './components/Login';
 import Register from './components/Register';
 import Dashboard from './components/Dashboard';
@@ -17,6 +17,9 @@ import AdminLogin from './components/AdminLogin';
 import Home from './components/Home';
 import {useEffect, useState} from 'react';
 import Sidebar from './components/Sidebar';
+import PastPatients from './components/PastPatients';
+import DoctorProfile from './components/DoctorProfile';
+import Header from './components/Header';
 
 function App() {
   const [user, setUser] = useState();
@@ -28,30 +31,31 @@ function App() {
   }, []);
 
   return (
-    <div className="App">
-    {user && <Sidebar></Sidebar>}
-    {vet && <Sidebar></Sidebar>}
-
-
-      <Router>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/patients" element={<YourPets />} />
-          <Route path="/patient/history" element={<PatientHistory />} />
-          <Route path="/patient/add" element={<AddPatient />} />
-          <Route path="/prescription" element={<DetailedPrescription />} />
-          <Route path="/appointment" element={<BookAppointment />} />
-          <Route path="/vet/dashboard" element={<VetDashboard />} />
-          <Route path="/vet/register" element={<VetRegister />} />
-          <Route path ="/prescription/new" element={<AddPrescription />} />
-          <Route path="/inventory" element={<Inventory />} />
-          <Route path="/vet/login" element={<DoctorLogin />} />
-          <Route path="/admin/login" element={<AdminLogin />} />
-        </Routes>
-      </Router>
+    <div className='main-container'>
+     
+      <div className="App">
+        <Router>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/patients" element={<YourPets />} />
+            <Route path="/patient/history" element={<PatientHistory />} />
+            <Route path="/patient/add" element={<AddPatient />} />
+            <Route path="/prescription" element={<DetailedPrescription />} />
+            <Route path="/appointment" element={<BookAppointment />} />
+            <Route path="/vet/dashboard" element={<VetDashboard />} />
+            <Route path="/vet/register" element={<VetRegister />} />
+            <Route path="/vet/patients" element={<PastPatients />} />
+            <Route path="/vet/profile" element={<DoctorProfile />} />
+            <Route path ="/prescription/new" element={<AddPrescription />} />
+            <Route path="/inventory" element={<Inventory />} />
+            <Route path="/vet/login" element={<DoctorLogin />} />
+            <Route path="/admin/login" element={<AdminLogin />} />
+          </Routes>
+        </Router>
+      </div>
     </div>
   );
 }

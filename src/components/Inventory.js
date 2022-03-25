@@ -1,6 +1,7 @@
 import {useEffect, useState} from 'react';
 import inventoryStore from '../db/stores/inventory';
 import Popup from 'reactjs-popup';
+import {Navigate } from 'react-router-dom';
 
 export default function Inventory() {
 
@@ -13,7 +14,7 @@ export default function Inventory() {
     const updateItem = (item) => {
         console.log(item);
     }
-
+    const [redirect , setRedirect] = useState();
     useEffect(() => {
         const getData = async () => {
             let items = await inventoryStore.getItems(category);
@@ -30,6 +31,10 @@ export default function Inventory() {
             category: category
         }
         await inventoryStore.create(item);
+    }
+
+    if (redirect) {
+        return <Navigate to={redirect} />
     }
 
 
@@ -75,7 +80,7 @@ export default function Inventory() {
                 </div>
             </div>
             </Popup>
-            <a href="/vet/dashboard">Back</a>
+            <button type="button" className="button" onClick={() => setRedirect('/vet/dashboard')}>Back</button>
 
         </div>
     );

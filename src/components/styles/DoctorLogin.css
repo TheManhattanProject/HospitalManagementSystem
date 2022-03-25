@@ -1,0 +1,107 @@
+.login-form{
+    display: flex;
+    width: 80%;
+    align-items: left;
+    flex-direction: column;
+    /* justify-content: space-between; */
+    /* margin: 5rem auto; */
+  }
+  .form{
+      display: flex;
+      background-color:  #F1F7FF;
+      flex-direction: column;
+      justify-content: center;
+      align-items: left;
+      box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+      transition: 0.3s;
+      border: 0.3rem solid #002A6A;
+      border-radius: 2rem; 
+      margin: 0.3rem;
+      padding: 1rem;
+      padding-left: 9rem;
+      height: 21.3rem;
+      /* z-index: 1; */
+  }
+  .formout{
+    position : relative;
+    top: 5rem;
+    display: inline-block;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    transition: 0.3s;
+    border-radius: 2rem; 
+    background-color: #F1F7FF;
+    z-index: 18;
+    width: 35rem;
+    height: 22rem;
+    margin-left: -7rem;
+  }
+  
+  .signupout {
+    display: inline-block;
+    z-index: 100;
+    position: relative;
+    /* box-shadow: 20px 0px 44px rgba(0, 0, 0, 0.25); */
+  }
+  
+  .signup{
+      display: flex;
+      background-color:  #F1F7FF;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      box-shadow: 20px 0px 44px rgba(0, 0, 0, 0.25);
+      transition: 0.3s;
+      border-radius: 2rem; 
+      width: 25rem;
+      height: 33rem;
+      margin: 1rem;
+      padding: 1rem;
+      /* z-index: 100; */
+  }
+  
+  .login-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-grow: 1;
+  }
+  
+  input{
+  margin: 0.6rem 0;
+  border: 1px solid #505050;
+  box-sizing: border-box;
+  border-radius: 0.4rem;
+  }
+  
+  ::placeholder {
+    color: #505050;
+    font-family: Roboto;
+  }
+  
+  .login-form button{
+    width: 30%;
+    margin-right: 0.4rem;
+  }
+  
+  .login-container {
+      white-space: nowrap;
+  }
+  .signup p{
+    font-weight: 500;
+    font-size: 1.2rem;
+    text-align: center;
+  }
+  
+  .buttons {
+    margin: 0.4rem; 
+    margin-left: 0;
+  }
+  .back-btn{
+    background-color: #F1F7FF;
+    color: #002A6A;
+    font-weight: 500;
+    border: #002A6A solid 2px;
+  }
+  .admin-btn{
+      width: 45% !important;
+  }

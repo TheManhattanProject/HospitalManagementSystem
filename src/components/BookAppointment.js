@@ -4,6 +4,7 @@ import veternarianStore from '../db/stores/veternarian';
 import appointmentStore from '../db/stores/appointments';
 import {useState,useEffect} from 'react';
 import './styles/BookAppointment.css';
+import {Navigate} from 'react-router-dom';
 
 export default function BookAppointment(){
     const [patients,setPatients] = useState([]);
@@ -13,6 +14,7 @@ export default function BookAppointment(){
     const [reason, setReason] = useState();
     const [date,setDate]= useState();
     const [vet,setVet]= useState();
+    const [redirect, setRedirect] = useState();
 
     const changePatient = (patient) => {
         setCurrentPatient(patient);
@@ -35,9 +37,9 @@ export default function BookAppointment(){
         console.log(appointment)
         const result = await appointmentStore.create(appointment);
         if (result){
-            window.location.href = "/dashboard";
+            // window.location.href = "/dashboard";
+            setRedirect("/dashboard");
         }
-        
     }
     
 
@@ -45,7 +47,8 @@ export default function BookAppointment(){
         const getData = async () => {
             let user = localStorage.getItem("user");
             if (!user) {
-                window.location.href = "/";
+                // window.location.href = "/";
+                setRedirect("/");
             }
             let pets = await patientStore.getPets(user);
             setDoctors(await veternarianStore.readAll());
@@ -55,11 +58,16 @@ export default function BookAppointment(){
                 document.getElementById(pets[0]._id).classList.add("selected");
             }
             else {
-                window.location.href = "/patient/add";
+                // window.location.href = "/patient/add";
+                setRedirect("/patient/add");
             }
         }
         getData();
     }, []);
+
+    if (redirect) {
+        return <Navigate to={redirect} />
+    }
 
     return (
         <div className="container">
@@ -89,7 +97,7 @@ export default function BookAppointment(){
                     <button type="button" onClick={handleSubmit} className="btn btn-primary">Book Appointment</button>
                 </div>}
             </div>
-            <button onClick={() => window.location.href = "/dashboard"}>Back</button>
+            <button onClick={() =>setRedirect("/dashboard")}>Back</button>
         </div>
     );
 }

@@ -1,0 +1,28 @@
+li {
+    list-style: none;
+}
+.sidebar {
+    width: 4rem;
+    background-color: #002A6A;
+}
+
+.nav-name {
+    color: #fff;
+    font-size: 0.9rem;
+    text-align: center;
+    margin: 0;
+}
+
+.nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 0.5rem;
+}
+
+.login-svg {
+    filter: invert(100%) sepia(0%) saturate(0%) hue-rotate(167deg) brightness(103%) contrast(101%);
+}
+
+

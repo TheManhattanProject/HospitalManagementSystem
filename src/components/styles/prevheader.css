@@ -1,0 +1,50 @@
+.Prev-Header{
+    align-items: left;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    /* width: 100%; */
+    background-color: #F1F7FF;
+    box-shadow: 4px 4px 5px rgba(0, 0, 0, 0.25);
+    z-index: 1000;
+}
+
+.Prev-Header img{
+    width: 5rem;
+    margin: 1rem;
+
+}
+
+.Headertext {
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+.Headertext p {
+    margin: 0;
+    font-weight: 500;
+    font-size: 1.5rem;
+}
+
+.Headersubtext p {
+    margin: 0;
+    font-weight: 400;
+    font-size: 1rem;
+}
+
+.close-p {
+    margin-top: -0.5rem!important;
+}
+
+.uni-details {
+    align-self: flex-end;
+    margin-top: auto;
+    margin-bottom: auto;
+    margin-right: 2rem;
+}
+
+.uni-logo {
+    display: flex;
+    flex-direction: row;
+    margin-left: 1rem;
+}

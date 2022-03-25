@@ -1,6 +1,7 @@
 import React from 'react';
 import {useState} from 'react';
 import veternarianStore from "../db/stores/veternarian";
+import { Navigate } from 'react-router-dom';
 
 
 export default function Register() {
@@ -12,6 +13,8 @@ export default function Register() {
     const [qualification, setQualification] = useState();
     const [speciality, setSpeciality] = useState();
     const [experience, setExperience] = useState();
+    const [redirect, setRedirect] = useState();
+
     async function register(event){
       //hash password
       event.preventDefault();
@@ -24,11 +27,11 @@ export default function Register() {
         qualification: qualification,
         speciality: speciality,
         experience: experience
-        
-
     }
+
     let result = await veternarianStore.create(vet);
     console.log(result);
+
     if (result === "Email already exists") {
         alert(result);
         }
@@ -37,11 +40,17 @@ export default function Register() {
         }
     else {
         localStorage.setItem("vet", result._id);
-        window.location.href = "/vet/dashboard";
+        // window.location.href = "/vet/dashboard";
+        setRedirect("/vet/dashboard");
     }
     
 
   }
+
+    if (redirect) {
+        return <Navigate to={redirect} />
+    }
+
     return (    
         <div>
             <div className="register-page">
@@ -56,7 +65,7 @@ export default function Register() {
                     <input type="text" placeholder="speciality" onChange={e => setSpeciality(e.target.value)}/>
                     <input type="text" placeholder="experience" onChange={e => setExperience(e.target.value)}/>
                     <button onClick ={register}>register</button>
-                    <p className="message">Already registered? <a href="/">Login</a></p>
+                    <p className="message">Already registered? <button type="button" onClick={() => setRedirect("/vet/login")}>Login</button></p>
                 </form>
             </div>
             </div>

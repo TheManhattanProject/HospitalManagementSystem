@@ -1,14 +1,16 @@
 import { useEffect, useState } from "react";
 import patientStore from "../db/stores/patient";
-import veternarianStore from "../db/stores/veternarian";
+// import veternarianStore from "../db/stores/veternarian";
 import ownerStore from "../db/stores/owner";
 import './styles/VetAppointmentCard.css';
+import {Navigate} from 'react-router-dom';
 
 
 export default function VetAppointmentCard(props) {
 
     const [patient, setPatient] = useState();
     const [owner, setOwner] = useState();
+    const [redirect, setRedirect] = useState();
     
 
     useEffect(() => {
@@ -21,6 +23,10 @@ export default function VetAppointmentCard(props) {
       getData();
     }, [props.appointment.patient, props.appointment.veternarian]);
 
+    if (redirect) {
+      return <Navigate to={redirect} />;
+    }
+
   return (
     <div className="appointmentCard">
         <div className="time">
@@ -32,7 +38,7 @@ export default function VetAppointmentCard(props) {
                 <p>Owned By {owner && owner.name}</p>
             </div>
             <div className="open-button">
-                {patient && <a href={`/patient/history?id=${patient._id}&apptid=${props.appointment._id}`}>Open</a>}
+                {patient && <button type ="button" onClick={setRedirect(`/patient/history?id=${patient._id}&apptid=${props.appointment._id}`)}>Open</button>}
             </div>
         </div>
     </div>

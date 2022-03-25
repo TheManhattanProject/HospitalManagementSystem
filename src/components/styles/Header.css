@@ -1,0 +1,26 @@
+.Header{
+    align-items: left;
+    display: flex;
+    flex-direction: row;
+    height: 3.5rem;
+    /* width: 100%; */
+    background-color: #F1F7FF;
+    box-shadow: 4px 4px 5px rgba(0, 0, 0, 0.25);
+    z-index: 1000;
+    margin-left: 4rem;
+}
+
+.Header img{
+    width: 3rem;
+    margin: 0.5rem;
+}
+
+.Headertext p {
+    margin: 0;
+    font-weight: 500;
+    font-size: 1.2rem;
+}
+
+#header-uni {
+    margin-top: -0.5rem;
+}

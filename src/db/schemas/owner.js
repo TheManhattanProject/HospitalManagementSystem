@@ -10,12 +10,15 @@ const ownerschema={
         phone: {
             type: "string",
         },
-        address: {
-            type: "string",
-        },
         password: {
             type: "string",
         },
+        gender: {
+            type: "string",
+        },
+        dob: {
+            type: "string",
+        }
     }
 }
 module.exports=ownerschema;

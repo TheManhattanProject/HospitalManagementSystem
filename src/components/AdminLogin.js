@@ -2,17 +2,22 @@ import veternarianStore from "../db/stores/veternarian";
 import React from "react";
 import {useState} from "react";
 import { useEffect } from "react";
+import {Navigate} from "react-router-dom";
+import PrevHeader from "./PrevHeader";
 
 export default function AdminLogin() {
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
+  const [redirect, setRedirect] = useState();
 
   useEffect(() => {
     if (localStorage.getItem("user") != null) {
-      window.location.href = "/dashboard";
+      setRedirect("/dashboard");
+      // window.location.href = "/dashboard";
     }
     if (localStorage.getItem("vet") != null) {
-      window.location.href = "/vet/dashboard";
+      setRedirect("/vet/dashboard");
+      // window.location.href = "/vet/dashboard";
     }
   }, [])
 
@@ -30,22 +35,31 @@ export default function AdminLogin() {
         console.log(result);
         localStorage.setItem("vet", result._id);
         localStorage.removeItem("user");
-        window.location.href = "/vet/dashboard";
+        // window.location.href = "/vet/dashboard";
+        setRedirect("/vet/dashboard");
       }
+    }
+
+    if (redirect) {
+      return <Navigate to={redirect} />;
     }
   
     return (
-    <div>
-      <div className="login-page-doctor">
+      <div className="out">
+      <PrevHeader />
+    <div className="container-out">
+      <div className="login-page">
         <div className="form">
           <form className="login-form">
             <input type="text" placeholder="email" onChange={e => setEmail(e.target.value)}/>
             <input type="password" placeholder="password" onChange={e => setPassword(e.target.value)}/>
             <button onClick={logindoctor}>login</button>
-            <p className="message">Not registered? <a href="/vet/register">Create an account</a></p>
+            <p className="message">Not registered? <button type="button" onClick={()=>{setRedirect("/vet/register")}}>Create an account</button></p>
+            <button type="button" onClick={()=>{setRedirect("/")}}>Back</button>
           </form>
         </div>
       </div>
-    </div>
+      </div>
+      </div>
     );
-  }
+}

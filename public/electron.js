@@ -17,6 +17,7 @@ function createWindow() {
       contextIsolation: false,
       enableRemoteModule: true,
     },
+    autoHideMenuBar: true,
   });
   mainWindow.loadURL(
     isDev

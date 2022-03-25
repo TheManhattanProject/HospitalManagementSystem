@@ -6,6 +6,8 @@ import appointmentStore from "../db/stores/appointments";
 import vaccineStore from "../db/stores/vaccine";
 import veternarianStore from '../db/stores/veternarian';
 import PrevVisits from './PrevVisits';
+import {Navigate} from 'react-router-dom';
+import Header from './Header';
 
 
 export default function Patienthistory() {
@@ -20,6 +22,7 @@ export default function Patienthistory() {
     const [appointments, setAppointments] = useState([]);
     const [vaccinations, setVaccinations] = useState([]);
     const [doctor , setDoctor] = useState();
+    const [redirect , setRedirect] = useState();
 
 
     console.log(patient);
@@ -31,7 +34,7 @@ export default function Patienthistory() {
         if (!user) {
           user = localStorage.getItem("vet");
           if (!user) {
-              window.location.href = "/";
+            setRedirect("/");
           }
           else{
               setDoctor(user);
@@ -62,8 +65,16 @@ export default function Patienthistory() {
       
     }, [pid, apptid]);
       
+    if (redirect) {
+      return <Navigate to= {redirect} />;
+    }
 
   return (
+    <div className="outer"> 
+        <Header/>
+
+        <div className="out"> 
+
     <div className='container-out'>
       <h1>History</h1>
       <div className="container-in">
@@ -98,16 +109,18 @@ export default function Patienthistory() {
             {appointment.veternarian && <p>Doctor's Name: {appointment.veternarian.name}</p>}
             <p>Reason Of Visit: {appointment.reason}</p>
             <p>Date Of Visit: {appointment.datetime}</p>
-            {appointment.prescription && <a href={`/prescription?id=${appointment._id}`}>View Full Prescription</a>}
+            {appointment.prescription && <button onClick={()=>{setRedirect(`/prescription?id=${appointment._id}`)}}>View Full Prescription</button>}
           </div>}
         </div>}
         <PrevVisits appointments={appointments}/>
         {doctor ? 
-          <button onClick={() => window.location.href = "/vet/dashboard"}> Back </button> 
+          <button type="button" onClick={() => setRedirect("/vet/dashboard")}> Back </button> 
           : 
-          <button onClick={() => window.location.href = "/dashboard"}>Back</button>
+          <button type="button" onClick={() => setRedirect("/dashboard")}>Back</button>
         }
       </div>
+    </div>
+    </div>
     </div>
   );
 }

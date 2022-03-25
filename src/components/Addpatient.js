@@ -4,10 +4,12 @@ import vaccineStore from '../db/stores/vaccine';
 import {useState,useEffect} from 'react';
 import Popup from 'reactjs-popup';
 import 'reactjs-popup/dist/index.css';
+import { Navigate } from 'react-router-dom';
 // import VaccinationForm from './VaccinationForm'
 
 export default function Addpatient() {
   const [owner, setOwner] = useState('');
+  const [redirect, setRedirect] = useState();
 
   useEffect(() => {
     const owner = localStorage.getItem("user");
@@ -15,7 +17,8 @@ export default function Addpatient() {
         setOwner(owner);
     }
     else {
-        window.location.href = "/";
+        // window.location.href = "/";
+        setRedirect("/login")
     }
     }, []);
 
@@ -62,7 +65,8 @@ export default function Addpatient() {
             }
             await vaccineStore.create(vaccination);
         }
-         window.location.href = "/dashboard";
+        //  window.location.href = "/dashboard";
+        setRedirect("/dashboard");
     }
 
     const addVaccine = () => {
@@ -74,6 +78,9 @@ export default function Addpatient() {
         setOpen(false);
     }
 
+    if (redirect) {
+        return <Navigate to={redirect} />
+    }
 
     return (
         <div className="container-out">
@@ -154,7 +161,7 @@ export default function Addpatient() {
 
                 </div>
                 <button type="submit" className="btn btn-primary">Submit</button>
-                <a href="/dashboard">Go Back</a>
+                <button type="button" onClick={() => setRedirect("/dashboard")}>Go Back</button>
             </form>
         </div>
         </div>

@@ -1,6 +1,7 @@
 import React from 'react';
 import {useState} from 'react';
 import veternarianStore from "../db/stores/veternarian";
+import { Navigate } from 'react-router-dom';
 
 export default function DoctorProfile() {
     const [name, setName] = useState();
@@ -11,6 +12,7 @@ export default function DoctorProfile() {
     const [speciality, setSpeciality] = useState();
     const [experience, setExperience] = useState();
     const [gender, setGender] = useState();
+    const [redirect, setRedirect] = useState();
 
     async function register(){
         const data = {
@@ -25,7 +27,8 @@ export default function DoctorProfile() {
         }
         let user = localStorage.getItem("vet");
         if (!user) {
-            window.location.href = "/";
+            // window.location.href = "/";
+            setRedirect("/vet/login");
         }
         const result = await veternarianStore.update(user,data)
         if(result){
@@ -49,6 +52,10 @@ export default function DoctorProfile() {
 
     }
 
+    if (redirect) {
+        return <Navigate to={redirect} />
+    }
+
     return (
         <div>
         <div className="register-page">
@@ -65,10 +72,9 @@ export default function DoctorProfile() {
                 <button onClick ={register}>Submit</button>
                 <button onClick ={reset}>Reset</button>
             </form>
+            <button type='button' onClick={() => setRedirect("/vet/dashboard")}>Back</button>
         </div>
         </div>
     </div>
     )
-
-
 }

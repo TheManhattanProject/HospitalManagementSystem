@@ -8,6 +8,7 @@ import filesStore from '../db/stores/files';
 import treatmentStore from '../db/stores/treatment'
 import investigationStore from '../db/stores/investigation';
 import vaccineStore from '../db/stores/vaccine';
+import {Navigate} from 'react-router-dom';
 const {ipcRenderer} = window.require('electron');
 
 export default function DetailedPrescription() {
@@ -19,6 +20,7 @@ export default function DetailedPrescription() {
     const [photos, setPhotos] = useState([]);
     const [treatments, setTreatments] = useState([]);
     const [vaccinations, setVaccinations] = useState([]);
+    const [redirect, setRedirect] = useState();
 
     const openFile = (file) => {
         console.log(ipcRenderer);
@@ -44,8 +46,12 @@ export default function DetailedPrescription() {
                 setVaccinations(await vaccineStore.getVaccinations(appt.patient._id));
             }
         }
-        localStorage.getItem("user") ? getData() : localStorage.getItem("vet")? getData() : window.location.href = "/";
+        localStorage.getItem("user") ? getData() : localStorage.getItem("vet")? getData() : setRedirect("/");
     }, [pid]);
+
+    if (redirect) {
+        return <Navigate to={redirect} />
+    }
 
     return (
         <div className="container">
@@ -129,7 +135,7 @@ export default function DetailedPrescription() {
                 </tbody>
             </table>
         
-            {appointment && <a href={`/patient/history?id=${appointment.patient._id}&apptid=${appointment._id}`}>Go Back</a>}
+            {appointment && <button type='button' onClick={() => setRedirect(`/patient/history?id=${appointment.patient._id}&apptid=${appointment._id}`)}>Go Back</button>}
        
         </div>
     )
