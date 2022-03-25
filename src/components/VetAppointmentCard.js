@@ -24,7 +24,7 @@ export default function VetAppointmentCard(props) {
   return (
     <div className="appointmentCard">
         <div className="time">
-            <p>{props.appointment.datetime.substring(11, 16)}</p>
+            <p>{props.appointment.datetime}</p>
         </div>
         <div className="pet-details">
             <div className="pet-name">

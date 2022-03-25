@@ -3,6 +3,7 @@ import appointmentsStore from '../db/stores/appointments';
 import VetAppointmentCard from './VetAppointmentCard';
 import Pet from './Pet';
 import Sidebar from './Sidebar';
+import './styles/VetDashboard.css';
 
 export default function VetDashboard() {
 

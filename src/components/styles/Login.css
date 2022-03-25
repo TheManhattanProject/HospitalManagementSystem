@@ -1,0 +1,131 @@
+.login-form{
+  display: flex;
+  width: 30%;
+  flex-direction: column;
+  justify-content: center;
+  margin: 5rem auto;
+}
+.form{
+  justify-content: space-around;
+  margin: auto;
+}
+  
+/* 
+  .blue {
+    position: absolute;
+    top: 50px;
+    width: 100%;
+    height: 420px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: white;
+    box-shadow: 0 5px 45px rgba(0, 0, 0, 0.15);
+  }
+  
+  .blue .box {
+    position: relative;
+    width: 50%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .blue .box h2 {
+    color: white;
+    font-size: 1.2em;
+    font-weight: 500;
+    margin-bottom: 10px;
+  }
+  
+  .blue .box con {
+    cursor: pointer;
+    padding: 10px 20px;
+    background: #fff;
+    color: #333;
+    font-size: 16px;
+    font-weight: 500;
+    border: none;
+    margin: 20px;
+  }
+  
+  .formb {
+    position: absolute;
+    top: 10;
+    left: 0;
+    width: 50%;
+    height: 500px;
+    background: white;
+    z-index: 1000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 5px 45px rgba(0, 0, 0, 0.25);
+    transition: 0.5s ease-in-out;
+    border-radius: 10px;
+  }
+  
+  .formb .form {
+    position: absolute;
+    left: 0;
+    width: 0;
+    padding: 50px;
+    transition: 0.5s;
+  }
+  
+  .formb .form form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .formb .form form h2 {
+    font-size: 1.5em;
+    color: black;
+    margin-bottom: 20px;
+    font-weight: 500;
+  }
+  
+  .formb .form form input {
+    padding: 10px;
+    margin-bottom: 20px;
+    border: :1px solid #333;
+    width: 250px;
+    border-radius: 10px;
+  }
+  
+  .formb .form form input[type="submit"] {
+    background: blue;
+    border: none;
+    color: white;
+    max-width: 100px;
+    cursor: pointer;
+  }
+  
+  .img {
+    position: relative;
+    width: 350px;
+    height: 350px;
+    justify-content: center;
+    padding-right: 100px;
+  }
+  
+  .formb .form form h1 {
+    font-size: 1.5em;
+    color: black;
+    text-align: right;
+  }
+  
+  .box .con input[type="submit"] {
+    background: blue;
+    border: none;
+    color: white;
+    position: absolute;
+    top: 90%;
+    left: 40%;
+    transform: translate(-50%, -50%);
+    padding: 16px 25px;
+    border-radius: 5px;
+    cursor: pointer;
+  } */

@@ -40,6 +40,7 @@ app.on("activate", () => {
 
 ipcMain.handle("copy-file", async(event, arg) => {
   // var fs = require('fs');
+  console.log(arg);
   var dir = arg[1].substring(0, arg[1].lastIndexOf("/"));
   console.log(dir);
   if (!fs.existsSync(dir)) {

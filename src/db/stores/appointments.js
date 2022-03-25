@@ -7,6 +7,16 @@ const Ajv = require('ajv');
 const appointmentsSchema= require('../schemas/appointments');
 const remote = window.require("electron").remote;
 
+const compareDates = (a, b) => {
+    if (a.datetime < b.datetime) {
+        return 1;
+    }
+    if (a.datetime > b.datetime) {
+        return -1;
+    }
+    return 0;
+}
+
 class AppointmentsStore {
     constructor() {
         const ajv = new Ajv({
@@ -55,7 +65,17 @@ class AppointmentsStore {
     }
 
     async getPastAppointments(id){
-        return await this.db.find({owner: id});
+        const appointments = await this.db.find({owner: id});
+        if (appointments) {
+            for (let i = 0; i < appointments.length; i++) {
+                appointments[i].datetime = new Date(appointments[i].datetime);
+            }
+            appointments.sort(compareDates);
+            for (let i = 0; i < appointments.length; i++) {
+                appointments[i].datetime = appointments[i].datetime.toLocaleDateString();
+            }
+        }
+        return appointments;
     }
 
     async getHistory(id){
@@ -63,6 +83,15 @@ class AppointmentsStore {
     }
     async getAppointments(id){
         const appointments = await this.db.find({patient: id});
+        if (appointments) {
+            for (let i = 0; i < appointments.length; i++) {
+                appointments[i].datetime = new Date(appointments[i].datetime);
+            }
+            appointments.sort(compareDates);
+            for (let i = 0; i < appointments.length; i++) {
+                appointments[i].datetime = appointments[i].datetime.toLocaleDateString();
+            }
+        }
         return appointments
     }
     async getVetPets(id){
@@ -99,9 +128,11 @@ class AppointmentsStore {
             for (let i = 0; i < appointments.length; i++) {
                 let date = new Date(appointments[i].datetime);
                 if (date.getDate() === now.getDate() && date.getMonth() === now.getMonth() && date.getFullYear() === now.getFullYear()) {
+                    appointments[i].datetime = date.toLocaleTimeString('en-US');
                     today.push(appointments[i]);
                 }
             }
+            today.sort(compareDates);
             return today;
         }               
         return [];

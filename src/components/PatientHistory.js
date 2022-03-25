@@ -3,8 +3,9 @@ import {useEffect, useState} from 'react';
 import {useSearchParams} from 'react-router-dom';
 import patientStore from "../db/stores/patient";
 import appointmentStore from "../db/stores/appointments";
-import AppointmentCard from './AppointmentCard';
 import vaccineStore from "../db/stores/vaccine";
+import veternarianStore from '../db/stores/veternarian';
+import PrevVisits from './PrevVisits';
 
 
 export default function Patienthistory() {
@@ -42,9 +43,17 @@ export default function Patienthistory() {
         let appts = await appointmentStore.getAppointments(pid);
         setAppointments(appts);
         if (apptid) {
-          setAppointment(await appointmentStore.read(apptid));
+          let currappt = await appointmentStore.read(apptid);
+          if (currappt && currappt.veternarian) {
+            currappt.veternarian = await veternarianStore.read(currappt.veternarian);
+          }
+          setAppointment(currappt);
         } else {
-          setAppointment(appts[0]);
+          let currappt = appts[0];
+          if (currappt && currappt.veternarian) {
+            currappt.veternarian = await veternarianStore.read(currappt.veternarian);
+          }
+          setAppointment(currappt);
         }
         setVaccinations(await vaccineStore.getVaccinations(pid));
     };
@@ -55,48 +64,50 @@ export default function Patienthistory() {
       
 
   return (
-    <div className='container'>
+    <div className='container-out'>
       <h1>History</h1>
-     {patient && <div className="row">
-        <div className="col-md-4">
-          <p>Pet Name: {patient.name}</p>
-          <p>Species: {patient.species}</p>
-          <p>Age: {patient.age}</p>
-          <p>Sex: {patient.sex}</p>
-          <p>Body Weight: {patient.bodyweight}</p>
-          <p>Body Color: {patient.color}</p>
-          <p>Fertility: {patient.fertility}</p>
-          {appointment && appointment.veternarian === doctor && !appointment.prescription && <a href={`/prescription/new?id=${appointment._id}`}>Add Prescription</a>}
-        </div>
-        {vaccinations.length!==0 && <div className="col-md-4">
-          <p>Vaccination Chart:</p>
-          <div className="vaccinations">
-            {vaccinations.map(v => (
-              <div className="vaccination" key={v._id}>
-                <p>{v.name}</p>
-                <p>{v.datetime}</p>
-              </div>
-            ))}
+      <div className="container-in">
+        {patient && <div className="row">
+          <div className="col-md-4">
+            <p>Pet Name: {patient.name}</p>
+            <p>Species: {patient.species}</p>
+            <p>Age: {patient.age}</p>
+            <p>Sex: {patient.sex}</p>
+            <p>Body Weight: {patient.bodyweight}</p>
+            <p>Body Color: {patient.color}</p>
+            <p>Fertility:</p>
+            {patient.fertility === "yes" ? <input type="radio" id="fertility-yes" name="fertility-radio" value="yes" selected disabled/> : <input type="radio" id="fertility-yes" name="fertility-radio" value="yes" disabled/>}
+            <label for="fertility-yes">Yes</label>
+            {patient.fertility === "no" ? <input type="radio" id="fertility-no" name="fertility-radio" value="no" disabled/> : <input type="radio" id="fertility-no" name="fertility-radio" value="no" selected disabled/>}
+            <label for="fertility-no">No</label>
+            {appointment && appointment.veternarian === doctor && !appointment.prescription && <a href={`/prescription/new?id=${appointment._id}`}>Add Prescription</a>}
           </div>
+          <div className="col-md-4">
+            <p className='sub-heading'>Vaccination Chart:</p>
+            {vaccinations.length!==0 && <div className="vaccinations">
+              {vaccinations.map(v => (
+                <div className="vaccination" key={v._id}>
+                  <p>{v.name}</p>
+                  <p>{v.datetime}</p>
+                </div>
+              ))}
+            </div>}
+          </div>
+          {appointment && <div className="col-md-4">
+            <p className='sub-heading'>Last Visit</p>
+            {appointment.veternarian && <p>Doctor's Name: {appointment.veternarian.name}</p>}
+            <p>Reason Of Visit: {appointment.reason}</p>
+            <p>Date Of Visit: {appointment.datetime}</p>
+            {appointment.prescription && <a href={`/prescription?id=${appointment._id}`}>View Full Prescription</a>}
+          </div>}
         </div>}
-        {appointment && <div className="col-md-4">
-          <p>Last Visit</p>
-          {appointment.veternarian && <p>Doctor's Name: {appointment.veternarian.name}</p>}
-          <p>Reason Of Visit: {appointment.reason}</p>
-          <p>Date Of Visit: {appointment.datetime}</p>
-          {appointment.prescription && <a href={`/prescription?id=${appointment._id}`}>View Full Prescription</a>}
-        </div>}
-      </div>}
-      <h3>Previous Visits</h3>
-      {appointments.length!==0 && <div className="prev-visits">
-      {appointments.map(appointment => <AppointmentCard key={appointment._id} appointment={appointment}/>)}
-      </div>}
-      
-      {doctor ? 
-        <button onClick={() => window.location.href = "/vet/dashboard"}> Back </button> 
-        : 
-        <button onClick={() => window.location.href = "/dashboard"}>Back</button>
-      }
+        <PrevVisits appointments={appointments}/>
+        {doctor ? 
+          <button onClick={() => window.location.href = "/vet/dashboard"}> Back </button> 
+          : 
+          <button onClick={() => window.location.href = "/dashboard"}>Back</button>
+        }
+      </div>
     </div>
   );
 }

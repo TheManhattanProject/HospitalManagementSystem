@@ -1,0 +1,12 @@
+.prev-visits-container {
+    padding-top: 1rem;
+}
+
+.prev-visits {
+    display: flex;
+    flex-direction: row;
+    /* align-items: center;
+    justify-content: center; */
+    flex-wrap: wrap;
+    margin-top: 1rem;
+}

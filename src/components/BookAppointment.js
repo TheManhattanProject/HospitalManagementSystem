@@ -75,7 +75,7 @@ export default function BookAppointment(){
                     <p>Body Weight: {currentPatient.bodyweight}</p>
                     <p>Body Color: {currentPatient.color}</p>
                 </div>}
-                {doctors.length && <div className="col-md-6">
+                {doctors.length!==0 && <div className="col-md-6">
                     <label for="doctor">Doctor's Name:</label>
                     <select name="doctor" id="cars" value={vet} onChange={e => setVet(e.target.value)}>
                         <option selected disabled>--Pick an Option--</option>

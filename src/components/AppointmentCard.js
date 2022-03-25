@@ -7,6 +7,19 @@ export default function AppointmentCard(props) {
 
     const [patient, setPatient] = useState();
     const [veternarian, setVet] = useState();
+
+    // const getFormattedDate = (date) => {
+    //     var dd = date.getDate();
+    //     var mm = date.getMonth() + 1;
+    //     var yyyy = date.getFullYear();
+    //     if (dd < 10) {
+    //         dd = '0' + dd;
+    //     }
+    //     if (mm < 10) {
+    //         mm = '0' + mm;
+    //     }
+    //     return dd + '/' + mm + '/' + yyyy;
+    // }
     
 
     useEffect(() => {
@@ -18,6 +31,8 @@ export default function AppointmentCard(props) {
       }
       getData();
     }, [props.appointment.patient, props.appointment.veternarian]);
+
+    console.log(props.appointment);
 
   return (
     <div className="appointmentCard">

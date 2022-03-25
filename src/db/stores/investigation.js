@@ -3,9 +3,9 @@ const Datastore = require('nedb-promises');
 const Ajv = require('ajv');
 const treatmentSchema= require('../schemas/investigation');
 const {remote, ipcRenderer} = window.require("electron");
-const fs = require( 'fs' );
+// const fs = require( 'fs' );
 
-const appDir = remote.app.getAppPath("userData");
+const appDir = remote.app.getPath("userData");
 
 class InvestigationStore {
     constructor() {
@@ -30,7 +30,7 @@ class InvestigationStore {
         const isValid = this.validate(data);
         if (isValid) {
             const filePath = path.join( appDir, data.prescription, data.filename);
-            ipcRenderer.send('copy-file', data.file, filePath);
+            ipcRenderer.invoke('copy-file', [data.path, filePath]);
             // fs.copyFileSync( data.path, filePath );
             data.path = filePath;
             return await this.db.insert(data);

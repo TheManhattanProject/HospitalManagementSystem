@@ -4,7 +4,7 @@ const Ajv = require('ajv');
 const filesSchema= require('../schemas/files');
 const {remote, ipcRenderer} = window.require("electron");
 
-const appDir = path.join(remote.app.getAppPath("userData"), "photos");
+const appDir = path.join(remote.app.getPath("userData"), "photos");
 
 class FilesStore {
     constructor() {
@@ -30,7 +30,7 @@ class FilesStore {
         if (isValid) {
             const filePath = path.join( appDir, data.prescription, data.title);
             // fs.copyFileSync( data.path, filePath );
-            ipcRenderer.send("copy-file", data.path, filePath);
+            ipcRenderer.invoke("copy-file", [data.path, filePath]);
             data.path = filePath;
             return await this.db.insert(data);
         }

@@ -4,7 +4,7 @@ const Ajv = require('ajv');
 const patientSchema= require('../schemas/patient');
 const {remote, ipcRenderer} = window.require("electron");
 
-const appDir = path.join(remote.app.getAppPath("userData"), "profile_photos");
+const appDir = path.join(remote.app.getPath("userData"), "profile_photos");
 
 class PatientStore {
     constructor() {
@@ -32,9 +32,11 @@ class PatientStore {
             let doc = await this.db.insert(data);
             if (doc) {
                 const filePath = path.join( appDir,  `${doc._id}.jpg` );
-                ipcRenderer.send('copy-file', data.file, filePath);
+                ipcRenderer.invoke('copy-file', [data.profile, filePath]);
                 data.profile = filePath;
-                doc = await this.db.update({_id: doc._id}, data);
+                await this.db.update({_id: doc._id}, data);
+                doc.profile = filePath;
+                return doc;
             }
             return doc;
         } else {

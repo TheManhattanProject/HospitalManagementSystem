@@ -6,7 +6,7 @@ import Popup from 'reactjs-popup';
 import 'reactjs-popup/dist/index.css';
 // import VaccinationForm from './VaccinationForm'
 
-export default function Addpatient(props) {
+export default function Addpatient() {
   const [owner, setOwner] = useState('');
 
   useEffect(() => {
@@ -21,7 +21,7 @@ export default function Addpatient(props) {
 
   const [name, setName] = useState("");
   const [age, setAge] = useState("");
-  const [sex, setSex] = useState("");
+  const [sex, setSex] = useState("Male");
   const [species, setSpecies] = useState("");
   const [bodyweight, setBodyweight] = useState("");
   const [color, setColor] = useState("");
@@ -44,14 +44,14 @@ export default function Addpatient(props) {
             species: species,
             color:color,
             fertility: fertility,
-            // health:health,
             bodyweight:bodyweight,
-            owner: owner
+            owner: owner,
+            profile : profile
         }
 
 
         let result = await patientStore.create(patient);
-        console.log(result);
+        alert(result);
         
             
         for (let i = 0; i < vaccinations.length; i++) {
@@ -76,13 +76,14 @@ export default function Addpatient(props) {
 
 
     return (
-        <div className="container">
+        <div className="container-out">
             <h1>New Pet Registration</h1>
+            <div className="container-in">
             <form onSubmit={handleSubmit}>  
                 <div className="row">
                     <div className="col-md-2">
                         <p>Add Photo</p>
-                        <input type="file" onChange={e=>{setProfile(e.target.files[0])}}/>
+                        <input type="file" onChange={e=>{alert(e.target.files[0].path); setProfile(e.target.files[0].path)}}/>
 
                     </div>
                     <div className="col-md-5">
@@ -102,8 +103,8 @@ export default function Addpatient(props) {
                             <label>Sex</label>
                             <select name="doctor" id="cars" value={sex} onChange={e => setSex(e.target.value)}>
                                 <option selected disabled>--Pick an Option--</option>
-                                <option value="M">Male</option>
-                                <option value="F">Female</option>
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
                             </select> 
                         </div>
                         <div className="form-group">
@@ -122,7 +123,11 @@ export default function Addpatient(props) {
                     <div className="col-md-5">
                         <div className="form-group">
                             <label>Fertility</label>
-                            <input type="text" className="form-control" value={fertility} onChange={e => setFertility(e.target.value)} />
+                            <input type="radio" id="fertility-yes" name="fertility-radio" value="yes" onChange={e => setFertility(e.target.value)}/>
+                            <label for="fertility-yes">Yes</label>
+                            <input type="radio" id="fertility-no" name="fertility-radio" value="no" onChange={e => setFertility(e.target.value)}/>
+                            <label for="fertility-no">No</label>
+                            {/* <input type="text" className="form-control" value={fertility} onChange={e => setFertility(e.target.value)} /> */}
                         </div>
                         <p>Vaccination Chart</p>
                         <div className="vaccinations">
@@ -151,6 +156,7 @@ export default function Addpatient(props) {
                 <button type="submit" className="btn btn-primary">Submit</button>
                 <a href="/dashboard">Go Back</a>
             </form>
+        </div>
         </div>
     )
 }
