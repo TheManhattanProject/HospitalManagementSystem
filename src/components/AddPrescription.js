@@ -11,6 +11,8 @@ import investigationStore from "../db/stores/investigation";
 import Creatable from 'react-select/creatable';
 import InventoryStore from "../db/stores/inventory";
 import { Navigate } from 'react-router-dom';
+import Header from './Header';
+import Sidebar from './Sidebar';
 // const {dialog} = window.require('electron').remote;
 
 
@@ -185,8 +187,18 @@ export default function AddPrescription() {
     }        
 
     return (
-        <div>
+        <div className="outer">
+            <div className="lheader">
+                {patient && appointment && <div onClick={()=>{setRedirect(`/patient/history?id=${patient._id}&apptid=${appointment._id}`)}} className='back-div'>
+                    <img src="/images/arrow.png" alt="back"></img>
+                </div>}
+                <Header />
+            </div>
+            <div className="lout">
+                <Sidebar currentTab={100}/>
+            <div className="cont-out">
             <h1>Add Prescription</h1>
+            <div className="cont-in">
             <form>
                {patient && <label>
                     Patient:
@@ -265,7 +277,10 @@ export default function AddPrescription() {
                 <button onClick={handleSubmit}>Submit</button>
 
             </form>
-            {patient && appointment && <button type="button" onClick={() => setRedirect(`/patient/history?id=${patient._id}&apptid=${appointment._id}`)}>Back</button>}
-        </div>          
+            {/* {patient && appointment && <button type="button" onClick={() => setRedirect(`/patient/history?id=${patient._id}&apptid=${appointment._id}`)}>Back</button>} */}
+        </div> 
+        </div> 
+        </div>  
+        </div>      
     )
 }

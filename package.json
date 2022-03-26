@@ -39,9 +39,10 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "electron-dev": "electron .",
-    "start": "concurrently -k \"cross-env BROWSER=none npm run react-start\" \"electron .\"",
+    "start": "concurrently -k \"cross-env BROWSER=none npm run react-start\" \"npm run electron\"",
     "electron-build-dev": "SET ELECTRON_IS_DEV=0 && react-scripts build && electron .",
-    "dist": "react-scripts build && electron-builder build"
+    "dist": "react-scripts build && electron-builder build",
+    "electron": "wait-on tcp:3000 && electron ."
   },
   "eslintConfig": {
     "extends": [

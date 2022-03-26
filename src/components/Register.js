@@ -11,7 +11,7 @@ export default function Register() {
     const [password2, setPassword2] = useState();
     const [email, setEmail] = useState();
     const [phone, setPhone] = useState();
-    const [gender, setGender] = useState("Male");
+    const [gender, setGender] = useState("");
     const [dob , setDob] = useState();
     // const [address, setAddress] = useState();
     const [redirect, setRedirect] = useState();
@@ -21,6 +21,10 @@ export default function Register() {
       if (password !== password2){
         alert("Passwords do not match");
         return;
+        }
+        if (gender==="") {
+          alert("Please select your gender");
+          return;
         }
       const owner = {
         name: name,
@@ -77,9 +81,10 @@ export default function Register() {
                     <h3 className='closer'>Following details</h3>
                 </div>
                 <input type="text" placeholder="Name" value={name} onChange={(e)=>setName(e.target.value)}/>
-                     <input type="email" placeholder="Email" onChange={e => setEmail(e.target.value)}/>
-                     <input type="phone" placeholder="Phone" onChange={e => setPhone(e.target.value)}/>
+                     {/* <input type="email" placeholder="Email" onChange={e => setEmail(e.target.value)}/> */}
+                     <input type="phone" placeholder="Mobile No." onChange={e => setPhone(e.target.value)}/>
                      <select name="gender" id="cars" value={gender} onChange={e => setGender(e.target.value)}>
+                        <option value="" selected disabled hidden>Gender</option>
                         <option value="Male">Male</option>
                         <option value="Female">Female</option>
                         <option value="Non Binary">Non-Binary</option>

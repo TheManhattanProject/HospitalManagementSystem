@@ -19,6 +19,10 @@ export default function AdminLogin() {
       setRedirect("/vet/dashboard");
       // window.location.href = "/vet/dashboard";
     }
+    if (localStorage.getItem("admin")!=null) {
+      setRedirect("/admin/dashboard");
+      // window.location.href = "/admin/dashboard";
+    }
   }, [])
 
 
@@ -33,10 +37,11 @@ export default function AdminLogin() {
       }
       else {
         console.log(result);
-        localStorage.setItem("vet", result._id);
+        localStorage.setItem("admin", result._id);
+        localStorage.removeItem("vet");
         localStorage.removeItem("user");
         // window.location.href = "/vet/dashboard";
-        setRedirect("/vet/dashboard");
+        setRedirect("/admin/dashboard");
       }
     }
 
@@ -47,19 +52,48 @@ export default function AdminLogin() {
     return (
       <div className="out">
       <PrevHeader />
-    <div className="container-out">
-      <div className="login-page">
-        <div className="form">
-          <form className="login-form">
-            <input type="text" placeholder="email" onChange={e => setEmail(e.target.value)}/>
-            <input type="password" placeholder="password" onChange={e => setPassword(e.target.value)}/>
-            <button onClick={logindoctor}>login</button>
-            <p className="message">Not registered? <button type="button" onClick={()=>{setRedirect("/vet/register")}}>Create an account</button></p>
-            <button type="button" onClick={()=>{setRedirect("/")}}>Back</button>
-          </form>
+      <div className="container-out" style={{ backgroundColor: "#002A6A" }}>
+        <div className="login-page">
+          <div className="login-container">
+            <div className="signupout">
+              <div className="signup">
+                <p> New Vet? </p>
+                <div className="PatientCard-image">
+                  <img src="/images/Doctor_icon.svg" alt="Doctor" />
+                </div>
+                <button type="button" onClick={() => setRedirect("/vet/register")}>
+                  Sign Up Here
+                </button>
+                
+              </div>
+            </div>
+
+            <div className="formout">
+              <div className="form">
+                <h2>Login</h2>
+                <form className="login-form">
+                  <input
+                    type="text"
+                    placeholder=" Email"
+                    onChange={(e) => setEmail(e.target.value)}
+                  />
+                  <input
+                    type="password"
+                    placeholder=" Password"
+                    onChange={(e) => setPassword(e.target.value)}
+                  />
+                  <div className="buttons">
+                  <button onClick={logindoctor}>Proceed</button>
+                  <button className="back-btn" type="button" onClick={() => setRedirect("/vet/login")}>
+                  Go Back
+                </button>
+                </div>
+                </form>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
-      </div>
-      </div>
+    </div>
     );
 }

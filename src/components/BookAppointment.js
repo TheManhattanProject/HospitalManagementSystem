@@ -5,6 +5,9 @@ import appointmentStore from '../db/stores/appointments';
 import {useState,useEffect} from 'react';
 import './styles/BookAppointment.css';
 import {Navigate} from 'react-router-dom';
+import Sidebar from './Sidebar';
+import Header from './Header';
+
 
 export default function BookAppointment(){
     const [patients,setPatients] = useState([]);
@@ -70,7 +73,19 @@ export default function BookAppointment(){
     }
 
     return (
-        <div className="container">
+        <div className="outer">
+        <div className="lheader">
+        <div onClick={()=>{setRedirect("")}} className='back-div'>
+            <img src="/images/arrow.png" alt="back"></img>
+            </div>
+             <Header />
+        </div> 
+        <div className="lout">
+        <Sidebar currentTab={3}/>
+
+        <div className="cont-out">
+            <h1>Book A Visit</h1>
+            <div className="cont-in">
             {patients.length && <div className="pet-names">
                 {patients.map(patient => <button type="button" onClick={() => changePatient(patient)} id={patient._id} className="patient-name">{patient.name}</button>)}
             </div>}
@@ -98,6 +113,9 @@ export default function BookAppointment(){
                 </div>}
             </div>
             <button onClick={() =>setRedirect("/dashboard")}>Back</button>
+        </div>
+        </div>
+        </div>
         </div>
     );
 }

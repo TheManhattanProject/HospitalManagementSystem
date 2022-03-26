@@ -17,13 +17,13 @@ const veternarianschema ={
         qualification: {
             type: 'string',
         },
-        experience: {
-            type: 'string',
-        },
         speciality: {
             type: 'string',
         },
         password: {
+            type: 'string',
+        },
+        experience: {
             type: 'string',
         },
     }

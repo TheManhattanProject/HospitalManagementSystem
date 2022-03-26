@@ -2,20 +2,32 @@ import {useEffect, useState} from 'react';
 import inventoryStore from '../db/stores/inventory';
 import Popup from 'reactjs-popup';
 import {Navigate } from 'react-router-dom';
+import Header from './Header';
+import Sidebar from './Sidebar';
 
 export default function Inventory() {
 
+    const [redirect, setRedirect] = useState();
     const [category, setCategory] = useState('medicine');
     const [items, setItems] = useState([]);
     const [itemname, setItemname] = useState();
     const [itemremark, setItemremark] = useState();
     const [open, setOpen] = useState(false);  
+    const [admin, setAdmin] = useState();
     const closeModal = () => setOpen(false);
     const updateItem = (item) => {
         console.log(item);
     }
-    const [redirect , setRedirect] = useState();
+
     useEffect(() => {
+        if (!localStorage.getItem('vet')){
+            let user = localStorage.getItem("admin");
+            if (user){
+                setAdmin(user);
+            } else{
+                setRedirect("/vet/login");
+            }
+        }
         const getData = async () => {
             let items = await inventoryStore.getItems(category);
             setItems(items);
@@ -39,8 +51,18 @@ export default function Inventory() {
 
 
     return (
-        <div class="container">
+        <div class="outer">
+            <div className="lheader">
+                <div onClick={()=>{setRedirect("/vet/dashboard")}} className='back-div'>
+                    <img src="/images/arrow.png" alt="back"></img>
+                </div>
+                <Header />
+            </div>
+            <div className="lout">
+            <Sidebar currentTab={7}/>
+            <div className="cont-out">
             <h1>Inventory</h1>
+            <div className="cont-in">
             <div className="categories">
                 <button type="button" onClick={(e) => setCategory('medicine')}>Medicines</button>
                 <button type="button" onClick={(e) => setCategory('lab')}>Laboratory</button>
@@ -67,9 +89,9 @@ export default function Inventory() {
                     ))}
                 </tbody>
             </table>
-            <button type="button" className="button" onClick={() => setOpen(o => !o)}>Add Item</button>
+            {admin && <button type="button" className="button" onClick={() => setOpen(o => !o)}>Add Item</button>}
 
-            <Popup open={open} closeOnDocumentClick onClose={closeModal} position="right center" modal>
+            {admin && <Popup open={open} closeOnDocumentClick onClose={closeModal} position="right center" modal>
             <div>
             <button className="close" onClick={closeModal}>  &times;  </button>
                 <div>
@@ -79,9 +101,12 @@ export default function Inventory() {
                     <button type="button" onClick ={additem} className="btn btn-primary">Add</button>
                 </div>
             </div>
-            </Popup>
-            <button type="button" className="button" onClick={() => setRedirect('/vet/dashboard')}>Back</button>
+            </Popup>}
+            {/* <button type="button" className="button" onClick={() => setRedirect('/vet/dashboard')}>Back</button> */}
 
+        </div>
+        </div>
+        </div>
         </div>
     );
 }

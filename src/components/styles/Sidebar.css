@@ -8,7 +8,7 @@ li {
 
 .nav-name {
     color: #fff;
-    font-size: 0.9rem;
+    font-size: 0.8rem;
     text-align: center;
     margin: 0;
 }
@@ -18,11 +18,20 @@ li {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 0.5rem;
+    padding: 0.6rem;
 }
 
 .login-svg {
     filter: invert(100%) sepia(0%) saturate(0%) hue-rotate(167deg) brightness(103%) contrast(101%);
+}
+
+.nav-item img {
+    width: 70%;
+}
+
+.nav-selected {
+    background-color: #000F26!important;
+    pointer-events: none;
 }
 
 

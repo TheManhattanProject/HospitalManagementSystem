@@ -5,6 +5,9 @@ import {useState,useEffect} from 'react';
 import Popup from 'reactjs-popup';
 import 'reactjs-popup/dist/index.css';
 import { Navigate } from 'react-router-dom';
+import Header from './Header';
+import Sidebar from './Sidebar';
+import './styles/Addpatient.css'
 // import VaccinationForm from './VaccinationForm'
 
 export default function Addpatient() {
@@ -83,43 +86,54 @@ export default function Addpatient() {
     }
 
     return (
-        <div className="container-out">
+        <div className="outer">
+            <div className="lheader">
+                <div onClick={()=>{setRedirect("/dashboard")}} className='back-div'>
+                    <img src="/images/arrow.png" alt="back"></img>
+                </div>
+                <Header />
+            </div>
+        <div className="lout">
+            <Sidebar currentTab={100}/>
+        <div className="cont-out">
             <h1>New Pet Registration</h1>
-            <div className="container-in">
+            <div className="cont-in">
             <form onSubmit={handleSubmit}>  
-                <div className="row">
-                    <div className="col-md-2">
-                        <p>Add Photo</p>
+                <div className="formall">
+                    <div className="first">
                         <input type="file" onChange={e=>{alert(e.target.files[0].path); setProfile(e.target.files[0].path)}}/>
-
+                        <p>Add Photo</p>
+                        {profile && <p>{profile.substring(profile.lastIndexOf("/")+1,profile.length)} <span onClick={()=>{setProfile("")}}>X</span></p>}
                     </div>
-                    <div className="col-md-5">
+
+
+                    <div className="second">
                         <div className="form-group">
-                            <label>Name</label>
+                            <label>Name :</label>
                             <input type="text" className="form-control" value={name} onChange={e => setName(e.target.value)} />
                         </div>
                         <div className="form-group">
-                            <label>Age</label>
+                            <label>Age :</label>
                             <input type="number" className="form-control" value={age} onChange={e => setAge(e.target.value)} />
                         </div>
                         <div className="form-group">
-                            <label>Species</label>
+                            <label>Species :</label>
                             <input type="text" className="form-control" value={species} onChange={e => setSpecies(e.target.value)} />
                         </div>
                         <div className="form-group">
-                            <label>Sex</label>
-                            <select name="doctor" id="cars" value={sex} onChange={e => setSex(e.target.value)}>
+                            <label>Sex : </label>
+                            <select className="form-control" name="doctor" id="cars" value={sex} onChange={e => setSex(e.target.value)}>
                                 <option selected disabled>--Pick an Option--</option>
-                                <option value="Male">Male</option>
-                                <option value="Female">Female</option>
+                                <option value="Male"> Male</option>
+                                <option value="Female"> Female</option>
                             </select> 
                         </div>
                         <div className="form-group">
-                            <label>Body Weight(in Kgs)</label>
+                            <label>Body Weight(in Kgs) :</label>
                             <input type="number" className="form-control" value={bodyweight} onChange={e => setBodyweight(e.target.value)} />
                         </div>
                         <div className="form-group">
-                            <label>Body Color</label>
+                            <label>Body Color :</label>
                             <input type="text" className="form-control" value={color} onChange={e => setColor(e.target.value)} />
                         </div>
                         {/* <div className="form-group">
@@ -127,15 +141,17 @@ export default function Addpatient() {
                             <input type="text" className="form-control" value={health} onChange={e => setHealth(e.target.value)} />
                         </div> */}
                     </div>
-                    <div className="col-md-5">
+
+                    <div className="third">
                         <div className="form-group">
-                            <label>Fertility</label>
+                            <label>Fertility </label>
                             <input type="radio" id="fertility-yes" name="fertility-radio" value="yes" onChange={e => setFertility(e.target.value)}/>
                             <label for="fertility-yes">Yes</label>
                             <input type="radio" id="fertility-no" name="fertility-radio" value="no" onChange={e => setFertility(e.target.value)}/>
                             <label for="fertility-no">No</label>
                             {/* <input type="text" className="form-control" value={fertility} onChange={e => setFertility(e.target.value)} /> */}
                         </div>
+
                         <p>Vaccination Chart</p>
                         <div className="vaccinations">
                             {vaccinations.length!==0 && vaccinations.map((vaccination)=> (
@@ -160,9 +176,11 @@ export default function Addpatient() {
                     </div>
 
                 </div>
-                <button type="submit" className="btn btn-primary">Submit</button>
-                <button type="button" onClick={() => setRedirect("/dashboard")}>Go Back</button>
+                <button type="submit" >Submit</button>
+                {/* <button type="button" onClick={() => setRedirect("/dashboard")}>Go Back</button> */}
             </form>
+        </div>
+        </div>
         </div>
         </div>
     )

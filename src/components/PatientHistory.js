@@ -8,6 +8,8 @@ import veternarianStore from '../db/stores/veternarian';
 import PrevVisits from './PrevVisits';
 import {Navigate} from 'react-router-dom';
 import Header from './Header';
+import Sidebar from './Sidebar';
+
 
 
 export default function Patienthistory() {
@@ -71,13 +73,19 @@ export default function Patienthistory() {
 
   return (
     <div className="outer"> 
-        <Header/>
+        <div className="lheader">
+                <div onClick={()=>{setRedirect("")}} className='back-div'>
+                    <img src="/images/arrow.png" alt="back"></img>
+                </div>
+                <Header />
+          </div>
 
-        <div className="out"> 
+        <div className="lout"> 
+        <Sidebar currentTab={2}/>
 
-    <div className='container-out'>
+    <div className='cont-out'>
       <h1>History</h1>
-      <div className="container-in">
+      <div className="cont-in">
         {patient && <div className="row">
           <div className="col-md-4">
             <p>Pet Name: {patient.name}</p>

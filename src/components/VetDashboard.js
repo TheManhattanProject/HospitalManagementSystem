@@ -50,7 +50,7 @@ export default function VetDashboard() {
             <div className="row">
                 <div className="col-md-6">
                     <h3>Today's Appointments</h3>
-                    <Sidebar/>
+                    <Sidebar currentTab={4}/>
                     <div className="appointments">
                         {appointments.length!==0 && appointments.map(appointment => <VetAppointmentCard key={appointment._id} appointment={appointment} />)}
                     </div>

@@ -44,7 +44,6 @@ button:hover {
 .sub-heading{
   font-size: 1.5rem;
   font-weight: bold;
-  text-decoration: underline;
 }
 .anchor{
   background: #002A6A;
@@ -67,4 +66,60 @@ button:hover {
   display: flex;
   flex-grow: 1;
   flex-direction: column;
+}
+
+.outer {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.lout {
+  display: flex;
+  flex-grow: 1;
+}
+
+.lheader {
+  display: flex;
+  flex-direction: row;
+  /* flex-grow: 1; */
+}
+
+.back-div {
+  width: 4rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.back-div:hover{
+  cursor: pointer;
+}
+
+.back-div img {
+  width: 45%;
+  /* display: block;
+  margin: auto; */
+}
+
+.cont-out {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  background-color: #F1F7FF;
+  padding: 2rem;
+  z-index: 10;
+}
+
+.cont-in {
+  display:flex;
+  flex-direction: column;
+  flex-grow: 1;
+  background-color: #FFFFFF;
+  border: 1px solid #B7B7B7;
+  box-sizing: border-box;
+  box-shadow: 4px 4px 5px rgba(0, 0, 0, 0.25);
+  border-radius: 15px;
+  margin: 2rem;
+  margin-top: 1rem;
+  padding: 2rem;
 }
