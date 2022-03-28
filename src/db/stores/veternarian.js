@@ -27,8 +27,13 @@ class VeternarianStore {
     async create(data) {
         const isValid = this.validate(data);
         if (isValid) {
+            let doc = await this.db.findOne({email: data.email});
+            if(doc){
+                return "Email already exists";
+            }
             return await this.db.insert(data);
         }
+        return isValid.errors;
     }
 
     async read(_id) {
@@ -60,12 +65,12 @@ class VeternarianStore {
     async login(email, password){
         const vet = await this.db.findOne({email: email});
         if(!vet){
-            return null;
+            return "Invalid Email";
         }
         if(vet.password === password){
             return vet;
         }
-        return null;
+        return "Invalid Password";
 
     }
 }

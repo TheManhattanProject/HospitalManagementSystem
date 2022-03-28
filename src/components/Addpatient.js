@@ -69,6 +69,7 @@ export default function Addpatient() {
         if (!sex.current.value) {
             alertbox("Please select the pet's gender")
         }
+        
 
         const patient = {
             name: name.current.value,
@@ -155,19 +156,19 @@ export default function Addpatient() {
                     <div className="second">
                         <div className="form-group">
                             <label>Name :</label>
-                            <input type="text" className="form-control" placeholder="Name" ref={name} />
+                            <input type="text" className="form-control" placeholder="Name" ref={name} required />
                         </div>
                         <div className="form-group">
                             <label>Age :</label>
-                            <input type="number" className="form-control" placeholder="Age" ref={age} />
+                            <input type="number" className="form-control" placeholder="Age" ref={age} required/>
                         </div>
                         <div className="form-group">
                             <label>Species :</label>
-                            <input type="text" className="form-control" ref={species} placeholder="Species" />
+                            <input type="text" className="form-control" ref={species} placeholder="Species" required />
                         </div>
                         <div className="form-group">
                             <label>Sex : </label>
-                                <select name="gender" id="cars" ref={sex}>
+                                <select name="gender" id="cars" ref={sex} required>
                                 <option value="" selected disabled hidden>Gender</option>
                                 <option value="Male">Male</option>
                                 <option value="Female">Female</option>
@@ -176,22 +177,22 @@ export default function Addpatient() {
                         </div>
                         <div className="form-group">
                             <label>Body Weight(in Kgs) :</label>
-                            <input type="number" className="form-control" placeholder="Body Weight" ref={bodyweight} />
+                            <input type="number" step="0.1" className="form-control" placeholder="Body Weight" ref={bodyweight} required/>
                         </div>
                         <div className="form-group">
                             <label>Body Color :</label>
-                            <input type="text" className="form-control" placeholder="Body Color" ref={color} />
+                            <input type="text" className="form-control" placeholder="Body Color" ref={color} required />
                         </div>
                         {/* <div className="form-group">
                             <label>Health</label>
-                            <input type="text" className="form-control" placeholder="Health" ref={health} onChange={e => setHealth(e.target.value)} />
+                            <input type="text" className="form-control" placeholder="Health" ref={health} onChange={e => setHealth(e.target.value)} required/>
                         </div> */}
                     </div>
 
                     <div className="third">
                         <div className="form-group">
                             <label>Fertility : </label>
-                            <input type="radio" id="fertility-yes" name="fertility-radio" value="yes" ref={fertility}/>
+                            <input type="radio" id="fertility-yes" name="fertility-radio" value="yes" ref={fertility} required/>
                             <label for="fertility-yes">Yes</label>
                             <input type="radio" id="fertility-no" name="fertility-radio" value="no" ref={fertility}/>
                             <label for="fertility-no">No</label>

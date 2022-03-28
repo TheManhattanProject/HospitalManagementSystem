@@ -61,9 +61,6 @@ export default function Register() {
     if (result === "Email already exists") {
         alert(result);
         }
-    else if (result === "Invalid email") {
-        alert(result);
-        }
     else {
         localStorage.setItem("vet", result._id);
         // window.location.href = "/vet/dashboard";
@@ -108,15 +105,15 @@ export default function Register() {
                     <h3 className='closer'>Following details</h3>
                 </div>
                 <input type="text" placeholder="Name" ref={name}/>
-                     <input type="text" placeholder="Specialization" ref ={speciality} />
-                     <input type="phone" placeholder="Mobile No." ref={phone}/>
-                     <select name="gender" id="cars" ref={gender}>
+                     <input type="text" placeholder="Specialization" ref ={speciality} required/>
+                     <input type="phone" placeholder="Mobile No." ref={phone} required/>
+                     <select name="gender" id="cars" ref={gender} required>
                         <option value="" selected disabled hidden>Gender</option>
                         <option value="Male">Male</option>
                         <option value="Female">Female</option>
                         <option value="Non Binary">Non-Binary</option>
                     </select> 
-                     <input type="text" placeholder='Date of Birth' onFocus={e => e.target.type="date"} ref={dob}/>
+                     <input type="text" placeholder='Date of Birth' onFocus={e => e.target.type="date"} ref={dob} required/>
                      {/* <input type ="address" placeholder="address" onChange={e => setAddress(e.target.value)}/> */}
                 </div>
               </div>
@@ -130,10 +127,11 @@ export default function Register() {
                       type="text"
                       placeholder=" Email"
                       ref={email}
+                      required
                       
                     />
-                     <input type="password" placeholder="Password" ref={password}/>
-                    <input type="password" placeholder="Confirm Password" ref={password2}/>
+                     <input type="password" placeholder="Password" ref={password} required/>
+                    <input type="password" placeholder="Confirm Password" ref={password2} required/>
                     <div className="buttons">
                     <button onClick={register}>Proceed</button>
                     <button className="back-btn" type="button" onClick={() => setRedirect("/")}>

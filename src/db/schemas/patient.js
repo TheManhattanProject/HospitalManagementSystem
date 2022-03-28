@@ -14,7 +14,8 @@ const patientschema = {
             type: "string",
         },
         bodyweight: {
-            type: "number",
+            "type": "number", 
+            "multipleOf": 0.01,
         },
         color: {
             type: "string",

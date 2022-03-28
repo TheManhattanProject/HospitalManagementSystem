@@ -1,0 +1,71 @@
+.td3-1{
+    width: 10%;
+}
+
+.td3-2{
+    width: 33%;
+}
+
+.td3-3{
+    width: 15%;
+}
+
+.td3-4{
+    width: 42%;
+}
+
+.td4-1{
+    width: 10%;
+}
+
+.td4-2{
+    width: 30%;
+}
+
+.td4-3{
+    width: 15%;
+}
+
+.td4-4{
+    width: 40%;
+}
+
+.td4-5{
+    width: 15%;
+}
+
+tr:first-child {
+    border-bottom: 1px solid #B7B7B7;
+}
+
+tr:nth-child(even) {background-color: #F1F7FF;}
+
+.button-td {
+    padding: 0.5rem 1rem;
+}
+
+.inventory-table{
+    margin-top: 2rem;
+}
+
+.categories {
+    display: flex;
+    flex-direction: row;
+}
+
+.sub-heading-inventory {
+    display: inline-block;
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin: auto 0;
+}
+.up-rem{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: flex-end;
+
+}
+.up-rem button{
+    width: 40%;
+}

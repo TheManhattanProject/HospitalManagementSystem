@@ -27,6 +27,10 @@ class ownerStore {
     async create(data) {
         const isValid = this.validate(data);
         if (isValid) {
+            let doc = await this.db.findOne({email: data.email}).exec();
+            if (doc) {
+                return "Email already exists";
+            }  
             return await this.db.insert(data);
         } else {
             return isValid.errors;

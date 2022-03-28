@@ -52,12 +52,11 @@ export default function AdminLogin() {
       else {
         console.log(result);
         localStorage.setItem("admin", result._id);
-        localStorage.removeItem("vet");
         localStorage.removeItem("user");
         localStorage.setItem("vet", result._id);
 
         // window.location.href = "/vet/dashboard";
-        setRedirect("/admin/dashboard");
+        setRedirect("/inventory");
       }
     }
 
@@ -92,12 +91,14 @@ export default function AdminLogin() {
                     type="text"
                     placeholder=" Email"
                     ref={email}
+                    required
                     // onChange={(e) => setEmail(e.target.value)}
                   />
                   <input
                     type="password"
                     placeholder=" Password"
                     ref={password}
+                    required
                     // onChange={(e) => setPassword(e.target.value)}
                   />
                   <div className="buttons">

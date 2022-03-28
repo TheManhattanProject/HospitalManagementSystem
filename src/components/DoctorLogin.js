@@ -90,12 +90,14 @@ export default function DoctorLogin() {
                     type="text"
                     placeholder=" Email"
                     ref={email}
+                    required
                     // onChange={(e) => setEmail(e.target.value)}
                   />
                   <input
                     type="password"
                     placeholder=" Password"
                     ref={password}
+                    required
                     // onChange={(e) => setPassword(e.target.value)}
                   />
                   <div className="buttons">

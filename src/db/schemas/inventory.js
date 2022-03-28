@@ -10,7 +10,7 @@ const inventorySchema = {
         quantity: {
             type: "number",
         },
-        remarks: {
+        remark: {
             type: "string",
         },
     }

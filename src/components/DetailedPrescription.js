@@ -143,7 +143,16 @@ export default function DetailedPrescription() {
                         <tr key={t._id}>
                             <td>{i+1}</td>
                             <td>{t.name}</td>
-                            <td>{t.frequency}</td>
+                            <td>
+                            <div className='radio-inp'>
+                                    <label>Morning</label>
+                                    {t.frequency[0]==="1" ? <input type="checked" checked="checked" disabled/> : <input type="checkbox" disabled/>}
+                                    <label>Afternoon</label>
+                                    {t.frequency[1]==="1" ? <input type="checked" checked="checked" disabled/> : <input type="checkbox" disabled/>}
+                                    <label>Night</label>
+                                    {t.frequency[2]==="1" ? <input type="checked" disabled/> : <input type="checkbox" disabled/>}
+                            </div>
+                            </td>
                             <td>{t.remarks}</td>
                         </tr>
                     ))}

@@ -31,12 +31,14 @@ class PatientStore {
         if (isValid) {
             let doc = await this.db.insert(data);
             if (doc) {
-                const filePath = path.join( appDir,  `${doc._id}.jpg` );
-                ipcRenderer.invoke('copy-file', [data.profile, filePath]);
-                data.profile = filePath;
-                await this.db.update({_id: doc._id}, data);
-                doc.profile = filePath;
-                return doc;
+                if (doc.profile) {
+                    const filePath = path.join( appDir,  `${doc._id}.jpg` );
+                    ipcRenderer.invoke('copy-file', [data.profile, filePath]);
+                    data.profile = filePath;
+                    await this.db.update({_id: doc._id}, data);
+                    doc.profile = filePath;
+                    return doc;
+                }
             }
             return doc;
         } else {

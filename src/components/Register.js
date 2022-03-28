@@ -53,8 +53,6 @@ export default function Register() {
       let result = ownerStore.create(owner);
       if (result === "Email already exists") {
         alertbox(result);
-      } else if (result === "Invalid email") {
-        alertbox(result);
       } else {
         localStorage.setItem("user", result._id);
         setRedirect("/dashboard");
@@ -96,10 +94,10 @@ export default function Register() {
                   <h3>Enter the</h3>
                   <h3 className="closer">Following details</h3>
                 </div>
-                <input type="text" placeholder="Name" ref={name} />
+                <input type="text" placeholder="Name" ref={name} required/>
                 {/* <input type="email" placeholder="Email" onChange={e => setEmail(e.target.value)}/> */}
-                <input type="phone" placeholder="Mobile No." ref={phone} />
-                <select name="gender" id="cars" ref={gender}>
+                <input type="phone" placeholder="Mobile No." ref={phone} required/>
+                <select name="gender" id="cars" ref={gender} required>
                   <option value="" selected disabled hidden>
                     Gender
                   </option>
@@ -122,16 +120,16 @@ export default function Register() {
                 <h3>Complete your</h3>
                 <h3 className="closer">Registration</h3>
                 <form className="login-form">
-                  <input type="text" placeholder=" Email" ref={email} />
+                  <input type="text" placeholder=" Email" ref={email} required/>
                   <input
                     type="password"
                     placeholder="Password"
-                    ref={password}
+                    ref={password} required
                   />
                   <input
                     type="password"
                     placeholder="Confirm Password"
-                    ref={password2}
+                    ref={password2} required
                   />
                   <div className="buttons">
                     <button type="button" onClick={register}>

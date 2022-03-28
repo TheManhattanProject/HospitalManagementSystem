@@ -29,12 +29,11 @@ export default function AddPrescription() {
     const pid = searchParams.get("id");
     const [patient, setPatient] = useState();
     const [appointment, setAppointment] = useState();
-    const [oldTreatments, setOldTreatments] = useState([]);
+    // const [oldTreatments, setOldTreatments] = useState([]);
     const [treatments, setTreatments] = useState([]);
     const [treatmentname, setTreatmentname] = useState();
     // const treatmentname = useRef();
     // const [treatmentfrequency, setTreatmentfrequency] = useState("");
-    const treatmentfrequency = useRef();
     // const [treatmentremarks, setTreatmentremarks] = useState("");
     const treatmentremarks = useRef();
     // const [investigationremarks, setInvestigationremarks] = useState("");
@@ -48,7 +47,6 @@ export default function AddPrescription() {
 
     // const [nextappt, setNextapp] = useState("");
     const nextappt = useRef();
-    const [investigations, setInvestigations] = useState([]);
     // const [diagnosis, setDiagnosis] = useState("");
     const diagnosis = useRef();
     const [treatmentOptions, setTreatmentOptions] = useState([]);
@@ -57,8 +55,11 @@ export default function AddPrescription() {
     const imagetitle= useRef();
     const [imagepath, setImagepath] = useState("");
     // const [remark, setRemark] = useState("");
-    const remark = useRef();
+    // const remark = useRef();
     const [inventory, setInventory] = useState([]);
+    const morn = useRef();
+    const noon = useRef();
+    const night = useRef();
 
     const alertbox = (m) => {
         const window = BrowserWindow.getFocusedWindow();
@@ -80,7 +81,7 @@ export default function AddPrescription() {
             let patient = await patientStore.read(appt.patient);
             setPatient(patient);
             setAppointment(appt);
-            setOldTreatments(await treatmentStore.readAll());
+            // setOldTreatments(await treatmentStore.readAll());
             setInventory(await InventoryStore.readAll());
 
         }
@@ -89,17 +90,24 @@ export default function AddPrescription() {
 
     useEffect(() => {
         let temp = []
-        oldTreatments.forEach(treatment => {
+        inventory.forEach(treatment => {
             temp.push({value: treatment._id, label: treatment.name})
         })
+        
         setTreatmentOptions(temp);
-    }, [oldTreatments])
+    }, [inventory])
     
     const submittreatment = async (e) => {
+        console.log(morn.current.checked);
+        console.log(noon.current.checked);
+        console.log(night.current.checked);
+        // let freq="1"
+        let freq = (morn.current.checked ? "1" : "0") + (noon.current.checked ? "1" : "0") + (night.current.checked ? "1" : "0");
+        console.log(freq);
         e.preventDefault();
         let treatment = {
             name: treatmentname.label,
-            frequency: treatmentfrequency.current.value,
+            frequency: freq,
             remarks: treatmentremarks.current.value
         }
         setTreatments([...treatments, treatment])
@@ -107,6 +115,10 @@ export default function AddPrescription() {
   
 
     function savefile() {
+        if (!investigationfilename || !investigationpath || !investigationremarks.current.value || !investigationname.current.value) {
+            alertbox("Please fill all the fields for the report");
+            return;
+        }
         let file ={
             name: investigationname.current.value,
             path: investigationpath,
@@ -116,6 +128,10 @@ export default function AddPrescription() {
         setFiles([...files, file])
     }
     function saveimage() {
+        if (!imagetitle.current.value || !imagepath) {
+            alertbox("Please fill all the fields for the image");
+            return;
+        }
         let image ={
             title: imagetitle.current.value,
             path: imagepath
@@ -278,11 +294,11 @@ export default function AddPrescription() {
                     <div className="patient-details">
                     <div className='patient-details-left'>
                     <p className='pet-details'>Diagnosis :</p>
-                    <input className="next-appt-inp" placeholder="Diagnosis" type="text" ref={diagnosis} />
+                    <input className="next-appt-inp" placeholder="Diagnosis" type="text" ref={diagnosis} required/>
                     </div>
                     <div className='patient-details-left'>
                     <p className='pet-details'>Next Appointment :</p>
-                    <input type="text" className="next-appt-inp" ref={nextappt} onFocus={e => e.target.type = "datetime-local"}/>
+                    <input type="text" className="next-appt-inp" ref={nextappt} onFocus={e => e.target.type = "datetime-local"} required/>
                     </div>
                     </div>
                 </div>
@@ -338,7 +354,16 @@ export default function AddPrescription() {
                             <tr key={t._id}>
                                 <td className="td-1">{i+1}</td>
                                 <td className="td-2"><input type="text" value={t.name} disabled/> </td>
-                                <td className="td-3"><input type="text" value={t.frequency} disabled/></td>
+                                <td className="td-3">
+                                    <div className='radio-inp'>
+                                        <label>Morning</label>
+                                        {t.frequency[0]==="1" ? <input type="checkbox" checked="checked" disabled/> : <input type="checkbox" disabled/>}
+                                        <label>Afternoon</label>
+                                        {t.frequency[1]==="1" ? <input type="checkbox" checked="checked" disabled/> : <input type="checkbox" disabled/>}
+                                        <label>Night</label>
+                                        {t.frequency[2]==="1" ? <input type="checkbox" checked="checked" disabled/> : <input type="checkbox" disabled/>}
+                                    </div>
+                                </td>
                                 <td className="td-4"><input type="text" value={t.remarks} disabled/></td>
                                 <td className="td-5"><button type="button" onClick={() => removetreatment(i)}>Remove</button></td>
                             </tr>
@@ -348,13 +373,24 @@ export default function AddPrescription() {
                             {/* <td><input type="text" ref={treatmentname} /></td> */}
                             <td><Creatable 
                                 value={treatmentname}
-                                options={oldTreatments}
+                                options={treatmentOptions}
                                 onChange={setTreatmentname}
                                 onCreateOption={handleCreate}
 
                             /></td>
-                            <td><input type="text" ref={treatmentfrequency} /></td>
-                            <td><input type="text" ref={treatmentremarks}/></td>
+                             <td>
+                             <div className='radio-inp'>
+                            <label>Morning</label>
+                            <input type="checkbox" name="Morning" ref={morn} />
+                            <label>Afternoon</label>
+                            <input type="checkbox" name="Afternoon" ref={noon} />
+                            <label>Night</label>
+                            <input type="checkbox" name="Night" ref={night} />
+                            </div>
+                            
+                            </td>
+                            <td><input type="text" ref={treatmentremarks} /></td>
+                           
                             <td><button type="button" onClick={submittreatment}>Add</button></td>
                         </tr>
 

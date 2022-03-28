@@ -80,11 +80,13 @@ export default function Login() {
                     type="text"
                     placeholder=" Email"
                     ref = {email} 
+                    required
                   />
                   <input
                     type="password"
                     placeholder=" Password"
                     ref = {password} 
+                    required
                     
                   />
                   <div className="buttons">

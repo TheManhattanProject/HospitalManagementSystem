@@ -91,7 +91,7 @@ tr:first-child {
     border-bottom: 1px solid #B7B7B7;
 }
 
-tr:first-child th {
+th {
     border-right: 1px solid #B7B7B7;
     padding: 0.5rem;
 }
@@ -103,5 +103,9 @@ td button {
 
 .last-btn {
     margin-top: 2rem;
+}
+.radio-inp{
+    display: flex;
+    flex-direction: row;
 }
 

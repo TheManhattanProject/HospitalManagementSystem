@@ -12,6 +12,7 @@ function createWindow() {
   mainWindow = new BrowserWindow({
     width: 1500,
     height: 700,
+    title: "Central Agricultural University",
     webPreferences: {
       nodeIntegration: true,
       contextIsolation: false,
