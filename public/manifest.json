@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "Hospital Management App",
+  "name": "Hospital Management App",
   "icons": [
     {
       "src": "CAU_logo.ico",

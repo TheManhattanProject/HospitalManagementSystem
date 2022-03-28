@@ -41,7 +41,7 @@ export default function VetDashboard() {
     return (
         <div className="outer">
         <div className="lheader">
-            <div onClick={()=>{setRedirect("/dashboard")}} className='back-div'>
+            <div onClick={()=>{setRedirect("")}} className='back-div'>
                 <img src={backIcon} alt="back"></img>
             </div>
             <Header />

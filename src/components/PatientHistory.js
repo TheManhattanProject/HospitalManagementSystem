@@ -208,8 +208,9 @@ export default function Patienthistory() {
               {patient.fertility === "no" ? <input type="radio" id="fertility-no" name="fertility-radio" value="no" checked disabled/> : <input type="radio" id="fertility-no" name="fertility-radio" value="no" disabled/>}
               <label for="fertility-no">No</label>
             </div>
-            {appointment && appointment.veternarian._id === doctor && !appointment.prescription && <button type="button" onClick={()=>setRedirect(`/prescription/new?id=${appointment._id}`)}>Add Prescription</button>}
+            {doctor && appointment && appointment.veternarian._id === doctor && !appointment.prescription && <button type="button" onClick={()=>setRedirect(`/prescription/new?id=${appointment._id}`)}>Add Prescription</button>}
           </div>
+
           <div className="vaccination-row">
             <p className='sub-heading'>Vaccination Chart:</p>
             {vaccinations.length!==0 && <div className="vaccinations">
@@ -221,6 +222,7 @@ export default function Patienthistory() {
               ))}
             </div>}
           </div>
+
           {appointment && <div className="patient-row">
             <p className='sub-heading'>Last Visit</p>
             {appointment.veternarian && <div className="pet-row">

@@ -20,8 +20,8 @@ export default function BookAppointment(){
     const remark = useRef();
     const reason = useRef();
     const date= useRef();
-    // const [vet,setVet]= useState();
-    const vet = useRef();
+    const [vet,setVet]= useState();
+    // const [vet, setVet] = useRef();
     const [redirect, setRedirect] = useState();
     const [options, setOptions] = useState([]);
     const [selectedpet, setSelectedpet] = useState();
@@ -46,11 +46,15 @@ export default function BookAppointment(){
         // document.getElementById(patient._id).classList.add("selected");
     }
     const handleSubmit = async (e) => {
+        if(!currentPatient || !vet || !date.current.value || !reason.current.value || !remark.current.value){
+            alertbox("Please fill all the fields");
+            return;
+        }
         e.preventDefault();
         let appointment = {
             patient: currentPatient._id,
             owner : localStorage.getItem("user"),
-            veternarian: vet.current.value,
+            veternarian: vet,
             reason: reason.current.value,
             remark: remark.current.value,
             datetime: date.current.value
@@ -158,7 +162,7 @@ export default function BookAppointment(){
                 {doctors.length!==0 && currentPatient && <div className="doctor-row">
                     <div className="form-group">
                         <label for="doctor">Doctor's Name:</label>
-                        <select name="doctor"  className="form-control" id="cars" ref={vet}>
+                        <select name="doctor"  className="form-control" id="cars" onChange={e => setVet(e.target.value)}>
                             <option selected disabled>Select a Doctor</option>
                             {doctors.map(doctor => <option value={doctor._id}>{doctor.name}</option>)}
                         </select> 

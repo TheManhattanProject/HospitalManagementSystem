@@ -9,6 +9,8 @@
     flex-direction: row;
     justify-content: space-between;
 }
+
+
 .form-in input {
     width: 12rem;
 
@@ -22,8 +24,24 @@
     font-weight: 500;
     font-size: 1rem;
     margin:auto 0;
+    min-width: 8rem;
 }
 .reset{
     background-color:#F1F7FF ;
     color: #002A6A; 
+}
+
+.form-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.form-inn {
+    display: flex;
+    flex-direction: row;
+}
+
+.dob {
+    width: 11.5rem !important;
 }

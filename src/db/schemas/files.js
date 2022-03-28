@@ -7,6 +7,9 @@ const filesSchema = {
         title: {
             type: "string",
         },
+        filename:{
+            type: "string",
+        },
         prescription: {
             type: "string",
         },

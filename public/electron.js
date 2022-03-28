@@ -53,11 +53,11 @@ ipcMain.handle("copy-file", async(event, arg) => {
     });
   }
   let res = fs.copyFileSync( arg[0], arg[1] );
-  console.log(res);
+  // console.log(res);
 });
 
 ipcMain.handle("open-file", async(event, arg) => {
   let res = await open(arg);
-  console.log(res);
+  // console.log(res);
 });
 

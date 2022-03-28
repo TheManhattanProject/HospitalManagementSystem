@@ -10,8 +10,14 @@
     "appId": "com.hma",
     "productName": "Hospital Management App",
     "win": {
-      "target": "nsis"
+      "target": "nsis",
+      "icon": "public/CAU_logo512.png"
     }
+  },
+  "nsis": {
+    "installerIcon": "public/CAU_logo512.png",
+    "installerHeaderIcon": "public/CAU_logo512.png",
+    "deleteAppDataOnUninstall": true
   },
   "dependencies": {
     "@testing-library/jest-dom": "^5.11.4",

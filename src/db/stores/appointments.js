@@ -103,7 +103,7 @@ class AppointmentsStore {
                 console.log(pet)
                 pets.push(pet);
             }
-            pets = [...new Set(pets)];
+            pets = pets.filter((v,i,a)=>a.findIndex(v2=>(v2._id===v._id))===i)
             return pets;
         }
         return [];

@@ -3,7 +3,7 @@ import {useEffect, useState} from 'react';
 import prescriptionStore from '../db/stores/prescriptions';
 import patientStore from '../db/stores/patient';
 import appointmentStore from '../db/stores/appointments';
-import veterinarianStore from '../db/stores/veternarian';
+import veternarianStore from '../db/stores/veternarian';
 import filesStore from '../db/stores/files';
 import treatmentStore from '../db/stores/treatment'
 import investigationStore from '../db/stores/investigation';
@@ -12,6 +12,7 @@ import {Navigate} from 'react-router-dom';
 import Header from "./Header";
 import Sidebar from "./Sidebar";
 import backIcon from "../assets/arrow.png"
+import './styles/DetailedPrescription.css';
 
 const {ipcRenderer} = window.require('electron');
 
@@ -32,13 +33,18 @@ export default function DetailedPrescription() {
         ipcRenderer.invoke('open-file', file);
         console.log(file);
     }
+
+    const formattedDate = (date) => {
+        let d = new Date(date);
+        return d.toLocaleDateString();
+    }
     
 
     useEffect(() => {
         const getData = async() => {
             let appt = await appointmentStore.read(pid);
             setAppointment(appt);
-            appt.veterinarian = await veterinarianStore.getVeterinarian(appt.veterinarian);
+            appt.veternarian = await veternarianStore.getVeterinarian(appt.veternarian);
             appt.prescription = await prescriptionStore.getPrescription(appt.prescription);
             appt.patient = await patientStore.getPatient(appt.patient);
             setAppointment(appt);
@@ -71,16 +77,51 @@ export default function DetailedPrescription() {
                 <div className="cont-out">
                 <h1>Detailed Prescription</h1>
                 <div className="cont-in">
-            {appointment && <div className="row">
-                <div className="col-md-4">
-                    <p>Pet Name: {appointment.patient.name}</p>
-                    <p>Species: {appointment.patient.species}</p>
-                    <p>Age: {appointment.patient.age}</p>
-                    <p>Sex: {appointment.patient.sex}</p>
-                    <p>Body Weight: {appointment.patient.bodyweight}</p>
-                    <p>Body Color: {appointment.patient.color}</p>
+            {appointment && <div className="all-info">
+                <div className="patient-row">
+                   <div className="pet-row">
+                    <p className="pet-detail">Pet Name :</p>
+                    <p>{appointment.patient.name}</p>
+                    </div>
+
+                    <div className="pet-row">
+                    <p className="pet-detail">Species :</p>
+                    <p>{appointment.patient.species}</p>
+                    </div>
+
+                    <div className="pet-row">
+                    <p className="pet-detail">Age :</p>
+                    <p>{appointment.patient.age}</p>
+                    </div>
+                    
+                    <div className="pet-row">
+                    <p className="pet-detail">Sex :</p>
+                    <p>{appointment.patient.sex}</p>
+                    </div>
+
+                    <div className="pet-row">
+                    <p className="pet-detail">Body Weight : </p>
+                    <p>{appointment.patient.bodyweight}</p>
+                    </div>
+
+                    <div className="pet-row">
+                    <p className="pet-detail">Body Color : </p>
+                    <p>{appointment.patient.color}</p>
+                    </div>
                 </div>
-                {vaccinations.length!==0 && <div className="col-md-4">
+
+            <div className="vaccination-row">
+            <p className='sub-heading'>Vaccination Chart:</p>
+            {vaccinations.length!==0 && <div className="vaccinations">
+              {vaccinations.map((vaccination, i) => (
+                <div className="vaccinationCard" key={vaccination._id}>
+                    <p className='bold-text'>{vaccination.name}</p>
+                    <p  className='bold-text'>{vaccination.datetime}</p>
+                </div>
+              ))}
+            </div>}
+          </div>
+                {/* {vaccinations.length!==0 && <div className="col-md-4">
                     <p>Vaccination Chart:</p>
                     <div className="vaccinations">
                         {vaccinations.map(v => (
@@ -90,21 +131,47 @@ export default function DetailedPrescription() {
                         </div>
                         ))}
                     </div>
-                </div>}
-                <div className="col-md-4">
+                </div>} */}
+                
+                <div className="patient-row">
                     {/* <p>Investigation Reports</p>
                     {reports.map(report => (<p>{report.title}</p>))} */}
-                    <p>Last Visit</p>
-                    {appointment.veterinarian && <p>Doctor's Name: {appointment.veterinarian.name}</p>}
-                    <p>Reason Of Visit: {appointment.reason}</p>
-                    <p>Date Of Visit: {appointment.datetime}</p>
-                    {appointment.prescription && <p>Diagnosis: {appointment.prescription.diagnosis}</p>}
-                    {appointment.prescription && <p>Investigations: {appointment.prescription.investigations}</p>}
-                    <p>Photos</p>
-                    {photos.length!==0 && photos.map(report => (<p>{report.title}</p>))}
-                    {appointment.prescription && <p>Next Date Of Visit: {appointment.prescription.nextAppointment}</p>}
-                </div>
+                    <p className='sub-heading'>Last Visit:</p>
+            {appointment && <div className="patient-row">
+            {appointment.veternarian && <div className="pet-row">
+              <p className="pet-detail-long">Doctor's Name: </p>
+              <p>{appointment.veternarian.name}</p>
             </div>}
+            <div className="pet-row">
+              <p className="pet-detail-long">Reason Of Visit: </p>
+              <p>{appointment.reason}</p>
+            </div>
+            <div className="pet-row">
+              <p className="pet-detail-long">Date Of Visit: </p>
+              <p>{formattedDate(appointment.datetime)}</p>
+            </div>
+            
+            <div className="pet-row">
+              <p className="pet-detail-long">Diagnosis : </p>
+              {appointment.prescription && <p>{appointment.prescription.diagnosis}</p>}
+            </div>
+            
+            <div className="pet-row">
+              <p className="pet-detail-long">Next Date Of Visit : </p>
+              {appointment.prescription && <p>{formattedDate(appointment.prescription.nextAppointment)}</p>}
+            </div>
+  
+
+            {/* {appointment.prescription && <button onClick={()=>{router.push(`/prescription?id=${appointment._id}`)}}>View Full Prescription</button>} */}
+          </div>}
+
+                    {/* <p>Photos</p>
+                    {photos.length!==0 && photos.map(report => (<p>{report.title}</p>))} */}
+                </div>
+                <div className="empty-div"></div>
+            </div>}
+            
+            <div className="investigations-div">
             <h3>Investigation Reports</h3>
             <table>
                 <thead>
@@ -127,37 +194,63 @@ export default function DetailedPrescription() {
                     ))}
                 </tbody>
             </table>
+            </div>
             
-            <h3>Treatments</h3>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Sl No.</th>
-                        <th>Drug Name / Treatment</th>
-                        <th>Frequency</th>
-                        <th>Remarks</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {treatments.length!==0 && treatments.map((t,i) => (
-                        <tr key={t._id}>
-                            <td>{i+1}</td>
-                            <td>{t.name}</td>
-                            <td>
-                            <div className='radio-inp'>
-                                    <label>Morning</label>
-                                    {t.frequency[0]==="1" ? <input type="checked" checked="checked" disabled/> : <input type="checkbox" disabled/>}
-                                    <label>Afternoon</label>
-                                    {t.frequency[1]==="1" ? <input type="checked" checked="checked" disabled/> : <input type="checkbox" disabled/>}
-                                    <label>Night</label>
-                                    {t.frequency[2]==="1" ? <input type="checked" disabled/> : <input type="checkbox" disabled/>}
-                            </div>
-                            </td>
-                            <td>{t.remarks}</td>
+            <div className="investigations-div">
+                <h3>Treatments</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Sl No.</th>
+                            <th>Drug Name / Treatment</th>
+                            <th>Frequency</th>
+                            <th>Remarks</th>
                         </tr>
-                    ))}
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        {treatments.length!==0 && treatments.map((t,i) => (
+                            <tr key={t._id}>
+                                <td>{i+1}</td>
+                                <td>{t.name}</td>
+                                <td>
+                                <div className='radio-inp'>
+                                        <label>Morning</label>
+                                        {t.frequency[0]==="1" ? <input type="checkbox" checked="checked" disabled/> : <input type="checkbox" disabled/>}
+                                        <label>Afternoon</label>
+                                        {t.frequency[1]==="1" ? <input type="checkbox" checked="checked" disabled/> : <input type="checkbox" disabled/>}
+                                        <label>Night</label>
+                                        {t.frequency[2]==="1" ? <input type="checkbox" disabled/> : <input type="checkbox" disabled/>}
+                                </div>
+                                </td>
+                                <td>{t.remarks}</td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            </div>
+
+            <div className="investigations-div">
+                <h3>Investigation Images</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Sl No.</th>
+                            <th>Investigation / Lab Image</th>
+                            <th>File</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {photos.length!==0 && photos.map((t,i) => (
+                            <tr key={t._id}>
+                                <td>{i+1}</td>
+                                <td><input type="text" value={t.title}/></td>
+                                <td><button type="button" onClick={() => openFile(t.path)}>{t.filename}</button></td> 
+                                {/* <td><input type="text" value={t.file}/></td> */}
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            </div>
         
             {/* {appointment && <button type='button' onClick={() => setRedirect(`/patient/history?id=${appointment.patient._id}&apptid=${appointment._id}`)}>Go Back</button>} */}
        

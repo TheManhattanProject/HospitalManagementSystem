@@ -1,5 +1,5 @@
 import React from 'react';
-import {useState, useRef} from 'react';
+import {useState, useRef,useEffect} from 'react';
 import veternarianStore from "../db/stores/veternarian";
 import { Navigate } from 'react-router-dom';
 import Header from './Header';
@@ -36,6 +36,28 @@ export default function DoctorProfile() {
           message: m,
         });
       }
+
+      useEffect( () => {
+          async function getData() {
+          let vet = localStorage.getItem('vet');
+            vet = await veternarianStore.read(vet)
+            name.current.value = vet.name;
+            email.current.value = vet.email;
+            phone.current.value = vet.phone;
+            address.current.value = vet.address;
+            qualification.current.value = vet.qualification;
+            speciality.current.value = vet.speciality;
+            experience.current.value = vet.experience;
+            gender.current.value = vet.gender;
+
+            // if (vet.dob) {
+            //     dob.current.value = vet.dob;
+            // }
+          }
+            getData();     
+        }
+        , [])
+      
 
     async function register(){
         const data = {
@@ -93,46 +115,55 @@ export default function DoctorProfile() {
                 <div className="cont-in">
                 <div className="form-div">
                     <form className="form-div-in">
-                        <div className="form-in">
-                        <p className="vet-detail">Vet Name : </p>
-                        <input type="text" placeholder="name" ref={name}/>
-                        </div>
-                        <div className="form-in">
-                        <p className="vet-detail">Email : </p>
-                        <input type="email" placeholder="email" ref ={email}/>
-                        </div>
+                        <div className="form-container">
+                            <div className="second">
+                                <div className="form-in">
+                                <p className="vet-detail">Vet Name : </p>
+                                <input type="text" placeholder="Name" ref={name}/>
+                                </div>
+                                <div className="form-in">
+                                <p className="vet-detail">Email : </p>
+                                <input type="email" placeholder="Email" ref ={email}/>
+                                </div>
 
-                        <div className="form-in">
-                        <p className="vet-detail">Phone : </p>
-                        <input type="phone" placeholder="phone" ref={phone} />
-                        </div>
+                                <div className="form-in">
+                                <p className="vet-detail">Phone : </p>
+                                <input type="phone" placeholder="Phone" ref={phone} />
+                                </div>
 
-                        <div className="form-in">
-                        <p className="vet-detail">Address : </p>
-                        <input type ="address" placeholder="address" ref ={address}/>
-                        </div>
-
-                        <div className="form-in">   
-                        <p className="vet-detail">Qualification: </p>
-                        <input type="text" placeholder="qualification" ref={qualification}/>
-                        </div>
+                                <div className="form-in">   
+                                <p className="vet-detail">Qualification: </p>
+                                <input type="text" placeholder="Qualification" ref={qualification}/>
+                                </div>
+                                
+                                <div className="form-in">
+                                <p className="vet-detail">Specialization :</p>
+                                <input type="text" placeholder="Specialization" ref={speciality}/>
+                                </div>
                         
-                        <div className="form-in">
-                        <p className="vet-detail">Specialization :</p>
-                        <input type="text" placeholder="specialization" ref={speciality}/>
-                        </div>
-                        <div className="form-in">
-                        <p className="vet-detail">Date of Birth : </p>
-                        <input type="date" placeholder="specialization" ref={dob}/>
-                        </div>
-                        <div className="form-in">
-                        <p className="vet-detail">Experience : </p>
-                        <input type="text" placeholder="experience" ref ={experience} />
-                        </div>
+                            </div>
+                            <div className="second">
+                                <div className="form-in">
+                                <p className="vet-detail">Address : </p>
+                                <input type ="address" placeholder="Address" ref ={address}/>
+                                </div>
+                                
+                                <div className="form-inn">
+                                <p className="vet-detail">Date of Birth : </p>
+                                <input type="text" className="dob" placeholder='Date of Birth' onFocus={e => e.target.type="date"} ref={dob} />
+                                </div>
 
-                        <div className="form-in">
-                        <p className="vet-detail">Gender :</p>
-                        <input type="text" placeholder="gender" ref={gender}/>
+                                <div className="form-in">
+                                <p className="vet-detail">Experience : </p>
+                                <input type="text" placeholder="Experience" ref ={experience} />
+                                </div>
+
+                                <div className="form-in">
+                                <p className="vet-detail">Gender :</p>
+                                <input type="text" placeholder="Gender" ref={gender}/>
+                                </div>
+                            </div>
+                            <div className="empty-div"></div>
                         </div>
                         <div>
                         <button onClick ={register}>Submit</button>

@@ -54,6 +54,7 @@ export default function AddPrescription() {
     const [images, setImages] = useState([]);
     const imagetitle= useRef();
     const [imagepath, setImagepath] = useState("");
+    const [imagefilename, setImagefilename] = useState("");
     // const [remark, setRemark] = useState("");
     // const remark = useRef();
     const [inventory, setInventory] = useState([]);
@@ -134,7 +135,8 @@ export default function AddPrescription() {
         }
         let image ={
             title: imagetitle.current.value,
-            path: imagepath
+            path: imagepath,
+            filename: imagefilename
         }
         setImages([...images, image])
     }
@@ -174,6 +176,7 @@ export default function AddPrescription() {
     function imageset(e){
         if(e && e.path){
             setImagepath(e.path);
+            setImagefilename(e.name);
         }
        
 
@@ -200,15 +203,22 @@ export default function AddPrescription() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        if( !diagnosis.current.value || !nextappt.current.value ){
+            alertbox("Please fill all the fields");
+            return;
+        }
         let data = {
             patient: patient._id,
-            veterinarian: localStorage.getItem("vet"),
-            nextAppointment: nextappt,
-            diagnosis: diagnosis,
+            veternarian: localStorage.getItem("vet"),
+            nextAppointment: nextappt.current.value,
+            diagnosis: diagnosis.current.value,
         }
+        console.log("Hey");
         const result = await prescriptionStore.create(data);
-        const res = await appointmentStore.update(appointment._id, {prescription: result._id});
+        // const result = {_id: "0"}
+        console.log("Hey2");
         console.log(result);
+        const res = await appointmentStore.update(appointment._id, {prescription: result._id});
         console.log(res);
         console.log(await appointmentStore.read(appointment._id));
 
@@ -225,10 +235,12 @@ export default function AddPrescription() {
         for (let i = 0; i < files.length; i++) {
             files[i].prescription = result._id;
             const fileres = await investigationStore.create(files[i]);
+            console.log(fileres);
         }
         for (let i = 0; i < images.length; i++) {
             images[i].prescription = result._id;
             const image_result = await fileStore.create(images[i]);
+            console.log(image_result);
         }
 
         console.log(await investigationStore.readAll())
