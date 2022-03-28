@@ -4,6 +4,8 @@ import Popup from 'reactjs-popup';
 import {Navigate } from 'react-router-dom';
 import Header from './Header';
 import Sidebar from './Sidebar';
+import backIcon from "../assets/arrow.png"
+
 
 export default function Inventory() {
 
@@ -54,7 +56,7 @@ export default function Inventory() {
         <div class="outer">
             <div className="lheader">
                 <div onClick={()=>{setRedirect("/vet/dashboard")}} className='back-div'>
-                    <img src="/images/arrow.png" alt="back"></img>
+                    <img src={backIcon} alt="back"></img>
                 </div>
                 <Header />
             </div>

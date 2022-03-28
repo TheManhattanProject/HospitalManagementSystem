@@ -1,17 +1,66 @@
-.appointmentCard {
+.vet-appointmentCard {
     display: flex;
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
     transition: 0.3s;
     border-radius: 5px; 
     width: 15rem;
-    flex-direction: column;
+    flex-direction: row;
     margin: 0.8rem;
-
+    width: 100%;
+    justify-content: space-between;
+    padding: 1rem;
 }
 
-.appointmentCard :hover {
+.vet-appointmentCard :hover {
     box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
   }
 .pet-details{
     display: flex;
+}
+
+.appt-details {
+    display: flex;
+    flex-direction: row;
+}
+
+.time {
+    padding-right: 1rem;
+    display: flex;
+    align-items: center;
+    border-right: 1px solid rgba(0,0,0,0.2);
+}
+
+.pet-details {
+    padding-left: 1rem;
+}
+
+.time p {
+    display: inline-block;
+    margin: auto;
+    font-weight: 600;
+    font-size: 1.2rem;
+}
+
+.appt-open-btn {
+    width: 8rem;
+}
+
+.open-button {
+    display: flex;
+    align-items: center;
+}
+
+.appt-pet-name {
+    font-weight: 600;
+    font-size: 1.2rem;
+}
+
+.appt-pet-owner {
+    font-size: 1rem;
+    font-weight: 400;
+    color: #9C9C9C;
+}
+
+.pet-name p{
+    margin: 0;
 }

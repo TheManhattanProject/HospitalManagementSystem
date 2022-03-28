@@ -14,10 +14,11 @@ button{
     transition: 0.3s;
     border-radius: 5px; 
     width: 12rem;
-    height: 15rem;
+    /* height: 15rem; */
     flex-direction: column ;
     margin: 0.8rem;
     padding: 0.5rem;
+    min-height: 15rem;
 }
 .add-pets button{
     width: 7rem;

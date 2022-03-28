@@ -127,3 +127,11 @@
     margin-bottom: 2rem;
     text-align: center;
   }
+
+  #patient-register {
+    top: 0.8rem;
+  }
+
+  #doctor-register {
+    top: 2.2rem;
+  }

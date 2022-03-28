@@ -8,6 +8,8 @@ import './styles/Dashboard.css';
 import { Navigate } from 'react-router-dom';
 import Header from './Header';
 import Sidebar from './Sidebar';
+import backIcon from "../assets/arrow.png"
+
 
 export default function Dashboard(){
 
@@ -17,11 +19,6 @@ export default function Dashboard(){
     const [appointments, setAppointments] = useState([]);
     const [redirect, setRedirect] = useState();
 
-    function logout(){
-        localStorage.removeItem("user");
-        // window.location.href = "/";
-        setRedirect("/");
-    }
 
     const getData = async() => {
         let user = localStorage.getItem("user");
@@ -47,7 +44,7 @@ export default function Dashboard(){
         <div className='outer'>
             <div className="lheader">
                 <div onClick={()=>{setRedirect("")}} className='back-div'>
-                    <img src="/images/arrow.png" alt="back"></img>
+                    <img src={backIcon} alt="back"></img>
                 </div>
                 <Header />
             </div>
@@ -61,19 +58,19 @@ export default function Dashboard(){
                 {pets.length!==0 && pets.map(pet => <Pet key={pet._id} pet={pet} />)}
                 <div className="add-pets">
                     <button type="button" onClick={() => setRedirect("/patient/add")}>+</button>
-                    <p>Add New</p>
+                    <p className='bold-text'>Add New</p>
                 </div>
             </div>
-            <PrevVisits appointments={appointments}/>
+            <PrevVisits appointments={appointments} appointment={{_id: 0}} />
             {/* <h3>Previous Visits</h3>
             <div className="appointments">
                 {appointments.length!==0 && appointments.map(appointment => <AppointmentCard key={appointment._id} appointment={appointment}/>)}
-            </div> */}
-            <div className='buttons'>
+            </div> */
+            /* <div className='buttons'>
             <button type="button" onClick={() => setRedirect('/appointment')}>BookAppointment</button>
             <button type="button" onClick={() => setRedirect('/patients')}>Your pets</button>
             <button onClick={logout}>Logout</button>
-            </div>
+            </div> */}
         </div>
         </div>
         </div>

@@ -1,6 +1,6 @@
 
 import React from 'react';
-import {useEffect, useState} from 'react';
+import {useEffect, useState, useRef} from 'react';
 import {useSearchParams} from 'react-router-dom';
 import patientStore from "../db/stores/patient";
 import fileStore from "../db/stores/files";
@@ -13,6 +13,8 @@ import InventoryStore from "../db/stores/inventory";
 import { Navigate } from 'react-router-dom';
 import Header from './Header';
 import Sidebar from './Sidebar';
+import backIcon from "../assets/arrow.png"
+const { dialog, BrowserWindow } = window.require('electron').remote
 // const {dialog} = window.require('electron').remote;
 
 
@@ -26,26 +28,42 @@ export default function AddPrescription() {
     const [appointment, setAppointment] = useState();
     const [oldTreatments, setOldTreatments] = useState([]);
     const [treatments, setTreatments] = useState([]);
-    const [treatmentname, setTreatmentname] = useState("");
-    const [treatmentfrequency, setTreatmentfrequency] = useState("");
-    const [treatmentremarks, setTreatmentremarks] = useState("");
-    const [investigationremarks, setInvestigationremarks] = useState("");
-    const [investigationname, setInvestigationname] = useState("");
+    // const [treatmentname, setTreatmentname] = useState("");
+    const treatmentname = useRef();
+    // const [treatmentfrequency, setTreatmentfrequency] = useState("");
+    const treatmentfrequency = useRef();
+    // const [treatmentremarks, setTreatmentremarks] = useState("");
+    const treatmentremarks = useRef();
+    // const [investigationremarks, setInvestigationremarks] = useState("");
+    const investigationremarks = useRef();
+    // const [investigationname, setInvestigationname] = useState("");
+    const investigationname = useRef();
     const [investigationfilename, setInvestigationfilename] = useState("");
-
     const [investigationpath, setInvestigationpath] = useState("");
+    // const investigationpath = useRef();
 
 
-    const [nextappt, setNextapp] = useState("");
+    // const [nextappt, setNextapp] = useState("");
+    const nextappt = useRef();
     const [investigations, setInvestigations] = useState([]);
-    const [diagnosis, setDiagnosis] = useState("");
+    // const [diagnosis, setDiagnosis] = useState("");
+    const diagnosis = useRef();
     const [treatmentOptions, setTreatmentOptions] = useState([]);
     const [files, setFiles] = useState([]);
     const [images, setImages] = useState([]);
-    const [remark, setRemark] = useState("");
+    // const [remark, setRemark] = useState("");
+    const remark = useRef();
     const [inventory, setInventory] = useState([]);
 
-
+    const alertbox = (m) => {
+        const window = BrowserWindow.getFocusedWindow();
+        dialog.showMessageBox(window, {
+          title: '  Alert',
+          buttons: ['Dismiss'],
+          type: 'warning',
+          message: m,
+        });
+      }
 
     useEffect(() => {
         async function getData(){
@@ -75,9 +93,9 @@ export default function AddPrescription() {
     const submittreatment = async (e) => {
         e.preventDefault();
         let treatment = {
-            name: treatmentname,
-            frequency: treatmentfrequency,
-            remarks: treatmentremarks
+            name: treatmentname.current.value,
+            frequency: treatmentfrequency.current.value,
+            remarks: treatmentremarks.current.value
         }
         setTreatments([...treatments, treatment])
     }
@@ -85,10 +103,10 @@ export default function AddPrescription() {
 
     function savefile() {
         let file ={
-            name: investigationname,
+            name: investigationname.current.value,
             path: investigationpath,
             filename: investigationfilename,
-            remarks: investigationremarks
+            remarks: investigationremarks.current.value
         }
         setFiles([...files, file])
     }
@@ -190,7 +208,7 @@ export default function AddPrescription() {
         <div className="outer">
             <div className="lheader">
                 {patient && appointment && <div onClick={()=>{setRedirect(`/patient/history?id=${patient._id}&apptid=${appointment._id}`)}} className='back-div'>
-                    <img src="/images/arrow.png" alt="back"></img>
+                    <img src={backIcon} alt="back"></img>
                 </div>}
                 <Header />
             </div>
@@ -229,9 +247,9 @@ export default function AddPrescription() {
                         ))}
                         <tr>
                             <td>{files.length + 1}</td>
-                            <td><input type="text" value={investigationname} onChange = {e => {setInvestigationname(e.target.value)}}/></td>
+                            <td><input type="text" ref={investigationname} /></td>
                             <td><input type="file" onChange={e=>{fileset(e.target.files[0])}}/></td>
-                            <td><input type="text" value={investigationremarks} onChange = {e=>{setInvestigationremarks(e.target.value)}}/></td>
+                            <td><input type="text" ref={investigationremarks}/></td>
                             <td><button type="button" onClick={savefile}>Add</button></td>
                         </tr>
                         
@@ -261,17 +279,17 @@ export default function AddPrescription() {
                         ))}
                         <tr>
                             <td>{treatments.length + 1}</td>
-                            <td><input type="text" value={treatmentname} onChange={e=>{setTreatmentname(e.target.value)}}/></td>
-                            <td><input type="text" value={treatmentfrequency} onChange = {e=>{setTreatmentfrequency(e.target.value)}}/></td>
-                            <td><input type="text" value={treatmentremarks} onChange = {e=>{setTreatmentremarks(e.target.value)}}/></td>
+                            <td><input type="text" ref={treatmentname} /></td>
+                            <td><input type="text" ref={treatmentfrequency} /></td>
+                            <td><input type="text" ref={treatmentremarks}/></td>
                             <td><button type="button" onClick={submittreatment}>Add</button></td>
                         </tr>
 
                         
                     </tbody>
                 </table>
-                <input type="text" value={diagnosis} onChange = {e=>{setDiagnosis(e.target.value)}}/>
-                <input type="datetime-local" value={nextappt} onChange = {e=>{setNextapp(e.target.value)}}/>
+                <input type="text" ref={diagnosis} />
+                <input type="text" ref={nextappt} onFocus={e => e.target.type = "datetime-local"}/>
                 <p>Upload Photos (If any)</p>
                 
                 <button onClick={handleSubmit}>Submit</button>

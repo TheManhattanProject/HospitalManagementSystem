@@ -1,15 +1,14 @@
-
 .petCard {
-
     display: flex;
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
     transition: 0.3s;
     border-radius: 5px; 
     width: 12rem;
-    height: 15rem;
+    /* height: 15rem; */
     flex-direction: column ;
     margin: 0.8rem;
     padding: 0.5rem;
+    align-items: center;
 
 
   }
@@ -22,3 +21,13 @@
     height: 70%;
     border-radius: 5px 5px 0 0;
   }  */
+
+  .petCard img {
+    display: inline-block;
+    width: 7rem;
+    height: 7rem;
+    overflow: hidden;
+    box-sizing: border-box;
+    border-radius: 50%;
+    margin: 0;
+}

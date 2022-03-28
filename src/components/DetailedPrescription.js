@@ -11,7 +11,10 @@ import vaccineStore from '../db/stores/vaccine';
 import {Navigate} from 'react-router-dom';
 import Header from "./Header";
 import Sidebar from "./Sidebar";
+import backIcon from "../assets/arrow.png"
+
 const {ipcRenderer} = window.require('electron');
+
 
 export default function DetailedPrescription() {
 
@@ -59,14 +62,14 @@ export default function DetailedPrescription() {
         <div className="outer">
             <div className="lheader">
                 {appointment && <div onClick={()=>{setRedirect(`/patient/history?id=${appointment.patient._id}&apptid=${appointment._id}`)}} className='back-div'>
-                    <img src="/images/arrow.png" alt="back"></img>
+                    <img src={backIcon} alt="back"></img>
                 </div>}
                 <Header />
             </div>
             <div className="lout">
                 <Sidebar currentTab={100}/>
                 <div className="cont-out">
-                <h1>History</h1>
+                <h1>Detailed Prescription</h1>
                 <div className="cont-in">
             {appointment && <div className="row">
                 <div className="col-md-4">

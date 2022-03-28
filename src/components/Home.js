@@ -3,6 +3,8 @@ import "./styles/Home.css";
 import { useEffect, useState } from "react";
 import { Navigate } from "react-router-dom";
 import PrevHeader from "./PrevHeader";
+import patientImg from "../assets/Patient_icon.svg";
+import vetImg from "../assets/Doctor_icon.svg";
 // import Sidebar from "./Sidebar";
 
 export default function Home() {
@@ -21,10 +23,6 @@ export default function Home() {
       console.log("YES");
     return <Navigate to={redirect} />;
   }
-  function h(){
-    console.log("YES");
-
-  }
 
   return (
     <div className="out">
@@ -35,7 +33,7 @@ export default function Home() {
           <div className="login-card">
             <p> I am a Patient </p>
             <div className="PatientCard-image">
-              <img src="/images/Patient_icon.svg"
+              <img src={patientImg}
                 alt="Patient"
               />
             </div>
@@ -56,7 +54,7 @@ export default function Home() {
             <p> I am a Doctor </p>
             <div className="DoctorCard-image">
               <img
-                src="/images/Doctor_icon.svg"
+                src={vetImg}
                 alt="Doctor"
               />
             </div>

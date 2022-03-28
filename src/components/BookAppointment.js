@@ -2,40 +2,58 @@ import React from 'react';
 import patientStore from '../db/stores/patient';
 import veternarianStore from '../db/stores/veternarian';
 import appointmentStore from '../db/stores/appointments';
-import {useState,useEffect} from 'react';
+import {useState,useEffect,useRef} from 'react';
 import './styles/BookAppointment.css';
 import {Navigate} from 'react-router-dom';
 import Sidebar from './Sidebar';
 import Header from './Header';
+import backIcon from "../assets/arrow.png"
+import './styles/BookAppointment.css';
+import Select from 'react-select'
+const { dialog, BrowserWindow } = window.require('electron').remote
 
 
 export default function BookAppointment(){
     const [patients,setPatients] = useState([]);
     const [doctors, setDoctors] = useState([]);
     const [currentPatient, setCurrentPatient] = useState();
-    const [remark, setRemark] = useState();
-    const [reason, setReason] = useState();
-    const [date,setDate]= useState();
-    const [vet,setVet]= useState();
+    const remark = useRef();
+    const reason = useRef();
+    const date= useRef();
+    // const [vet,setVet]= useState();
+    const vet = useRef();
     const [redirect, setRedirect] = useState();
+    const [options, setOptions] = useState([]);
+    const [selectedpet, setSelectedpet] = useState();
+
+    const alertbox = (m) => {
+        const window = BrowserWindow.getFocusedWindow();
+        dialog.showMessageBox(window, {
+          title: '  Alert',
+          buttons: ['Dismiss'],
+          type: 'warning',
+          message: m,
+        });
+      }
 
     const changePatient = (patient) => {
         setCurrentPatient(patient);
-        let pet_list = document.getElementsByClassName("patient-name");
-        [].forEach.call(pet_list, function (card) {
-            card.classList.remove("selected")
-        });
-        document.getElementById(patient._id).classList.add("selected");
+        // let pet_list = document.getElementsByClassName("patient-name");
+        // [].forEach.call(pet_list, function (card) {
+        //     card.classList.remove("selected")
+        // });
+        // document.getElementById(patient._id).classList.remove("not-selected");
+        // document.getElementById(patient._id).classList.add("selected");
     }
     const handleSubmit = async (e) => {
         e.preventDefault();
         let appointment = {
             patient: currentPatient._id,
             owner : localStorage.getItem("user"),
-            veternarian: vet,
-            reason: reason,
-            remark: remark,
-            datetime: date
+            veternarian: vet.current.value,
+            reason: reason.current.value,
+            remark: remark.current.value,
+            datetime: date.current.value
         }
         console.log(appointment)
         const result = await appointmentStore.create(appointment);
@@ -44,7 +62,6 @@ export default function BookAppointment(){
             setRedirect("/dashboard");
         }
     }
-    
 
     useEffect(() => {
         const getData = async () => {
@@ -56,17 +73,28 @@ export default function BookAppointment(){
             let pets = await patientStore.getPets(user);
             setDoctors(await veternarianStore.readAll());
             setPatients(pets);
-            if (pets.length !== 0) {
-                setCurrentPatient(pets[0]);
-                document.getElementById(pets[0]._id).classList.add("selected");
-            }
-            else {
+            var opts = []
+            pets.forEach((pet, i) => {
+                opts.push({value: i, label: pet.name})
+            })
+            setOptions(opts);
+            // if (pets.length !== 0) {
+            //     setCurrentPatient(pets[0]);
+            //     document.getElementById(pets[0]._id).classList.add("selected");
+            // }
+            if(!pets.length) {
                 // window.location.href = "/patient/add";
                 setRedirect("/patient/add");
             }
         }
         getData();
     }, []);
+
+    useEffect(() =>{
+        if (selectedpet) {
+            setCurrentPatient(patients[selectedpet.value]);
+        }
+    },[selectedpet, patients])
 
     if (redirect) {
         return <Navigate to={redirect} />
@@ -75,8 +103,8 @@ export default function BookAppointment(){
     return (
         <div className="outer">
         <div className="lheader">
-        <div onClick={()=>{setRedirect("")}} className='back-div'>
-            <img src="/images/arrow.png" alt="back"></img>
+        <div onClick={()=>{setRedirect("/dashboard")}} className='back-div'>
+            <img src={backIcon} alt="back"></img>
             </div>
              <Header />
         </div> 
@@ -87,32 +115,71 @@ export default function BookAppointment(){
             <h1>Book A Visit</h1>
             <div className="cont-in">
             {patients.length && <div className="pet-names">
-                {patients.map(patient => <button type="button" onClick={() => changePatient(patient)} id={patient._id} className="patient-name">{patient.name}</button>)}
+            <p className="sub-heading-book">Select a patient :</p>
+            {/* <select name="doctor" id="cars" value={vet} onChange={e => setCurrentPatient(patients[e.target.value])}>
+                        <option selected disabled>Select a pet</option>
+                        {patients.map((patient,i) => <option value={i}>{patient.name}</option>)}
+            </select>  */}
+            <Select className ="selectbar" defaultValue={selectedpet} options={options} onChange={setSelectedpet}/>
             </div>}
-            <div className="row">
-                {currentPatient && <div className="col-md-6">
-                    <p>Pet Name: {currentPatient.name}</p>
-                    <p>Species: {currentPatient.species}</p>
-                    <p>Age: {currentPatient.age}</p>
-                    <p>Sex: {currentPatient.sex}</p>
-                    <p>Body Weight: {currentPatient.bodyweight}</p>
-                    <p>Body Color: {currentPatient.color}</p>
+        
+            <div className="all-info">
+                {currentPatient && <div className="patient-row">
+                    <div className="pet-row">
+                    <p className="pet-detail">Pet Name : </p>
+                    <p >{currentPatient.name}</p>
+                    </div>
+                    <div className="pet-row">
+                    <p className="pet-detail">Species : </p>
+                    <p>{currentPatient.species}</p>
+                    </div>
+                    <div className="pet-row">
+                    <p className="pet-detail">Age : </p>
+                    <p>{currentPatient.age}</p>
+                    </div> 
+                    
+                    <div className="pet-row">
+                        <p className="pet-detail">Sex : </p>
+                        <p>{currentPatient.sex}</p>
+                    </div>
+                    <div className="pet-row">
+                        <p className="pet-detail">Body Weight : </p>
+                        <p>{currentPatient.bodyweight}</p>
+                    </div>
+                    <div className="pet-row">
+                        <p className="pet-detail">Body Color : </p>
+                        <p>{currentPatient.color}</p> 
+                    </div>
+                
                 </div>}
-                {doctors.length!==0 && <div className="col-md-6">
-                    <label for="doctor">Doctor's Name:</label>
-                    <select name="doctor" id="cars" value={vet} onChange={e => setVet(e.target.value)}>
-                        <option selected disabled>--Pick an Option--</option>
-                        {doctors.map(doctor => <option value={doctor._id}>{doctor.name}</option>)}
-                    </select> 
-                    <label for="reason">Reason Of Visit:</label>
-                    <input type="text" name="reason" id="reason" value={reason} onChange={e => setReason(e.target.value)}/>
-                    <label for="remarks">Special Remarks:</label>
-                    <input type="text" name="remarks" id="remarks" value={remark} onChange={e => setRemark(e.target.value)}/>
-                    <input type="datetime-local" name="datetime" id="datetime" onChange={e=> setDate(e.target.value)}/>
-                    <button type="button" onClick={handleSubmit} className="btn btn-primary">Book Appointment</button>
+                {doctors.length===0 && <div className="doctor-row">
+                    <p className="bold-text">No Doctors to Show</p>
                 </div>}
+                {doctors.length!==0 && currentPatient && <div className="doctor-row">
+                    <div className="form-group">
+                        <label for="doctor">Doctor's Name:</label>
+                        <select name="doctor"  className="form-control" id="cars" ref={vet}>
+                            <option selected disabled>Select a Doctor</option>
+                            {doctors.map(doctor => <option value={doctor._id}>{doctor.name}</option>)}
+                        </select> 
+                    </div>
+                    <div className="form-group">
+                        <label for="reason">Reason Of Visit:</label>
+                        <input type="text" className="form-control" placeholder='Reason of Visit' name="reason" id="reason" ref={reason} />
+                    </div>
+                    <div className="form-group">
+                        <label for="remarks">Special Remarks:</label>
+                        <input type="text"  className="form-control" placeholder='Special Remarks' name="remarks" id="remarks" ref={remark}/>
+                    </div>
+                    <div className="form-group">
+                        <label for="remarks">Appointment Date: </label>
+                        <input type="text" className="form-control" placeholder='Appointment Date' name="datetime" id="datetime" onFocus={e => e.target.type="datetime-local"} ref={date}/>
+                    </div>
+                </div>}
+                <div className="empty-div"></div>
             </div>
-            <button onClick={() =>setRedirect("/dashboard")}>Back</button>
+            {/* <button onClick={() =>setRedirect("/dashboard")}>Back</button> */}
+            <button type="button" className='button-end' onClick={handleSubmit}>Book Appointment</button>
         </div>
         </div>
         </div>

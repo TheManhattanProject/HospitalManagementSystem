@@ -1,4 +1,69 @@
-.selected{
-    background-color: #4CAF50;
-    color: red;
+.selectbar {
+    margin: 0.4rem; 
+    /* border: 1px solid #505050;
+    box-sizing: border-box;
+    border-radius: 0.4rem; */
+    padding: 0.2rem;
+    width: 15rem;
+
+}
+
+.doctor-row .form-group{
+    display: flex;
+    flex-direction: row;
+    align-items: left;
+    justify-content: space-between;
+}
+.doctor-row label{
+    margin: auto 0.4rem;
+    font-weight: 500;
+    width: 17rem;   
+
+}
+.pet-row{
+    display: flex;
+    flex-direction: row;
+    /* justify-content: space-between; */
+    align-items: left;
+}
+.pet-row .pet-detail{
+    margin-right: 1rem;
+    align-items: left;
+    min-width: 8rem;
+}
+.patient-row p{
+    display: inline-block;
+    font-weight: 600;
+    font-size: 1.2rem;
+
+}
+.all-info{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin-top: 1rem;
+}
+.doctor-row{
+    display: flex;
+    flex-direction: column;
+    justify-content: right;
+
+
+}
+.patient-row{
+    display: flex;
+    flex-direction: column;
+}
+
+.pet-names {
+    display: flex;
+    flex-direction: row;
+    /* justify-content: space-between; */
+}
+.sub-heading-book{
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin: auto 0;
+
 }

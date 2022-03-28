@@ -14,8 +14,9 @@ export default function Pet(props) {
     
     return (
     <div className="petCard">
+        {/* <img src={`file://${props.pet.profile}`} alt={props.pet.name} /> */}
+        <img src="https://thumbs.dreamstime.com/b/golden-retriever-dog-21668976.jpg" alt={props.pet.name} />
         <h3>{props.pet.name}</h3>
-        <img src={props.pet.profile} alt={props.pet.name} />
         <p>Species: {props.pet.species}</p>
         <button type="button" onClick={()=>{setRedirect(`/patient/history?id=${props.pet._id}`)}}>View History</button>
     </div>)

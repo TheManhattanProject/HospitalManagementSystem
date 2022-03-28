@@ -2,3 +2,16 @@
     display: flex;
     flex-wrap: wrap;
 }
+.add-pets{
+    align-items: center;
+    display: flex;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    transition: 0.3s;
+    border-radius: 5px; 
+    width: 12rem;
+    /* height: 15rem; */
+    flex-direction: column ;
+    margin: 0.8rem;
+    padding: 0.5rem;
+    min-height: 15rem;
+}

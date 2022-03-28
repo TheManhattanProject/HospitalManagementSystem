@@ -1,23 +1,35 @@
 import React from 'react';
-import {useState} from 'react';
+import {useState,useRef} from 'react';
 import veternarianStore from "../db/stores/veternarian";
 import { Navigate } from 'react-router-dom';
 import PrevHeader from './PrevHeader'
+const { dialog, BrowserWindow } = window.require('electron').remote
 
+const emailPattern = /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/; 
 
 export default function Register() {
-    const [name, setName] = useState();
-    const [password, setPassword] = useState();
-    const [password2, setPassword2] = useState();
+    const name = useRef();
+    const password = useRef();
+    const password2 = useRef();
 
-    const [email, setEmail] = useState();
-    const [phone, setPhone] = useState();
-    const [qualification, setQualification] = useState();
-    const [speciality, setSpeciality] = useState();
-    const [experience, setExperience] = useState();
-    const [redirect, setRedirect] = useState();
-    const [gender, setGender] = useState();
-    const [dob, setDob] = useState()
+    const email = useRef();
+    const phone = useRef();
+    const qualification = useRef();
+    const speciality = useRef();
+    const experience = useRef();
+    const gender = useRef();
+    const dob = useRef()
+    const [redirect, setRedirect]= useState();
+
+    const alertbox = (m) => {
+      const window = BrowserWindow.getFocusedWindow();
+      dialog.showMessageBox(window, {
+        title: '  Alert',
+        buttons: ['Dismiss'],
+        type: 'warning',
+        message: m,
+      });
+    }
 
     async function register(event){
       //hash password
@@ -28,6 +40,11 @@ export default function Register() {
       }
       if(password!==password2){
           alert("Passwords do not match.")
+          return;
+      }
+      if (!email.match(emailPattern)) {
+        alert("Please enter a valid email id");
+        return;
       }
       const vet = {
         name: name,
@@ -91,20 +108,21 @@ export default function Register() {
                     <h3>Enter the</h3>
                     <h3 className='closer'>Following details</h3>
                 </div>
-                <input type="text" placeholder="Name" value={name} onChange={(e)=>setName(e.target.value)}/>
-                     <input type="text" placeholder="Specialization" onChange={e => setSpeciality(e.target.value)}/>
-                     <input type="phone" placeholder="Mobile No." onChange={e => setPhone(e.target.value)}/>
-                     <select name="gender" id="cars" value={gender} onChange={e => setGender(e.target.value)}>
+                <input type="text" placeholder="Name" ref={name}/>
+                     <input type="text" placeholder="Specialization" ref ={speciality} />
+                     <input type="phone" placeholder="Mobile No." ref={phone}/>
+                     <select name="gender" id="cars" ref={gender}>
+                        <option value="" selected disabled hidden>Gender</option>
                         <option value="Male">Male</option>
                         <option value="Female">Female</option>
                         <option value="Non Binary">Non-Binary</option>
                     </select> 
-                     <input type="text" placeholder='Date of Birth' onFocus={e => e.target.type="date"} onChange={e => setDob(e.target.value)}/>
+                     <input type="text" placeholder='Date of Birth' onFocus={e => e.target.type="date"} ref={dob}/>
                      {/* <input type ="address" placeholder="address" onChange={e => setAddress(e.target.value)}/> */}
                 </div>
               </div>
   
-              <div className="formout">
+              <div className="formout" id="doctor-register">
                 <div className="form">
                   <h3>Complete your</h3>
                   <h3 className='closer'>Registration</h3>
@@ -112,10 +130,11 @@ export default function Register() {
                     <input
                       type="text"
                       placeholder=" Email"
-                      onChange={(e) => setEmail(e.target.value)}
+                      ref={email}
+                      
                     />
-                     <input type="password" placeholder="Password" onChange={e => setPassword(e.target.value)}/>
-                    <input type="password" placeholder="Confirm Password" onChange={e => setPassword2(e.target.value)}/>
+                     <input type="password" placeholder="Password" ref={password}/>
+                    <input type="password" placeholder="Confirm Password" ref={password2}/>
                     <div className="buttons">
                     <button onClick={register}>Proceed</button>
                     <button className="back-btn" type="button" onClick={() => setRedirect("/")}>

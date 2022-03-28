@@ -36,3 +36,30 @@
 .Header-profile {
     margin-right: 2rem;
 }
+.signout{
+    background: #FFFFFF;
+    color: black;
+    /* border-radius: 0.4rem; */
+    padding: 0.3rem 0.5rem;
+    /* border: #002A6A solid 2px; */
+
+}
+
+.profile-div {
+    display: flex;
+    flex-direction: row;
+    cursor: pointer;
+}
+
+.profile-div img {
+    width: 50%;
+    justify-content: center;
+}
+
+.profile-down-btn {
+    margin: auto 0;
+}
+
+.popup-content {
+    width: auto !important;;
+}

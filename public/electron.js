@@ -18,6 +18,7 @@ function createWindow() {
       enableRemoteModule: true,
     },
     autoHideMenuBar: true,
+    // fullscreen: true
   });
   mainWindow.loadURL(
     isDev

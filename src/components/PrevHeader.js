@@ -1,11 +1,12 @@
 import React from 'react';
 import './styles/prevheader.css';
+import uniLogo from "../assets/CAU_Logo.png";
 
 export default function PrevHeader() {
     return (
         <div className="Prev-Header">
             <div className="uni-logo">
-                <img src='/images/CAU_Logo.png' alt="logo" />
+                <img src={uniLogo} alt="logo" />
                 <div className="Headertext">
                     <p>Central Agricultural</p>
                     <p className='close-p'>University</p>   

@@ -1,0 +1,26 @@
+.doc-all{
+    display: flex;
+    flex-direction: row;
+    /* justify-content: space-between; */
+
+}
+.doc-first{
+    display: flex;
+    flex-direction: column;
+    /* justify-content: space-between; */
+    width: 50%;
+    margin-right: 2rem;
+}
+.doc-second{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 50%;
+    margin-left: 2rem;
+}
+
+.past-patients {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}

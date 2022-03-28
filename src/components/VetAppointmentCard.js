@@ -28,19 +28,21 @@ export default function VetAppointmentCard(props) {
     }
 
   return (
-    <div className="appointmentCard">
-        <div className="time">
+    <div className="vet-appointmentCard">
+      <div className="appt-details">
+      <div className="time">
             <p>{props.appointment.datetime}</p>
         </div>
         <div className="pet-details">
             <div className="pet-name">
-                <p>{patient && patient.name}</p>
-                <p>Owned By {owner && owner.name}</p>
+                <p className="appt-pet-name">{patient && patient.name}</p>
+                <p className="appt-pet-owner">Owned By {owner && owner.name}</p>
             </div>
-            <div className="open-button">
-                {patient && <button type ="button" onClick={setRedirect(`/patient/history?id=${patient._id}&apptid=${props.appointment._id}`)}>Open</button>}
-            </div>
-        </div>
+          </div>
+      </div>
+          <div className="open-button">
+              {patient && <button type ="button" className="appt-open-btn" onClick={() => setRedirect(`/patient/history?id=${patient._id}&apptid=${props.appointment._id}`)}>Open</button>}
+          </div>
     </div>
   );
 }

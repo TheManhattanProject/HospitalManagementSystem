@@ -4,6 +4,9 @@ import Pet from './Pet.js';
 import {Navigate} from 'react-router-dom';
 import Header from './Header';
 import Sidebar from './Sidebar';
+import backIcon from "../assets/arrow.png"
+import "./styles/PastPatients.css"
+
 
 export default function PastPatients() {
 
@@ -32,7 +35,7 @@ export default function PastPatients() {
         <div className="outer">
             <div className="lheader">
                     <div onClick={()=>{setRedirect("/vet/dashboard")}} className='back-div'>
-                    <img src="/images/arrow.png" alt="back"></img>
+                    <img src={backIcon} alt="back"></img>
                     </div>
                     <Header />
                 </div>

@@ -128,7 +128,7 @@ class AppointmentsStore {
             for (let i = 0; i < appointments.length; i++) {
                 let date = new Date(appointments[i].datetime);
                 if (date.getDate() === now.getDate() && date.getMonth() === now.getMonth() && date.getFullYear() === now.getFullYear()) {
-                    appointments[i].datetime = date.toLocaleTimeString('en-US');
+                    appointments[i].datetime = date.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
                     today.push(appointments[i]);
                 }
             }
