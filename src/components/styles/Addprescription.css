@@ -1,0 +1,107 @@
+.patient-details {
+    display: flex;
+    flex-direction: row;
+}
+
+.patient-details-left{
+    margin: auto 1rem;
+    display: flex;
+    flex-direction: row;
+}
+.patient-details input{
+    margin:auto 0.5rem;
+    width: 12rem;
+}
+.pet-details {
+    font-weight: 500;
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: auto 0;
+    /* margin-bottom: 0; */
+}
+
+table {
+    table-layout: fixed ;
+    width: 100% ;
+    border-collapse:collapse;
+    border: 1px solid #B7B7B7;
+    /* border-radius: 10rem; */
+}
+
+.td-1 {
+    width: 5% ;
+}
+.td-2 {
+    width: 30%;
+}
+.td-3 {
+    width: 30%;
+}
+.td-4 {
+    width: 27%;
+}
+.td-5 {
+    width: 8%;
+}
+
+.td2-1 {
+    width: 5% ;
+}
+.td2-2 {
+    width: 38%;
+}
+.td2-3 {
+    width: 38%;
+}
+.td2-4 {
+    width: 8%;
+}
+
+.next-appt-inp{
+    margin: auto 1rem;
+    
+}
+
+td input {
+    width: 100%;
+}
+
+td {
+    padding: 0.5rem;
+    text-align: center;
+}
+
+th {
+    text-align: center;
+}
+
+tr:nth-child(even) {background-color: #F1F7FF;}
+
+.next-appt {
+    margin-top: 2rem;
+}
+
+.investigations-div {
+    margin-top: 2rem;
+}
+
+tr:first-child {
+    border-bottom: 1px solid #B7B7B7;
+}
+
+tr:first-child th {
+    border-right: 1px solid #B7B7B7;
+    padding: 0.5rem;
+}
+
+td button {
+    width: 100%;
+    margin: auto;
+}
+
+.last-btn {
+    margin-top: 2rem;
+}
+

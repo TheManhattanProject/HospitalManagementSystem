@@ -42,10 +42,10 @@ export default function PastPatients() {
             <div className="lout">
                 <Sidebar currentTab={5}/>
             <div className="cont-out">
-            <h1>Past History</h1>
+            <h1>Past Patients</h1>
             <div className="cont-in">
             <div className="past-history-container">
-                {pets.length && pets.map(pet => <Pet key={pet._id} pet={pet} />)}
+                {pets.length!==0 && pets.map(pet => <Pet key={pet._id} pet={pet} />)}
             </div>
             </div>
         </div>

@@ -173,7 +173,7 @@ export default function BookAppointment(){
                     </div>
                     <div className="form-group">
                         <label for="remarks">Appointment Date: </label>
-                        <input type="text" className="form-control" placeholder='Appointment Date' name="datetime" id="datetime" onFocus={e => e.target.type="datetime-local"} ref={date}/>
+                        <input type="text" className="form-control"  placeholder='Appointment Date' name="datetime" id="datetime" onFocus={e => e.target.type="datetime-local"} ref={date} />
                     </div>
                 </div>}
                 <div className="empty-div"></div>

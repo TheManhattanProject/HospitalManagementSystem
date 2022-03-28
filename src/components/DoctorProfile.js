@@ -5,6 +5,7 @@ import { Navigate } from 'react-router-dom';
 import Header from './Header';
 import Sidebar from './Sidebar';
 import backIcon from "../assets/arrow.png"
+import './styles/DoctorProfile.css'
 const { dialog, BrowserWindow } = window.require('electron').remote
 
 
@@ -23,6 +24,7 @@ export default function DoctorProfile() {
     const speciality = useRef();
     const experience = useRef();
     const gender = useRef();
+    const dob = useRef();
     const [redirect, setRedirect] = useState();
 
     const alertbox = (m) => {
@@ -44,7 +46,8 @@ export default function DoctorProfile() {
             speciality:speciality.current.value,
             experience:experience.current.value,
             phone:phone.current.value,
-            gender: gender.current.value
+            gender: gender.current.value,
+            dob: dob.current.value
         }
         let user = localStorage.getItem("vet");
         if (!user) {
@@ -88,18 +91,54 @@ export default function DoctorProfile() {
                 <div className="cont-out">
                 <h1>Your Profile</h1>
                 <div className="cont-in">
-                <div className="form">
-                    <form className="change-form">
+                <div className="form-div">
+                    <form className="form-div-in">
+                        <div className="form-in">
+                        <p className="vet-detail">Vet Name : </p>
                         <input type="text" placeholder="name" ref={name}/>
+                        </div>
+                        <div className="form-in">
+                        <p className="vet-detail">Email : </p>
                         <input type="email" placeholder="email" ref ={email}/>
+                        </div>
+
+                        <div className="form-in">
+                        <p className="vet-detail">Phone : </p>
                         <input type="phone" placeholder="phone" ref={phone} />
+                        </div>
+
+                        <div className="form-in">
+                        <p className="vet-detail">Address : </p>
                         <input type ="address" placeholder="address" ref ={address}/>
+                        </div>
+
+                        <div className="form-in">   
+                        <p className="vet-detail">Qualification: </p>
                         <input type="text" placeholder="qualification" ref={qualification}/>
-                        <input type="text" placeholder="speciality" ref={speciality}/>
+                        </div>
+                        
+                        <div className="form-in">
+                        <p className="vet-detail">Specialization :</p>
+                        <input type="text" placeholder="specialization" ref={speciality}/>
+                        </div>
+                        <div className="form-in">
+                        <p className="vet-detail">Date of Birth : </p>
+                        <input type="date" placeholder="specialization" ref={dob}/>
+                        </div>
+                        <div className="form-in">
+                        <p className="vet-detail">Experience : </p>
                         <input type="text" placeholder="experience" ref ={experience} />
+                        </div>
+
+                        <div className="form-in">
+                        <p className="vet-detail">Gender :</p>
                         <input type="text" placeholder="gender" ref={gender}/>
+                        </div>
+                        <div>
                         <button onClick ={register}>Submit</button>
-                        <button onClick ={reset}>Reset</button>
+                        <button className='reset' onClick ={reset}>Reset</button>
+                        </div>
+                        
                     </form>
                     {/* <button type='button' onClick={() => setRedirect("/vet/dashboard")}>Back</button> */}
                 </div>

@@ -71,7 +71,7 @@ export default function Sidebar(props) {
                     <p className='nav-name'>Your Patients</p>
                 </div>}
 
-                {vet && <div className={props.currentTab===6 ? "nav-item nav-selected" : "nav-item"} onClick={() => setRedirect("/patient/history")}>
+                {vet && <div className={props.currentTab===2 ? "nav-item nav-selected" : "nav-item"} onClick={() => setRedirect("/patient/history")}>
                 <img src={historyIcon} alt="History"/>
                     <p className='nav-name'>Patient History</p>
                 </div>}

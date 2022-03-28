@@ -28,14 +28,15 @@ export default function AdminLogin() {
       setRedirect("/dashboard");
       // window.location.href = "/dashboard";
     }
+    if (localStorage.getItem("admin")!=null) {
+      setRedirect("/inventory");
+      // window.location.href = "/admin/dashboard";
+    }
     if (localStorage.getItem("vet") != null) {
       setRedirect("/vet/dashboard");
       // window.location.href = "/vet/dashboard";
     }
-    if (localStorage.getItem("admin")!=null) {
-      setRedirect("/admin/dashboard");
-      // window.location.href = "/admin/dashboard";
-    }
+    
   }, [])
 
 
@@ -53,6 +54,8 @@ export default function AdminLogin() {
         localStorage.setItem("admin", result._id);
         localStorage.removeItem("vet");
         localStorage.removeItem("user");
+        localStorage.setItem("vet", result._id);
+
         // window.location.href = "/vet/dashboard";
         setRedirect("/admin/dashboard");
       }

@@ -67,7 +67,7 @@ export default function Addpatient() {
         e.preventDefault();
 
         if (!sex.current.value) {
-            alert("Please select the pet's gender")
+            alertbox("Please select the pet's gender")
         }
 
         const patient = {
@@ -85,7 +85,6 @@ export default function Addpatient() {
         console.log(patient);
 
         let result = await patientStore.create(patient);
-        alert(result);
 
             
         for (let i = 0; i < vaccinations.length; i++) {
@@ -146,7 +145,7 @@ export default function Addpatient() {
                         {profile && <div className="withimg">
                             <img src={`file://${profile}`} alt="profile"></img>
                         </div>} */}
-                        {!profile && <input id ="fileselect" type="file" onChange={(e)=>{fileclick(e)}}/>}
+                        {!profile && <input id ="fileselect" type="file" accept=".jpg,.jpeg,.png,.svg" onChange={(e)=>{fileclick(e)}}/>}
                         {profile!=="" && <img src={`file://${profile}`} alt="profile" className="profile-upload"></img>}
                         {profile==="" && <p className='bold-text'>Add Photo</p>}
                         {profile!=="" && <p>{profile.substring(Math.max(profile.lastIndexOf("/")+1,profile.lastIndexOf("\\")+1),profile.length)} <span onClick={()=>{setProfile("")}}>X</span></p>}

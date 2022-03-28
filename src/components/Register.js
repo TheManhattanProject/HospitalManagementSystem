@@ -31,15 +31,15 @@ export default function Register() {
   }
 
   function register() {
-    if (password !== password2) {
+    if (password.current.value !== password2.current.value) {
       alertbox("Passwords do not match.");
       // const response = dialog.showMessageBox(window, 
       //   {
       //   title: 'Application is not responding'
       // });
-        } else if (gender === "") {
+        } else if (gender.current.value === "") {
       alertbox("Please select your gender");
-    } else if (!email.match(emailPattern)) {
+    } else if (!email.current.value.match(emailPattern)) {
       alertbox("Please enter a valid email id");
     } else {
       const owner = {

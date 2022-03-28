@@ -36,12 +36,11 @@ export default function Patienthistory() {
     const [selectedpet, setSelectedpet] = useState();
 
 
-    console.log(patient);
+    console.log(patients);
+    console.log(appointment)
+    console.log(doctor)
 
-    useEffect(()=>{
-    
-      console.log(appointment)
-    }, [appointment])
+   
 
     const setcurrappointment = (appointment) => {
       setAppointment(appointment);
@@ -144,6 +143,7 @@ export default function Patienthistory() {
       return <Navigate to= {redirect} />;
     }
 
+
   return (
     <div className="outer"> 
         <div className="lheader">
@@ -208,7 +208,7 @@ export default function Patienthistory() {
               {patient.fertility === "no" ? <input type="radio" id="fertility-no" name="fertility-radio" value="no" checked disabled/> : <input type="radio" id="fertility-no" name="fertility-radio" value="no" disabled/>}
               <label for="fertility-no">No</label>
             </div>
-            {appointment && appointment.veternarian === doctor && !appointment.prescription && <a href={`/prescription/new?id=${appointment._id}`}>Add Prescription</a>}
+            {appointment && appointment.veternarian._id === doctor && !appointment.prescription && <button type="button" onClick={()=>setRedirect(`/prescription/new?id=${appointment._id}`)}>Add Prescription</button>}
           </div>
           <div className="vaccination-row">
             <p className='sub-heading'>Vaccination Chart:</p>

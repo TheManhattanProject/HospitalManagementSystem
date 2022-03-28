@@ -47,8 +47,12 @@ export default function DoctorLogin() {
       else if (result === "Invalid email") {
         alertbox(result);
       }
+      else if(!result){
+        alertbox("User doesn't exist");
+      }
       else {
         console.log(result);
+  
         localStorage.setItem("vet", result._id);
         localStorage.removeItem("user");
         // window.location.href = "/vet/dashboard";

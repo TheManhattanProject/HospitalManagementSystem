@@ -1,10 +1,12 @@
-import {useEffect, useState} from 'react';
+import {useEffect, useState,useRef} from 'react';
 import inventoryStore from '../db/stores/inventory';
 import Popup from 'reactjs-popup';
 import {Navigate } from 'react-router-dom';
 import Header from './Header';
 import Sidebar from './Sidebar';
 import backIcon from "../assets/arrow.png"
+import Select from "react-select"
+
 
 
 export default function Inventory() {
@@ -12,8 +14,8 @@ export default function Inventory() {
     const [redirect, setRedirect] = useState();
     const [category, setCategory] = useState('medicine');
     const [items, setItems] = useState([]);
-    const [itemname, setItemname] = useState();
-    const [itemremark, setItemremark] = useState();
+    const itemname = useRef();
+    const itemremark = useRef();
     const [open, setOpen] = useState(false);  
     const [admin, setAdmin] = useState();
     const closeModal = () => setOpen(false);
@@ -40,16 +42,25 @@ export default function Inventory() {
     const additem = async(e) => {
         e.preventDefault();
         let item = {
-            name: itemname,
-            remark: itemremark,
+            name: itemname.current.value,
+            remark: itemremark.current.value,
             category: category
         }
+
         await inventoryStore.create(item);
+        setItems([...items, item]);
     }
 
     if (redirect) {
         return <Navigate to={redirect} />
     }
+    const options =[ 
+        { value: 'medicine', label: 'Medicine' },
+        { value: 'stretcher', label: 'Stretchers' },
+        { value: 'lab', label: 'Laboratory' },
+        { value: 'equipment', label: 'Equipment' },
+        { value: 'other', label: 'Other' }
+    ]
 
 
     return (
@@ -66,10 +77,11 @@ export default function Inventory() {
             <h1>Inventory</h1>
             <div className="cont-in">
             <div className="categories">
-                <button type="button" onClick={(e) => setCategory('medicine')}>Medicines</button>
+            <Select className ="selectbar" defaultValue={category} options={options} onChange={setCategory}/>
+                {/* <button type="button" onClick={(e) => setCategory('medicine')}>Medicines</button>
                 <button type="button" onClick={(e) => setCategory('lab')}>Laboratory</button>
                 <button type="button" onClick={(e) => setCategory('equipment')}>Equipments</button>
-                <button type="button" onClick={(e) => setCategory('stretcher')}>Stretchers</button>
+                <button type="button" onClick={(e) => setCategory('stretcher')}>Stretchers</button> */}
             </div>
             <table>
                 <thead>
@@ -94,6 +106,26 @@ export default function Inventory() {
             {admin && <button type="button" className="button" onClick={() => setOpen(o => !o)}>Add Item</button>}
 
             {admin && <Popup open={open} closeOnDocumentClick onClose={closeModal} position="right center" modal>
+                                <div className="popup-container">
+                                <div className="popup-btn-container">
+                                    <p>Vaccination Form</p>
+                                    <button className="close" onClick={closeModal}>  &times;  </button>
+                                </div>
+                                    <div className="popup-form">
+                                        <div className="popup-form-group">
+                                            <label>Item Name :</label>
+                                            <input type="text" className="popup-form-control" placeholder="Item name" ref={itemname} />
+                                        </div>
+                                        <div className="popup-form-group">
+                                            <label>Item Count :</label>
+                                            <input type="number" className="popup-form-control" ref={itemremark}/>
+                                            {/* <input type="date" className="popup-form-control" value={vaccineDate} onChange={e => setVaccineDate(e.target.value)} /> */}
+                                        </div>
+                                    </div>
+                                    <button type="button" onClick ={additem} className="popup-form-btn">Add</button>
+                                </div>
+                                </Popup>}
+                            {/* </Popup><Popup open={open} closeOnDocumentClick onClose={closeModal} position="right center" modal>
             <div>
             <button className="close" onClick={closeModal}>  &times;  </button>
                 <div>
@@ -103,7 +135,8 @@ export default function Inventory() {
                     <button type="button" onClick ={additem} className="btn btn-primary">Add</button>
                 </div>
             </div>
-            </Popup>}
+            </Popup> */}
+            
             {/* <button type="button" className="button" onClick={() => setRedirect('/vet/dashboard')}>Back</button> */}
 
         </div>

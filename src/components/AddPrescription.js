@@ -14,7 +14,10 @@ import { Navigate } from 'react-router-dom';
 import Header from './Header';
 import Sidebar from './Sidebar';
 import backIcon from "../assets/arrow.png"
+import './styles/Addprescription.css';
 const { dialog, BrowserWindow } = window.require('electron').remote
+
+
 // const {dialog} = window.require('electron').remote;
 
 
@@ -28,8 +31,8 @@ export default function AddPrescription() {
     const [appointment, setAppointment] = useState();
     const [oldTreatments, setOldTreatments] = useState([]);
     const [treatments, setTreatments] = useState([]);
-    // const [treatmentname, setTreatmentname] = useState("");
-    const treatmentname = useRef();
+    const [treatmentname, setTreatmentname] = useState();
+    // const treatmentname = useRef();
     // const [treatmentfrequency, setTreatmentfrequency] = useState("");
     const treatmentfrequency = useRef();
     // const [treatmentremarks, setTreatmentremarks] = useState("");
@@ -51,6 +54,8 @@ export default function AddPrescription() {
     const [treatmentOptions, setTreatmentOptions] = useState([]);
     const [files, setFiles] = useState([]);
     const [images, setImages] = useState([]);
+    const imagetitle= useRef();
+    const [imagepath, setImagepath] = useState("");
     // const [remark, setRemark] = useState("");
     const remark = useRef();
     const [inventory, setInventory] = useState([]);
@@ -93,7 +98,7 @@ export default function AddPrescription() {
     const submittreatment = async (e) => {
         e.preventDefault();
         let treatment = {
-            name: treatmentname.current.value,
+            name: treatmentname.label,
             frequency: treatmentfrequency.current.value,
             remarks: treatmentremarks.current.value
         }
@@ -110,6 +115,14 @@ export default function AddPrescription() {
         }
         setFiles([...files, file])
     }
+    function saveimage() {
+        let image ={
+            title: imagetitle.current.value,
+            path: imagepath
+        }
+        setImages([...images, image])
+    }
+
 
     //  dialog.showOpenDialog({
     //     properties: ['openFile']
@@ -130,9 +143,24 @@ export default function AddPrescription() {
         temp.splice(index, 1);
         setFiles(temp);
     }
+    function removeimage(i){
+        let temp = [...images];
+        temp.splice(i, 1);
+        setImages(temp);
+
+    }
     function fileset(e){
-        setInvestigationfilename(e.name);
-        setInvestigationpath(e.path);
+        if (e && e.path && e.name){
+            setInvestigationfilename(e.name);
+            setInvestigationpath(e.path);
+        }
+    }
+    function imageset(e){
+        if(e && e.path){
+            setImagepath(e.path);
+        }
+       
+
     }
 
     // function saveimage() {
@@ -200,6 +228,11 @@ export default function AddPrescription() {
         
     }
 
+    function handleCreate(input) {
+        setTreatmentname({value: input, label: input});
+    }
+
+
     if (redirect) {
         return <Navigate to={redirect} />
     }        
@@ -218,21 +251,52 @@ export default function AddPrescription() {
             <h1>Add Prescription</h1>
             <div className="cont-in">
             <form>
-               {patient && <label>
-                    Patient:
+               {patient && <div className='patient-details'>
+                    <div className='patient-details-left'>
+                    <p className='pet-details'>Name :</p>
                     <input type="text" value={patient.name} disabled/>
-                    <input type="hidden" value={patient.age} disabled/>
-                    <input type="hidden" value={patient.weight} disabled/>
-                </label>}
+                    </div>
 
-                <p>Investigations:</p>
+                    <div className='patient-details-left'>
+                    <p className='pet-details'>Age :</p>
+                    <input type="text" value={patient.age} disabled/>
+                    </div>
+
+                    <div className='patient-details-left'>
+                    <p className='pet-details'>Weight :</p>
+                    <input type="text" value={patient.bodyweight} disabled/>
+                    </div>
+
+                    <div className='patient-details-left'>
+                    <p className='pet-details'>Sex :</p>
+                    <input type="text" value={patient.sex} disabled/>
+                    </div>
+                </div>}
+
+                <div className='next-appt'>
+                    <p className='sub-heading'>Appointment Details:</p>
+                    <div className="patient-details">
+                    <div className='patient-details-left'>
+                    <p className='pet-details'>Diagnosis :</p>
+                    <input className="next-appt-inp" placeholder="Diagnosis" type="text" ref={diagnosis} />
+                    </div>
+                    <div className='patient-details-left'>
+                    <p className='pet-details'>Next Appointment :</p>
+                    <input type="text" className="next-appt-inp" ref={nextappt} onFocus={e => e.target.type = "datetime-local"}/>
+                    </div>
+                    </div>
+                </div>
+
+                <div className="investigations-div">
+                <p className='sub-heading'>Investigations:</p>
                 <table>
                     <thead>
                         <tr>
-                            <th>Sl No.</th>
-                            <th>Investigation / Lab Report</th>
-                            <th>Add File</th>
-                            <th>Remarks</th>
+                            <th className='td-1'>Sl No.</th>
+                            <th className='td-2'>Investigation / Lab Report</th>
+                            <th className='td-3'>Add File</th>
+                            <th className='td-4'>Remarks</th>
+                            <th className='td-5'></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -255,44 +319,82 @@ export default function AddPrescription() {
                         
                     </tbody>
                 </table>
+                </div>
 
-
-                <p>Treatment:</p>
+                <div className="investigations-div">
+                <p className='sub-heading'>Treatment:</p>
                 <table>
                     <thead>
                         <tr>
-                            <th>Sl No.</th>
-                            <th>Drug Name / Treatment</th>
-                            <th>Frequency</th>
-                            <th>Remarks</th>
+                            <th className="td-1">Sl No.</th>
+                            <th className="td-2">Drug Name /Treatment</th>
+                            <th className="td-3">Frequency</th>
+                            <th className="td-4">Remarks</th>
+                            <th className="td-5"></th>
                         </tr>
                     </thead>
                     <tbody>
                         {treatments.length!==0 && treatments.map((t,i) => (
                             <tr key={t._id}>
-                                <td>{i+1}</td>
-                                <td><input type="text" value={t.name} disabled/> </td>
-                                <td><input type="text" value={t.frequency} disabled/></td>
-                                <td><input type="text" value={t.remarks} disabled/></td>
-                                <td><button type="button" onClick={() => removetreatment(i)}>Remove</button></td>
+                                <td className="td-1">{i+1}</td>
+                                <td className="td-2"><input type="text" value={t.name} disabled/> </td>
+                                <td className="td-3"><input type="text" value={t.frequency} disabled/></td>
+                                <td className="td-4"><input type="text" value={t.remarks} disabled/></td>
+                                <td className="td-5"><button type="button" onClick={() => removetreatment(i)}>Remove</button></td>
                             </tr>
                         ))}
                         <tr>
                             <td>{treatments.length + 1}</td>
-                            <td><input type="text" ref={treatmentname} /></td>
+                            {/* <td><input type="text" ref={treatmentname} /></td> */}
+                            <td><Creatable 
+                                value={treatmentname}
+                                options={oldTreatments}
+                                onChange={setTreatmentname}
+                                onCreateOption={handleCreate}
+
+                            /></td>
                             <td><input type="text" ref={treatmentfrequency} /></td>
                             <td><input type="text" ref={treatmentremarks}/></td>
                             <td><button type="button" onClick={submittreatment}>Add</button></td>
                         </tr>
 
+                    </tbody>
+                </table>
+                </div>
+                
+                <div className='investigations-div'>
+                <p className='sub-heading'>Upload Photos (If any)</p>
+                <table>
+                <thead>
+                        <tr>
+                            <th className='td2-1'>Sl No.</th>
+                            <th className='td2-2'>Image Name</th>
+                            <th className='td2-3'>Investigation Image</th>
+                            <th className='td2-4'></th>
+                        </tr>
+                    </thead>
+                <tbody>
+                        {images.length!==0 && images.map((t,i) => (
+                            <tr key={t._id}>
+                                <td>{i+1}</td>
+                                <td><input type="text" value={t.title} disabled/></td>
+                                <td><p>{t.path}</p></td>
+                                <td><button type="button" onClick={() => removeimage(i)}>Remove</button></td>
+                            </tr>
+                        ))}
+                        <tr>
+                            <td>{images.length + 1}</td>
+                            <td><input type="text" ref={imagetitle} /></td>
+                            <td><input type="file" accept=".jpg,.jpeg,.png,.svg" onChange={e=>{imageset(e.target.files[0])}}/></td>
+                            {/* <td><input type="text" ref={imageremarks}/></td> */}
+                            <td><button type="button" onClick={saveimage}>Add</button></td>
+                        </tr>
                         
                     </tbody>
                 </table>
-                <input type="text" ref={diagnosis} />
-                <input type="text" ref={nextappt} onFocus={e => e.target.type = "datetime-local"}/>
-                <p>Upload Photos (If any)</p>
+                </div>
                 
-                <button onClick={handleSubmit}>Submit</button>
+                <button className='button-end last-btn' onClick={handleSubmit}>Submit</button>
 
             </form>
             {/* {patient && appointment && <button type="button" onClick={() => setRedirect(`/patient/history?id=${patient._id}&apptid=${appointment._id}`)}>Back</button>} */}

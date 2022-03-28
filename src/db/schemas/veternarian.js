@@ -26,6 +26,9 @@ const veternarianschema ={
         experience: {
             type: 'string',
         },
+        dob: {
+            type: 'string',
+        }
     }
 }
 module.exports = veternarianschema;

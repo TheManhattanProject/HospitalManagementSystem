@@ -34,26 +34,25 @@ export default function Register() {
     async function register(event){
       //hash password
       event.preventDefault();
-      if (gender==="") {
-        alert("Please select your gender");
+      if (gender.current.value==="") {
+        alertbox("Please select your gender");
         return;
       }
-      if(password!==password2){
-          alert("Passwords do not match.")
+      if(password.current.value!==password2.current.value){
+          alertbox("Passwords do not match.")
           return;
       }
-      if (!email.match(emailPattern)) {
-        alert("Please enter a valid email id");
+      if (!email.current.value.match(emailPattern)) {
+        alertbox("Please enter a valid email id");
         return;
       }
       const vet = {
-        name: name,
-        password: password,
-        email: email,
-        phone: phone,
-        gender: gender,
-        qualification: qualification,
-        speciality: speciality,
+        name: name.current.value,
+        password: password.current.value,
+        email: email.current.value,
+        phone: phone.current.value,
+        gender: gender.current.value,
+        speciality: speciality.current.value,
     }
 
     let result = await veternarianStore.create(vet);
