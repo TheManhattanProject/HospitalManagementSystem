@@ -26,7 +26,6 @@ class VaccineStore {
     async create(data) {
         const isValid = this.validate(data);
         if (isValid) {
-            alert(data)
             return await this.db.insert(data);
         }
     }
