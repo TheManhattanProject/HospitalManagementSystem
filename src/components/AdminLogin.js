@@ -44,10 +44,10 @@ export default function AdminLogin() {
       event.preventDefault();
       var result = await veternarianStore.login(email.current.value, password.current.value);
       if (result === "Invalid password") {
-        alert(result);
+        alertbox(result);
       }
       else if (result === "Invalid email") {
-        alert(result);
+        alertbox(result);
       }
       else {
         console.log(result);

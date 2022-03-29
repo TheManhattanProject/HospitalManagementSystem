@@ -59,7 +59,7 @@ export default function Register() {
     console.log(result);
 
     if (result === "Email already exists") {
-        alert(result);
+        alertbox(result);
         }
     else {
         localStorage.setItem("vet", result._id);
