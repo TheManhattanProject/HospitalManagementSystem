@@ -10,6 +10,12 @@ const treatmentschema = {
         remarks : {
             type: "string",
         },
+        days :{
+            type: "string",
+        }, 
+        inhouse : {
+            type: "string",
+        },
         prescription : {
             type: "string",
         },

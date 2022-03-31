@@ -137,5 +137,32 @@ class AppointmentsStore {
         }               
         return [];
     }
+    
+    async getFutureAppointments(id){
+        const appointments = await this.db.find({veternarian: id});
+        let futureappt=[]
+        if (appointments) {
+            
+            
+                futureappt = appointments.filter(appt => {
+                let date = new Date(appt.datetime);
+                let now = new Date();
+                return date.getTime() > now.getTime();
+            });
+            if (futureappt.length > 0) {
+                for (let i = 0; i < futureappt.length; i++) {
+                    futureappt[i].datetime = new Date(futureappt[i].datetime);
+                    futureappt[i].datetime = futureappt[i].datetime.toLocaleDateString([], {hour: '2-digit', minute:'2-digit'});
+                }
+                futureappt.sort(compareDates);
+                return futureappt;
+            }
+            // appointments.sort(compareDates);
+            // for (let i = 0; i < appointments.length; i++) {
+            //     appointments[i].datetime = appointments[i].datetime.toLocaleDateString();
+            // }
+        }
+        return appointments;
+    }
 }
 export default new AppointmentsStore();

@@ -41,10 +41,10 @@ export default function DoctorLogin() {
     async function logindoctor(event){
       event.preventDefault();
       var result = await veternarianStore.login(email.current.value, password.current.value);
-      if (result === "Invalid password") {
+      if (result === "Invalid Password") {
         alertbox(result);
       }
-      else if (result === "Invalid email") {
+      else if (result === "Invalid Email") {
         alertbox(result);
       }
       else if(!result){

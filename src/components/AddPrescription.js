@@ -58,6 +58,7 @@ export default function AddPrescription() {
     // const [remark, setRemark] = useState("");
     // const remark = useRef();
     const [inventory, setInventory] = useState([]);
+    const days = useRef();
     const morn = useRef();
     const noon = useRef();
     const night = useRef();
@@ -99,18 +100,41 @@ export default function AddPrescription() {
     }, [inventory])
     
     const submittreatment = async (e) => {
+        if(!treatmentname || !treatmentname.label || !treatmentname.value || !treatmentremarks.current.value || !days.current.value || (!morn.current.checked && !noon.current.checked && !night.current.checked)){
+            alertbox("Please fill the inomplete fields");
+            return;
+        }
         console.log(morn.current.checked);
         console.log(noon.current.checked);
         console.log(night.current.checked);
+        
         // let freq="1"
         let freq = (morn.current.checked ? "1" : "0") + (noon.current.checked ? "1" : "0") + (night.current.checked ? "1" : "0");
+        let inhouse = null;
+        if (treatmentname.label !== treatmentname.value) {
+            let n = Number(freq[0]) + Number(freq[1]) + Number(freq[2]);
+            let item = await InventoryStore.read(treatmentname.value);
+            if(item.quantity < n*days.current.value) {
+                alertbox("Not enough quantity in inventory. Kindly Purchase from outside.");
+            } else {
+                console.log(item,n*days.current.value);
+                console.log(await InventoryStore.readAll())
+                await InventoryStore.updateQty(treatmentname.value, -n*days.current.value);
+                inhouse = treatmentname.value;
+            }
+        }
+
         console.log(freq);
         e.preventDefault();
         let treatment = {
             name: treatmentname.label,
             frequency: freq,
-            remarks: treatmentremarks.current.value
+            remarks: treatmentremarks.current.value,
+            inhouse: inhouse,
+            days:days.current.value,
+
         }
+        console.log(treatment);
         setTreatments([...treatments, treatment])
     }
   
@@ -227,6 +251,8 @@ export default function AddPrescription() {
                 name: treatments[i].name,
                 frequency: treatments[i].frequency,
                 remarks : treatments[i].remarks,
+                days: treatments[i].days,
+                inhouse: treatments[i].inhouse,
                 prescription: result._id
             }
             await treatmentStore.create(treatment);
@@ -249,7 +275,16 @@ export default function AddPrescription() {
         setRedirect(`/patient/history?id=${patient._id}&apptid=${appointment._id}`);
 
     }
-    function removetreatment(i){
+    async function removetreatment(i){
+        
+        let inv = treatments[i];
+        console.log(inv, inv.inhouse);
+        if(inv.inhouse){
+            console.log(inv.inhouse);
+            console.log(inv.days);
+            console.log(Number(inv.frequency[0])+Number(inv.frequency[1])+Number(inv.frequency[2]));
+            await InventoryStore.updateQty(inv.inhouse, inv.days*(Number(inv.frequency[0])+Number(inv.frequency[1])+Number(inv.frequency[2])));
+        }
         let temp = [...treatments];
         temp.splice(i, 1);
         setTreatments(temp);
@@ -354,30 +389,38 @@ export default function AddPrescription() {
                 <table>
                     <thead>
                         <tr>
-                            <th className="td-1">Sl No.</th>
-                            <th className="td-2">Drug Name /Treatment</th>
-                            <th className="td-3">Frequency</th>
-                            <th className="td-4">Remarks</th>
-                            <th className="td-5"></th>
+                            <th className="td1-1">Sl No.</th>
+                            <th className="td1-2">Drug Name /Treatment</th>
+                            <th className="td1-3">Frequency</th>
+                            <th className='td1-4'>Days</th>
+                            <th className="td1-5">Remarks</th>
+                            <th className="td1-6"></th>
                         </tr>
                     </thead>
                     <tbody>
                         {treatments.length!==0 && treatments.map((t,i) => (
                             <tr key={t._id}>
-                                <td className="td-1">{i+1}</td>
-                                <td className="td-2"><input type="text" value={t.name} disabled/> </td>
-                                <td className="td-3">
+                                <td className="td1-1">{i+1}</td>
+                                <td className="td1-2"><input type="text" value={t.name} disabled/> </td>
+                                <td className="td1-3">
                                     <div className='radio-inp'>
-                                        <label>Morning</label>
-                                        {t.frequency[0]==="1" ? <input type="checkbox" checked="checked" disabled/> : <input type="checkbox" disabled/>}
-                                        <label>Afternoon</label>
-                                        {t.frequency[1]==="1" ? <input type="checkbox" checked="checked" disabled/> : <input type="checkbox" disabled/>}
-                                        <label>Night</label>
-                                        {t.frequency[2]==="1" ? <input type="checkbox" checked="checked" disabled/> : <input type="checkbox" disabled/>}
+                                        <div className='freq-div'>
+                                            <label>Morning</label>
+                                            {t.frequency[0]==="1" ? <input type="checkbox" checked="checked" disabled/> : <input type="checkbox" disabled/>}
+                                        </div>
+                                        <div className='freq-div'>
+                                            <label>Afternoon</label>
+                                            {t.frequency[1]==="1" ? <input type="checkbox" checked="checked" disabled/> : <input type="checkbox" disabled/>}
+                                        </div>
+                                        <div className='freq-div'>
+                                            <label>Night</label>
+                                            {t.frequency[2]==="1" ? <input type="checkbox" checked="checked" disabled/> : <input type="checkbox" disabled/>}
+                                        </div>
                                     </div>
                                 </td>
-                                <td className="td-4"><input type="text" value={t.remarks} disabled/></td>
-                                <td className="td-5"><button type="button" onClick={() => removetreatment(i)}>Remove</button></td>
+                                <td className="td1-4"><input type="number" value={t.days} disabled /></td>
+                                <td className="td1-5"><input type="text" value={t.remarks} disabled/></td>
+                                <td className="td1-6"><button type="button" onClick={() => removetreatment(i)}>Remove</button></td>
                             </tr>
                         ))}
                         <tr>
@@ -392,15 +435,22 @@ export default function AddPrescription() {
                             /></td>
                              <td>
                              <div className='radio-inp'>
-                            <label>Morning</label>
-                            <input type="checkbox" name="Morning" ref={morn} />
-                            <label>Afternoon</label>
-                            <input type="checkbox" name="Afternoon" ref={noon} />
-                            <label>Night</label>
-                            <input type="checkbox" name="Night" ref={night} />
+                            <div className='freq-div'>
+                                <label>Morning</label>
+                                <input type="checkbox" name="Morning" ref={morn} />
+                            </div>
+                            <div className='freq-div'>
+                                <label>Afternoon</label>
+                                <input type="checkbox" name="Afternoon" ref={noon} />
+                            </div>
+                            <div className='freq-div'>
+                                <label>Night</label>
+                                <input type="checkbox" name="Night" ref={night} />
+                            </div>
                             </div>
                             
                             </td>
+                            <td><input type="number" ref={days}/></td>
                             <td><input type="text" ref={treatmentremarks} /></td>
                            
                             <td><button type="button" onClick={submittreatment}>Add</button></td>

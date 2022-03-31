@@ -3,6 +3,7 @@ const Datastore = require('nedb-promises');
 const Ajv = require('ajv');
 const treatmentSchema= require('../schemas/treatment');
 const remote = window.require("electron").remote;
+const InventoryStore = require("./inventory");
 
 class TreatmentStore {
     constructor() {

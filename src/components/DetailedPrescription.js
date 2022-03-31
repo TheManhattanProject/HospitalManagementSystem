@@ -222,6 +222,7 @@ export default function DetailedPrescription() {
                                         {t.frequency[2]==="1" ? <input type="checkbox" disabled/> : <input type="checkbox" disabled/>}
                                 </div>
                                 </td>
+                                <td className="td1-4"><input type="number" value={t.days} disabled /></td>
                                 <td>{t.remarks}</td>
                             </tr>
                         ))}

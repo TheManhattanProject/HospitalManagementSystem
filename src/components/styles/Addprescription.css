@@ -46,6 +46,26 @@ table {
     width: 8%;
 }
 
+.td1-1 {
+    width: 5%;
+}
+.td1-2 {
+    width: 30%;
+}
+.td1-3 {
+    width: 22%;
+}
+.td1-4 {
+    width: 10%;
+}
+.td1-5 {
+    width: 25%;
+}
+.td1-6 {
+    width: 8%;
+}
+
+
 .td2-1 {
     width: 5% ;
 }
@@ -107,5 +127,12 @@ td button {
 .radio-inp{
     display: flex;
     flex-direction: row;
+    justify-content: center;
+}
+
+.freq-div {
+    display: flex;
+    flex-direction: column;
+    margin-left: 0.5rem;
 }
 

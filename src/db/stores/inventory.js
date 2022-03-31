@@ -71,6 +71,13 @@ class InventoryStore {
     async getItems(cat) {
         return await this.db.find({category: cat});
     }
+
+    async updateQty(id, qty) {
+        let old = await this.read(id);
+        old.quantity = Number(old.quantity) + Number(qty);
+        console.log(old);
+        return await this.db.update({_id: id}, old);
+    }
 }
 
 export default new InventoryStore();

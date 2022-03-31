@@ -11,8 +11,10 @@ import backIcon from "../assets/arrow.png"
 export default function VetDashboard() {
 
     const [appointments, setAppointments] = useState([]);
+    const [futureappt, setFutureappt] = useState([]);
     const [patients, setPatients] = useState([]);
     const [redirect, setRedirect] = useState();
+    
 
     const getData = async () => {
         let user = localStorage.getItem("vet");
@@ -21,6 +23,8 @@ export default function VetDashboard() {
             setAppointments(appt);
             let pets = await appointmentsStore.getVetPets(user);
             setPatients(pets);
+            let future = await appointmentsStore.getFutureAppointments(user);
+            setFutureappt(future);
         }
         else {
             setRedirect("/login");
@@ -53,11 +57,19 @@ export default function VetDashboard() {
         <div className="cont-in">
             <div className="doc-all">
                 <div className="doc-first">
+                <h3>Future Appointments</h3>
+                   
+                   <div className="appointments">
+                       {futureappt.length!==0 && futureappt.map(appointment => <VetAppointmentCard key={appointment._id} appointment={appointment} />)}
+                   </div>
+
                     <h3>Today's Appointments</h3>
                    
                     <div className="appointments">
                         {appointments.length!==0 && appointments.map(appointment => <VetAppointmentCard key={appointment._id} appointment={appointment} />)}
                     </div>
+
+                  
                 </div>
                 <div className="doc-second">
                     <h3>Past Patients</h3>

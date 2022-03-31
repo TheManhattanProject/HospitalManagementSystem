@@ -148,7 +148,7 @@ export default function Inventory() {
                             <td>{item.name}</td>
                             <td>{item.quantity}</td>
                             <td>{item.remark}</td>
-                            <td className="button-td"><button type="button" onClick={() => openUpdateItem(item,i)}>Update</button></td>
+                            {admin && <td className="button-td"><button type="button" onClick={() => openUpdateItem(item,i)}>Update</button></td>}
                         </tr>
                     ))}
                 </tbody>
