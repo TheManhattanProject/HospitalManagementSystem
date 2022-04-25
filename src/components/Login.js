@@ -1,4 +1,4 @@
-import ownerStore from "../db/stores/owner";
+import adminStore from "../db/stores/admin";
 // import veternarianStore from "../db/stores/veternarian";
 import React from "react";
 import { useState } from "react";
@@ -32,19 +32,23 @@ export default function Login() {
     if (localStorage.getItem("vet") != null) {
       setRedirect("/vet/dashboard");
     }
+    if (localStorage.getItem("admin") != null) {
+      setRedirect("/dashboard");
+    }
   }, []);
 
   async function login(event) {
     event.preventDefault();
-    var result = await ownerStore.login(email.current.value, password.current.value);
+    var result = await adminStore.login(email.current.value, password.current.value);
     if (result === "Invalid password") {
       alertbox(result);
     } else if (result === "Invalid email") {
       alertbox(result);
     } else {
       console.log(result);
-      localStorage.setItem("user", result._id);
+      localStorage.setItem("admin", result._id);
       localStorage.removeItem("vet");
+      localStorage.removeItem("user");
       setRedirect("/dashboard");
     }
   }
@@ -61,7 +65,7 @@ export default function Login() {
           <div className="login-container">
             <div className="signupout">
               <div className="signup">
-                <p> New Patient? </p>
+                <p> New Admin? </p>
                 <div className="PatientCard-image">
                   <img src={patientIcon} alt="Patient" />
                 </div>

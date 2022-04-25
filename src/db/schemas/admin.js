@@ -1,10 +1,13 @@
-const ownerschema={
+const adminschema={
     type: "object",
     properties: {
         name: {
             type: "string",
         },
         email: {
+            type: "string",
+        },
+        password: {
             type: "string",
         },
         phone: {
@@ -18,4 +21,4 @@ const ownerschema={
         }
     }
 }
-module.exports=ownerschema;
+module.exports=adminschema;

@@ -1,6 +1,7 @@
 import React from 'react';
 import patientStore from '../db/stores/patient';
 import appointmentsStore from '../db/stores/appointments';
+import ownerStore from '../db/stores/owner'
 import { useEffect, useState } from 'react';
 import PrevVisits from './PrevVisits';
 import Pet from './Pet';
@@ -8,7 +9,9 @@ import './styles/Dashboard.css';
 import { Navigate } from 'react-router-dom';
 import Header from './Header';
 import Sidebar from './Sidebar';
-import backIcon from "../assets/arrow.png"
+import backIcon from "../assets/arrow.png";
+import Select from 'react-select';
+import adminStore from '../db/stores/admin'
 
 
 export default function Dashboard(){
@@ -16,25 +19,48 @@ export default function Dashboard(){
     
         
     const [pets, setPets] = useState([]);
+    const [ownerList, setOwnerList] = useState([]);
     const [appointments, setAppointments] = useState([]);
     const [redirect, setRedirect] = useState();
-
+    const [selectedOwner, setSelectedOwner] = useState();
 
     const getData = async() => {
-        let user = localStorage.getItem("user");
+        let user = localStorage.getItem("admin");
         if (!user) {
             // window.location.href = "/";
             setRedirect("/");
         }
         console.log(user)
-        let pets = await patientStore.getPets(user);
-        setPets(pets);
-        setAppointments(await appointmentsStore.getPastAppointments(user))
+        // let pets = await patientStore.getPets(user);
+        // setPets(pets);
+        // setAppointments(await appointmentsStore.getPastAppointments(user));
+        let opts = [];
+        let owners = await ownerStore.readAll();
+        console.log(owners)
+        console.log(await adminStore.readAll());
+        if (owners) {
+            owners.forEach(owner => {
+                opts.push({value: owner._id, label: owner.email})
+            })
+            setOwnerList(opts);
+        }
     }
     
     useEffect(()=> {
         getData();
     }, [])
+
+    useEffect(() => {
+        const setPatients = async () => {
+            if (selectedOwner && selectedOwner.value) {
+                let pets = await patientStore.getPets(selectedOwner.value);
+                setPets(pets);
+                setAppointments(await appointmentsStore.getPastAppointments(selectedOwner.value));
+            }
+        }
+        setPatients();
+
+    }, [selectedOwner])
 
     if (redirect) {
         return <Navigate to={redirect} />
@@ -53,7 +79,8 @@ export default function Dashboard(){
         <div className="cont-out">
             <h1>Home</h1>
             <div className="cont-in">
-            <h3>Your Pets</h3>
+            <h3>Pets</h3>
+            {ownerList && <Select className ="selectbar" defaultValue={selectedOwner} options={ownerList} onChange={setSelectedOwner}/>}
             <div className="pets">
                 {pets.length!==0 && pets.map(pet => <Pet key={pet._id} pet={pet} />)}
                 <div className="add-pets">
@@ -61,7 +88,7 @@ export default function Dashboard(){
                     <p className='bold-text'>Add New</p>
                 </div>
             </div>
-            <PrevVisits appointments={appointments} appointment={{_id: 0}} />
+            {appointments && <PrevVisits appointments={appointments} appointment={{_id: 0}} />}
             {/* <h3>Previous Visits</h3>
             <div className="appointments">
                 {appointments.length!==0 && appointments.map(appointment => <AppointmentCard key={appointment._id} appointment={appointment}/>)}

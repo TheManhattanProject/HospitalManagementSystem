@@ -45,20 +45,20 @@ class ownerStore {
         return this.db.find()
     }
     
-    async login(email, password) {
-        let doc = await this.db.findOne({email: email}).exec();
-        if (doc) {
-            if (doc.password === password) {
-                return doc;
-            }
-            else {
-                return "Invalid password";
-            }
-        }
-        else {
-            return "Invalid email";
-        }
-    }    
+    // async login(email, password) {
+    //     let doc = await this.db.findOne({email: email}).exec();
+    //     if (doc) {
+    //         if (doc.password === password) {
+    //             return doc;
+    //         }
+    //         else {
+    //             return "Invalid password";
+    //         }
+    //     }
+    //     else {
+    //         return "Invalid email";
+    //     }
+    // }    
 }
 
 export default new ownerStore();

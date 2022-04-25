@@ -6,6 +6,7 @@ import Dashboard from './components/Dashboard';
 import YourPets from './components/YourPets';
 import PatientHistory from './components/PatientHistory';
 import AddPatient from './components/Addpatient';
+import AddOwner from './components/Addowner';
 import DetailedPrescription from './components/DetailedPrescription';
 import BookAppointment from './components/BookAppointment';
 import VetDashboard from './components/VetDashboard';
@@ -53,6 +54,7 @@ function App() {
             <Route path="/inventory" element={<Inventory />} />
             <Route path="/vet/login" element={<DoctorLogin />} />
             <Route path="/admin/login" element={<AdminLogin />} />
+            <Route path="/addowner" element={<AddOwner />} />
           </Routes>
         </Router>
       </div>

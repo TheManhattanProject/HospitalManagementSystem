@@ -1,6 +1,6 @@
 import React from "react";
 import { useState, useRef } from "react";
-import ownerStore from "../db/stores/owner";
+import adminStore from "../db/stores/admin";
 import { Navigate } from "react-router-dom";
 import PrevHeader from "./PrevHeader";
 import "./styles/Register.css";
@@ -42,7 +42,7 @@ export default function Register() {
     } else if (!email.current.value.match(emailPattern)) {
       alertbox("Please enter a valid email id");
     } else {
-      const owner = {
+      const admin = {
         name: name.current.value,
         dob: dob.current.value,
         password: password.current.value,
@@ -50,11 +50,13 @@ export default function Register() {
         phone: phone.current.value,
         gender: gender.current.value,
       };
-      let result = ownerStore.create(owner);
+      let result = adminStore.create(admin);
       if (result === "Email already exists") {
         alertbox(result);
       } else {
-        localStorage.setItem("user", result._id);
+        localStorage.setItem("admin", result._id);
+        localStorage.removeItem("vet");
+        localStorage.removeItem("user");
         setRedirect("/dashboard");
       }
     }

@@ -1,5 +1,8 @@
 import React from 'react';
 import patientStore from '../db/stores/patient';
+import ownerStore from '../db/stores/owner';
+import Select from 'react-select';
+
 import vaccineStore from '../db/stores/vaccine';
 import {useState,useEffect, useRef} from 'react';
 import Popup from 'reactjs-popup';
@@ -26,15 +29,29 @@ export default function Addpatient() {
     });
   }
 
-  useEffect(() => {
-    const owner = localStorage.getItem("user");
-    if (owner) {
-        setOwner(owner);
+  const getData = async () => {
+    const user = localStorage.getItem("admin");
+    if (user) {
+        setOwner(user);
     }
     else {
         // window.location.href = "/";
         setRedirect("/login")
     }
+    let opts = [];
+    let owners = await ownerStore.readAll();
+    if (owners) {
+        owners.forEach(owner => {
+            opts.push({value: owner._id, label: owner.email})
+        })
+        setOwners(opts);
+    }
+}
+    
+
+  
+  useEffect(() => {
+    getData();
     }, []);
 
 //   const [name, setName] = useState("");
@@ -58,19 +75,24 @@ export default function Addpatient() {
 //   const [vaccineDate, setVaccineDate] = useState();
     const vaccineDate = useRef();
   const [profile, setProfile]=useState("");
+  const [owners, setOwners] = useState([]);
+  const [currown, setCurrown] = useState('');
     // const profile = useRef();
 
   const [open, setOpen] = useState(false);  
+
+
   const closeModal = () => setOpen(false);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
         if (!sex.current.value) {
-            alertbox("Please select the pet's gender")
+            alertbox("Please select the pet's gender");
+        } else if (!currown || !currown.value) {
+            alertbox("Please select an owner");
         }
-        
-
+    
         const patient = {
             name: name.current.value,
             age: age.current.value,
@@ -79,7 +101,7 @@ export default function Addpatient() {
             color:color.current.value,
             fertility: fertility.current.value,
             bodyweight:bodyweight.current.value,
-            owner: owner,
+            owner: currown.value,
             profile : profile
         }
 
@@ -114,9 +136,11 @@ export default function Addpatient() {
     if (redirect) {
         return <Navigate to={redirect} />
     }
+
     function fileclick(e){
         setProfile(e.target.files[0].path)
     }
+
     function removevaccine(i){
         const temp = [...vaccinations];
         temp.splice(i, 1);
@@ -139,6 +163,10 @@ export default function Addpatient() {
             <form onSubmit={handleSubmit}>  
                 <div className="formall">
                     <div className="first">
+
+                        <label for="doctor">Owner's Email:</label>
+                        {owners && <Select className ="selectbar" defaultValue={currown} options={owners} onChange={setCurrown}/>}
+
                         {/* {!profile && <div className="withoutimg">
                             <input id ="fileselect" type="file" onChange={(e)=>{fileclick(e)}}/>
                             <p>Add Photo</p>

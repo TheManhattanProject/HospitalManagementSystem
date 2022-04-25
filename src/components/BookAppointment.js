@@ -2,6 +2,7 @@ import React from 'react';
 import patientStore from '../db/stores/patient';
 import veternarianStore from '../db/stores/veternarian';
 import appointmentStore from '../db/stores/appointments';
+import ownerStore from '../db/stores/owner'
 import {useState,useEffect,useRef} from 'react';
 import './styles/BookAppointment.css';
 import {Navigate} from 'react-router-dom';
@@ -25,6 +26,8 @@ export default function BookAppointment(){
     const [redirect, setRedirect] = useState();
     const [options, setOptions] = useState([]);
     const [selectedpet, setSelectedpet] = useState();
+    const [owners, setOwners] = useState([]);
+    const [currown, setCurrown] = useState();
 
     const alertbox = (m) => {
         const window = BrowserWindow.getFocusedWindow();
@@ -50,10 +53,14 @@ export default function BookAppointment(){
             alertbox("Please fill all the fields");
             return;
         }
+        else if (!currown || !currown.value) {
+            alertbox("Please select the owner");
+            return;
+        }
         e.preventDefault();
         let appointment = {
             patient: currentPatient._id,
-            owner : localStorage.getItem("user"),
+            owner : currown.value,
             veternarian: vet,
             reason: reason.current.value,
             remark: remark.current.value,
@@ -69,26 +76,35 @@ export default function BookAppointment(){
 
     useEffect(() => {
         const getData = async () => {
-            let user = localStorage.getItem("user");
+            let user = localStorage.getItem("admin");
             if (!user) {
                 // window.location.href = "/";
                 setRedirect("/");
             }
-            let pets = await patientStore.getPets(user);
+            // let pets = await patientStore.getPets(user);
             setDoctors(await veternarianStore.readAll());
-            setPatients(pets);
-            var opts = []
-            pets.forEach((pet, i) => {
-                opts.push({value: i, label: pet.name})
-            })
-            setOptions(opts);
+            // setPatients(pets);
+            // var opts = []
+            // pets.forEach((pet, i) => {
+            //     opts.push({value: i, label: pet.name})
+            // })
+            // setOptions(opts);
             // if (pets.length !== 0) {
             //     setCurrentPatient(pets[0]);
             //     document.getElementById(pets[0]._id).classList.add("selected");
             // }
-            if(!pets.length) {
-                // window.location.href = "/patient/add";
-                setRedirect("/patient/add");
+            // if(!pets.length) {
+            //     // window.location.href = "/patient/add";
+            //     setRedirect("/patient/add");
+            // }
+            let opts = [];
+            let owners = await ownerStore.readAll();
+            console.log(owners);
+            if (owners) {
+                owners.forEach(owner => {
+                    opts.push({value: owner._id, label: owner.email})
+                })
+                setOwners(opts);
             }
         }
         getData();
@@ -99,6 +115,21 @@ export default function BookAppointment(){
             setCurrentPatient(patients[selectedpet.value]);
         }
     },[selectedpet, patients])
+
+    useEffect(() => {
+        const updatePets = async() => {
+            if (currown && currown.value) {
+                let pets = await patientStore.getPets(currown.value);
+                setPatients(pets);
+                var opts = []
+                pets.forEach((pet, i) => {
+                    opts.push({value: i, label: pet.name})
+                })
+                setOptions(opts);
+            }
+        }
+        updatePets();
+    }, [currown])
 
     if (redirect) {
         return <Navigate to={redirect} />
@@ -118,13 +149,17 @@ export default function BookAppointment(){
         <div className="cont-out">
             <h1>Book A Visit</h1>
             <div className="cont-in">
-            {patients.length && <div className="pet-names">
-            <p className="sub-heading-book">Select a patient :</p>
-            {/* <select name="doctor" id="cars" value={vet} onChange={e => setCurrentPatient(patients[e.target.value])}>
-                        <option selected disabled>Select a pet</option>
-                        {patients.map((patient,i) => <option value={i}>{patient.name}</option>)}
-            </select>  */}
-            <Select className ="selectbar" defaultValue={selectedpet} options={options} onChange={setSelectedpet}/>
+            <div className='pet-names'>
+                <p className="sub-heading-book">Select an owner :</p>
+                {owners.length!==0 && <Select className ="selectbar" defaultValue={currown} options={owners} onChange={setCurrown}/>}
+            </div>
+            {patients.length!==0 && <div className="pet-names">
+                <p className="sub-heading-book">Select a patient :</p>
+                {/* <select name="doctor" id="cars" value={vet} onChange={e => setCurrentPatient(patients[e.target.value])}>
+                            <option selected disabled>Select a pet</option>
+                            {patients.map((patient,i) => <option value={i}>{patient.name}</option>)}
+                </select>  */}
+                {options.length!==0 && <Select className ="selectbar" defaultValue={selectedpet} options={options} onChange={setSelectedpet}/>}
             </div>}
         
             <div className="all-info">
@@ -183,7 +218,7 @@ export default function BookAppointment(){
                 <div className="empty-div"></div>
             </div>
             {/* <button onClick={() =>setRedirect("/dashboard")}>Back</button> */}
-            <button type="button" className='button-end' onClick={handleSubmit}>Book Appointment</button>
+            {<button type="button" className='button-end' onClick={handleSubmit}>Book Appointment</button>}
         </div>
         </div>
         </div>

@@ -17,6 +17,9 @@ export default function Home() {
     if (localStorage.getItem("vet") != null) {
       setRedirect("/vet/dashboard");
     }
+    if (localStorage.getItem("admin") != null) {
+      setRedirect("/dashboard");
+    }
   }, []);
 
   if (redirect) {
@@ -31,10 +34,10 @@ export default function Home() {
       <div className="container-out" style={{ backgroundColor: "#002A6A" }}>
         <div className="home">
           <div className="login-card">
-            <p> I am a Patient </p>
+            <p> Admin </p>
             <div className="PatientCard-image">
               <img src={patientImg}
-                alt="Patient"
+                alt="Admin"
               />
             </div>
             <button

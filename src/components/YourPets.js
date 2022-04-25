@@ -14,7 +14,7 @@ export default function YourPets() {
     const [redirect, setRedirect] = useState();
     
     const getData = async() => {
-        let user = localStorage.getItem("user");
+        let user = localStorage.getItem("admin");
         if (!user) {
             setRedirect("/login");
         }

@@ -15,7 +15,7 @@ export default function Sidebar(props) {
     const [vet, setVet] = useState();
 
     useEffect(() => {
-        setUser(localStorage.getItem('user'));
+        setUser(localStorage.getItem('admin'));
         setVet(localStorage.getItem('vet'));
         console.log(window.location.href);
     }, []);
@@ -60,7 +60,12 @@ export default function Sidebar(props) {
                 <img src={appointmentIcon} alt="Appointment"/>
                     <p className='nav-name'>Book Your Visit</p>
                 </div>}
-                
+
+                {user && <div className={props.currentTab===9 ? "nav-item nav-selected" : "nav-item"} onClick={() => setRedirect("/addowner")}>
+                <img src={homeIcon} alt="Add owner"/>
+                    <p className='nav-name'>Add owner</p>
+                </div>}
+
                 {vet && <div className={props.currentTab===4 ? "nav-item nav-selected" : "nav-item"} onClick={() => setRedirect("/vet/dashboard")}>
                 <img src={homeIcon} alt="Home"/>
                     <p className='nav-name'>Home</p>
