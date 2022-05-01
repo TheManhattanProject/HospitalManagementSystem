@@ -24,12 +24,8 @@ import AllAnimals from './components/AllAnimals';
 import Header from './components/Header';
 
 function App() {
-  const [user, setUser] = useState();
-  const [vet, setVet] = useState();
 
   useEffect(() => {
-     setUser(localStorage.getItem('user'));
-     setVet(localStorage.getItem('vet'));
   }, []);
 
   return (

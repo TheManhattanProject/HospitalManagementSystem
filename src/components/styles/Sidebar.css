@@ -2,7 +2,7 @@ li {
     list-style: none;
 }
 .sidebar {
-    width: 4rem;
+    width: 100px;
     background-color: #002A6A;
 }
 
@@ -30,7 +30,7 @@ li {
 }
 
 .nav-item img {
-    width: 70%;
+    width: 38px;
 }
 
 .nav-selected {

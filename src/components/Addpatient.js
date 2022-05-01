@@ -2,7 +2,7 @@ import React from 'react';
 import patientStore from '../db/stores/patient';
 import ownerStore from '../db/stores/owner';
 import Select from 'react-select';
-
+import CreatableSelect from 'react-select/creatable';
 import vaccineStore from '../db/stores/vaccine';
 import {useState,useEffect, useRef} from 'react';
 import Popup from 'reactjs-popup';
@@ -192,7 +192,8 @@ export default function Addpatient() {
                         </div>
                         <div className="form-group">
                             <label>Species :</label>
-                            <input type="text" className="form-control" ref={species} placeholder="Species" required />
+                            <CreatableSelect />
+                            <input type="text" className="form-control" ref={species} placeholder="Species" />
                         </div>
                         <div className="form-group">
                             <label>Sex : </label>

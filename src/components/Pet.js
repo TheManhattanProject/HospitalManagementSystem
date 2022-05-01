@@ -1,17 +1,12 @@
 import './styles/Pet.css';
-import {Navigate} from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import React from 'react';
 import {useState} from 'react';
 import defimg from "../assets/defimg.jpeg";
 
 export default function Pet(props) {
-    const [redirect, setRedirect] = useState();
+    const navigate = useNavigate();
     
-
-    console.log(props);
-    if (redirect) {
-        return <Navigate to={redirect} />;
-    }
     
     return (
     <div className="petCard">
@@ -20,6 +15,6 @@ export default function Pet(props) {
         {/* <img src="https://thumbs.dreamstime.com/b/golden-retriever-dog-21668976.jpg" alt={props.pet.name} /> */}
         <h3>{props.pet.name}</h3>
         <p>Species: {props.pet.species}</p>
-        <button type="button" onClick={()=>{setRedirect(`/patient/history?id=${props.pet._id}`)}}>View History</button>
+        <button type="button" onClick={()=>{navigate(`/patient/history?id=${props.pet._id}`)}}>View History</button>
     </div>)
 }
