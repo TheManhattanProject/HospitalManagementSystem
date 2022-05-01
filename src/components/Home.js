@@ -12,7 +12,7 @@ export default function Home() {
 
 
   useEffect(() => {
-    navigate("/allanimals");
+    // navigate("/allanimals");
 
     if (localStorage.getItem("vet") != null) {
       navigate("/vet/dashboard");
