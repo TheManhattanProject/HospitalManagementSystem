@@ -20,6 +20,7 @@ import {useEffect, useState} from 'react';
 import Sidebar from './components/Sidebar';
 import PastPatients from './components/PastPatients';
 import DoctorProfile from './components/DoctorProfile';
+import AllAnimals from './components/AllAnimals';
 import Header from './components/Header';
 
 function App() {
@@ -55,6 +56,7 @@ function App() {
             <Route path="/vet/login" element={<DoctorLogin />} />
             <Route path="/admin/login" element={<AdminLogin />} />
             <Route path="/addowner" element={<AddOwner />} />
+            <Route path="/allanimals" element={<AllAnimals />} />
           </Routes>
         </Router>
       </div>

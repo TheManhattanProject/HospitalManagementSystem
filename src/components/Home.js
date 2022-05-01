@@ -1,35 +1,26 @@
 import React from "react";
 import "./styles/Home.css";
 import { useEffect, useState } from "react";
-import { Navigate } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
 import PrevHeader from "./PrevHeader";
 import patientImg from "../assets/Patient_icon.svg";
 import vetImg from "../assets/Doctor_icon.svg";
-// import Sidebar from "./Sidebar";
 
 export default function Home() {
-  const [redirect, setRedirect] = useState();
+  const navigate = useNavigate();
 
   useEffect(() => {
-    if (localStorage.getItem("user") != null) {
-      setRedirect("/dashboard");
-    }
     if (localStorage.getItem("vet") != null) {
-      setRedirect("/vet/dashboard");
+      navigate("/vet/dashboard");
     }
     if (localStorage.getItem("admin") != null) {
-      setRedirect("/dashboard");
+      navigate("/dashboard");
     }
   }, []);
 
-  if (redirect) {
-      console.log("YES");
-    return <Navigate to={redirect} />;
-  }
 
   return (
     <div className="out">
-      {/* <Sidebar></Sidebar> */}
       <PrevHeader />
       <div className="container-out" style={{ backgroundColor: "#002A6A" }}>
         <div className="home">
@@ -42,7 +33,7 @@ export default function Home() {
             </div>
             <button
               type="button"
-              onClick={() => setRedirect("/login")}
+              onClick={() => {navigate("/login")}}
             >
               Continue to Login
             </button>
@@ -63,7 +54,9 @@ export default function Home() {
             </div>
             <button
               type="button"
-              onClick={() => setRedirect("/vet/login")}
+              onClick={() => {
+                navigate("/vet/login")
+              }}
             >
               Continue to Login
             </button>

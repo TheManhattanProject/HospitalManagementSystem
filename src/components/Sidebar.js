@@ -1,4 +1,5 @@
 import { Navigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import './styles/Sidebar.css';
 import homeIcon from "../assets/Home_icon.png"
@@ -7,10 +8,13 @@ import historyIcon from "../assets/History_icon.png"
 import appointmentIcon from "../assets/Appointment_icon.png"
 import inventoryIcon from "../assets/Inventory_icon.png"
 import profileIcon from "../assets/Profile_icon.png"
+import animalsIcon from "../assets/Animals.png";
+import megaPhone from "../assets/Megaphone.png"
+import peopleIcon from "../assets/People.png"
 
 export default function Sidebar(props) {
+    const navigate = useNavigate();
 
-    const [redirect, setRedirect] = useState();
     const [user, setUser] = useState();
     const [vet, setVet] = useState();
 
@@ -20,9 +24,6 @@ export default function Sidebar(props) {
         console.log(window.location.href);
     }, []);
 
-    if (redirect) {
-        return <Navigate to={redirect} />
-    }
 
     return (
         <div className="sidebar">
@@ -41,55 +42,67 @@ export default function Sidebar(props) {
                     <p className="nav-name">Doctor Login</p>
                 </div>} */}
 
-                {user && <div className={props.currentTab===0 ? "nav-item nav-selected" : "nav-item"} onClick={() => setRedirect("/dashboard")}>
+                {user && <div className={props.currentTab===0 ? "nav-item nav-selected" : "nav-item"} onClick={() => navigate("/dashboard")}>
                 <img src={homeIcon} alt="Home"/>
                     <p className='nav-name'>Home</p>
                 </div>}
 
-                {user && <div className={props.currentTab===1 ? "nav-item nav-selected" : "nav-item"} onClick={() => setRedirect("/patients")}>
+                {user && <div className={props.currentTab===1 ? "nav-item nav-selected" : "nav-item"} onClick={() => navigate("/patients")}>
                     <img src={petIcon} alt="Patients"/>
                     <p className='nav-name'>Your Pets</p>
                 </div>}
 
-                {user && <div className={props.currentTab===2 ? "nav-item nav-selected" : "nav-item"} onClick={() => setRedirect("/patient/history")}>
+                {user && <div className={props.currentTab===2 ? "nav-item nav-selected" : "nav-item"} onClick={() => navigate("/patient/history")}>
                 <img src={historyIcon} alt="History"/>
                     <p className='nav-name'>History</p>
                 </div>}
 
-                {user && <div className={props.currentTab===3 ? "nav-item nav-selected" : "nav-item"} onClick={() => setRedirect("/appointment")}>
+                {user && <div className={props.currentTab===3 ? "nav-item nav-selected" : "nav-item"} onClick={() => navigate("/appointment")}>
                 <img src={appointmentIcon} alt="Appointment"/>
                     <p className='nav-name'>Book Your Visit</p>
                 </div>}
 
-                {user && <div className={props.currentTab===9 ? "nav-item nav-selected" : "nav-item"} onClick={() => setRedirect("/addowner")}>
-                <img src={homeIcon} alt="Add owner"/>
+                {user && <div className={props.currentTab===9 ? "nav-item nav-selected" : "nav-item"} onClick={() => navigate("/addowner")}>
+                <img src={peopleIcon} alt="Add owner"/>
                     <p className='nav-name'>Add owner</p>
                 </div>}
 
-                {vet && <div className={props.currentTab===4 ? "nav-item nav-selected" : "nav-item"} onClick={() => setRedirect("/vet/dashboard")}>
+                {user && <div className={props.currentTab===10 ? "nav-item nav-selected" : "nav-item"} onClick={() => navigate("/appointment")}>
+                <img src={animalsIcon} alt="Animals"/>
+                    <p className='nav-name'>All Animals</p>
+                </div>}
+
+                {vet && <div className={props.currentTab===4 ? "nav-item nav-selected" : "nav-item"} onClick={() => navigate("/vet/dashboard")}>
                 <img src={homeIcon} alt="Home"/>
                     <p className='nav-name'>Home</p>
                 </div>}
 
-                {vet && <div className={props.currentTab===5 ? "nav-item nav-selected" : "nav-item"} onClick={() => setRedirect("/vet/patients")}>
+                {vet && <div className={props.currentTab===5 ? "nav-item nav-selected" : "nav-item"} onClick={() => navigate("/vet/patients")}>
                 <img src={petIcon} alt="History"/>
                     <p className='nav-name'>Your Patients</p>
                 </div>}
 
-                {vet && <div className={props.currentTab===2 ? "nav-item nav-selected" : "nav-item"} onClick={() => setRedirect("/patient/history")}>
+                {vet && <div className={props.currentTab===2 ? "nav-item nav-selected" : "nav-item"} onClick={() => navigate("/patient/history")}>
                 <img src={historyIcon} alt="History"/>
                     <p className='nav-name'>Patient History</p>
                 </div>}
 
-                {vet && <div className={props.currentTab===7 ? "nav-item nav-selected" : "nav-item"} onClick={() => setRedirect("/inventory")}>
+                {vet && <div className={props.currentTab===7 ? "nav-item nav-selected" : "nav-item"} onClick={() => navigate("/inventory")}>
                 <img src={inventoryIcon} alt="Inventory"/>
                     <p className='nav-name'>Inventory</p>
                 </div>}
 
-                {vet && <div className={props.currentTab===8 ? "nav-item nav-selected" : "nav-item"} onClick={() => setRedirect("/vet/profile")}>
+                {vet && <div className={props.currentTab===8 ? "nav-item nav-selected" : "nav-item"} onClick={() => navigate("/vet/profile")}>
                 <img src={profileIcon} alt="History"/>
                     <p className='nav-name'>Profile</p>
                 </div>}
+
+                
+                <div className={props.currentTab===11 ? "nav-item nav-selected" : "nav-item"} onClick={() => navigate("/appointment")}>
+                <img src={megaPhone} alt="Announcements"/>
+                    <p className='nav-name'>Announcements</p>
+                </div>
+
             </div>
         </div>
     );

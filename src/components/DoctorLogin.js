@@ -1,7 +1,7 @@
 import veternarianStore from "../db/stores/veternarian";
 import React from "react";
 import {useState, useEffect, useRef } from "react";
-// import { useEffect } from "react";
+import { useNavigate } from 'react-router-dom';
 import {Navigate} from "react-router-dom";
 import PrevHeader from "./PrevHeader";
 import './styles/DoctorLogin.css';
@@ -10,11 +10,9 @@ const { dialog, BrowserWindow } = window.require('electron').remote
 
 
 export default function DoctorLogin() {
-  // const [email, setEmail] = useState();
+  const navigate = useNavigate();
   const email = useRef();
-  // const [password, setPassword] = useState();
   const password = useRef();
-  const [redirect, setRedirect] = useState();
 
   const alertbox = (m) => {
     const window = BrowserWindow.getFocusedWindow();
@@ -27,13 +25,9 @@ export default function DoctorLogin() {
   }
 
   useEffect(() => {
-    if (localStorage.getItem("user") != null) {
-      // window.location.href = "/dashboard";
-      setRedirect("/dashboard");
-    }
     if (localStorage.getItem("vet") != null) {
       // window.location.href = "/vet/dashboard";
-      setRedirect("/vet/dashboard");
+      navigate("/vet/dashboard");
     }
   }, [])
 
@@ -51,16 +45,10 @@ export default function DoctorLogin() {
         alertbox("User doesn't exist");
       }
       else {
-        console.log(result);
-  
         localStorage.setItem("vet", result._id);
         localStorage.removeItem("user");
-        // window.location.href = "/vet/dashboard";
-        setRedirect("/vet/dashboard");
+        navigate("/vet/dashboard");
       }
-    }
-    if(redirect){
-      return <Navigate to={redirect} />
     }
   
     return (
@@ -75,7 +63,7 @@ export default function DoctorLogin() {
                 <div className="PatientCard-image">
                   <img src={vetIcon} alt="Doctor" />
                 </div>
-                <button type="button" onClick={() => setRedirect("/vet/register")}>
+                <button type="button" onClick={() => navigate("/vet/register")}>
                   Sign Up Here
                 </button>
                 
@@ -91,21 +79,19 @@ export default function DoctorLogin() {
                     placeholder=" Email"
                     ref={email}
                     required
-                    // onChange={(e) => setEmail(e.target.value)}
                   />
                   <input
                     type="password"
                     placeholder=" Password"
                     ref={password}
                     required
-                    // onChange={(e) => setPassword(e.target.value)}
                   />
                   <div className="buttons">
                   <button onClick={logindoctor}>Proceed</button>
-                  <button className="back-btn" type="button" onClick={() => setRedirect("/")}>
+                  <button className="back-btn" type="button" onClick={() => navigate("/")}>
                   Go Back
                 </button>
-                <button className="admin-btn" type="button" onClick={() => setRedirect("/admin/login")}>
+                <button className="admin-btn" type="button" onClick={() => navigate("/admin/login")}>
                   Login as Admin
                 </button>
                 </div>

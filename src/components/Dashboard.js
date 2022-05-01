@@ -7,6 +7,7 @@ import PrevVisits from './PrevVisits';
 import Pet from './Pet';
 import './styles/Dashboard.css';
 import { Navigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import Header from './Header';
 import Sidebar from './Sidebar';
 import backIcon from "../assets/arrow.png";
@@ -15,20 +16,20 @@ import adminStore from '../db/stores/admin'
 
 
 export default function Dashboard(){
+    const navigate = useNavigate();
 
     
         
     const [pets, setPets] = useState([]);
     const [ownerList, setOwnerList] = useState([]);
     const [appointments, setAppointments] = useState([]);
-    const [redirect, setRedirect] = useState();
     const [selectedOwner, setSelectedOwner] = useState();
 
     const getData = async() => {
         let user = localStorage.getItem("admin");
         if (!user) {
             // window.location.href = "/";
-            setRedirect("/");
+            navigate("/");
         }
         console.log(user)
         // let pets = await patientStore.getPets(user);
@@ -62,14 +63,10 @@ export default function Dashboard(){
 
     }, [selectedOwner])
 
-    if (redirect) {
-        return <Navigate to={redirect} />
-    }
-
     return (
         <div className='outer'>
             <div className="lheader">
-                <div onClick={()=>{setRedirect("")}} className='back-div'>
+                <div onClick={()=>{navigate("")}} className='back-div'>
                     <img src={backIcon} alt="back"></img>
                 </div>
                 <Header />
@@ -84,7 +81,7 @@ export default function Dashboard(){
             <div className="pets">
                 {pets.length!==0 && pets.map(pet => <Pet key={pet._id} pet={pet} />)}
                 <div className="add-pets">
-                    <button type="button" onClick={() => setRedirect("/patient/add")}>+</button>
+                    <button type="button" onClick={() => navigate("/patient/add")}>+</button>
                     <p className='bold-text'>Add New</p>
                 </div>
             </div>

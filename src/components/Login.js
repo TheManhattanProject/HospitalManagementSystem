@@ -5,6 +5,7 @@ import { useState } from "react";
 import { useEffect,useRef } from "react";
 import "./styles/Login.css";
 import { Navigate } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
 import PrevHeader from "./PrevHeader";
 import patientIcon from "../assets/Patient_icon.svg"
 const { dialog, BrowserWindow } = window.require('electron').remote
@@ -13,6 +14,7 @@ export default function Login() {
   const email = useRef();
   const password = useRef();
   const [redirect, setRedirect] = useState();
+  const navigate = useNavigate();
 
   const alertbox = (m) => {
     const window = BrowserWindow.getFocusedWindow();
@@ -24,19 +26,6 @@ export default function Login() {
     });
   }
 
-  useEffect(() => {
-    if (localStorage.getItem("user") != null) {
-      setRedirect("/dashboard");
-      // window.location.href = "/dashboard";
-    }
-    if (localStorage.getItem("vet") != null) {
-      setRedirect("/vet/dashboard");
-    }
-    if (localStorage.getItem("admin") != null) {
-      setRedirect("/dashboard");
-    }
-  }, []);
-
   async function login(event) {
     event.preventDefault();
     var result = await adminStore.login(email.current.value, password.current.value);
@@ -45,18 +34,12 @@ export default function Login() {
     } else if (result === "Invalid email") {
       alertbox(result);
     } else {
-      console.log(result);
       localStorage.setItem("admin", result._id);
       localStorage.removeItem("vet");
       localStorage.removeItem("user");
-      setRedirect("/dashboard");
+      navigate("/dashboard");
     }
   }
-
-  if (redirect) {
-    return <Navigate to={redirect} />;
-  }
-
   return (
     <div className="out">
       <PrevHeader />
@@ -69,7 +52,7 @@ export default function Login() {
                 <div className="PatientCard-image">
                   <img src={patientIcon} alt="Patient" />
                 </div>
-                <button type="button" onClick={() => setRedirect("/register")}>
+                <button type="button" onClick={() => navigate("/register")}>
                   Sign Up Here
                 </button>
                 
@@ -95,7 +78,7 @@ export default function Login() {
                   />
                   <div className="buttons">
                   <button onClick={login}>Proceed</button>
-                  <button type="button" className="back-btn" onClick={() => setRedirect("/")}>
+                  <button type="button" className="back-btn" onClick={() => {navigate("/")}}>
                   Go Back
                 </button>
                 </div>
