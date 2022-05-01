@@ -17,31 +17,22 @@ export default function AllAnimals() {
   const navigate = useNavigate();
 
   const [animals, setAnimals] = useState([]);
-  const [selectSpecicies, setSelectSpecies] = useState("");
+//   const [selectSpecicies, setSelectSpecies] = useState("");
   const [selectOptions, setSelectOptions] = useState([]);
   const getData = async () => {
 
 
-    let species = await SpeciesStore.readAll();
-    let options = species.map((sName) => {
-      return { value: sName.name, label: sName.name };
-    });
+    // let species = await SpeciesStore.readAll();
+    // let options = species.map((sName) => {
+    //   return { value: sName.name, label: sName.name };
+    // });
 
   
-    setSelectOptions(options);
+    // setSelectOptions(options);
     let pets = await PatientStore.readAll();
     setAnimals(pets);
   };
 
-//   async function handleAsyncLoadOptions() {
-  
-//     let species = await  SpeciesStore.readAll();
-  
-//     let options = species.map((sName) => {
-//       return { value: sName.name, label: sName.name };
-//     });
-//     return options;
-//   }
 
 
   const promiseOptions = (inputValue) =>
@@ -50,13 +41,10 @@ export default function AllAnimals() {
   });
 
   async function handleSelectOnChange(event) {
-
-    console.log(event)
-
-    // setAnimals((prev) => {
-    //   const temp = prev.filter((temp) => temp.species === event.value);
-    //   return temp;
-    // });
+    setAnimals((prev) => {
+      const temp = prev.filter((temp) => temp.species === event.value);
+      return temp;
+    });
   }
 
   useEffect(() => {
@@ -83,15 +71,6 @@ export default function AllAnimals() {
           <div className="cont-in">
             <h3>Animals</h3>
 
-            <AsyncSelect 
-             defaultOptions
-            //    className="selectbar"
-               loadOptions={promiseOptions}
-               getOptionLabel={e => e.name}
-                 getOptionValue={e => e.name}
-               onChange={handleSelectOnChange}
-             />
-            
              {animals.length !== 0 && (
              <AsyncSelect 
              defaultOptions
@@ -102,14 +81,14 @@ export default function AllAnimals() {
                onChange={handleSelectOnChange}
              />
             )}
-
+{/* 
             {animals.length !== 0 && (
               <Select
                 className="selectbar"
                 options={selectOptions}
                 onChange={handleSelectOnChange}
               />
-            )}
+            )} */}
             <div className="pets">
               {animals.length !== 0 &&
                 animals.map((pet) => <Pet key={pet._id} pet={pet} />)}
