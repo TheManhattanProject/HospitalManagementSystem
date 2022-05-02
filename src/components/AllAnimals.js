@@ -17,6 +17,8 @@ export default function AllAnimals() {
   const navigate = useNavigate();
 
   const [animals, setAnimals] = useState([]);
+  const [allAnimals, setAllAnimals] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 //   const [selectSpecicies, setSelectSpecies] = useState("");
   const [selectOptions, setSelectOptions] = useState([]);
   const getData = async () => {
@@ -31,6 +33,8 @@ export default function AllAnimals() {
     // setSelectOptions(options);
     let pets = await PatientStore.readAll();
     setAnimals(pets);
+    setAllAnimals(pets);
+    setIsLoading(false)
   };
 
 
@@ -41,10 +45,12 @@ export default function AllAnimals() {
   });
 
   async function handleSelectOnChange(event) {
+    setIsLoading(true);
     setAnimals((prev) => {
-      const temp = prev.filter((temp) => temp.species === event.value);
+      const temp = allAnimals.filter((temp) => temp.species === event.value);
       return temp;
     });
+    setIsLoading(false);
   }
 
   useEffect(() => {
@@ -69,8 +75,10 @@ export default function AllAnimals() {
         <div className="cont-out">
           <h1>All Animals</h1>
           <div className="cont-in">
-            <h3>Animals</h3>
-
+            
+            {animals.length === 0 && (
+           <h3>No animals to show</h3>
+            )}
              {animals.length !== 0 && (
              <AsyncSelect 
              defaultOptions

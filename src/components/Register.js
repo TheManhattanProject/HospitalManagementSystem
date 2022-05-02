@@ -33,7 +33,7 @@ export default function Register() {
     });
   }
 
-  function register() {
+ async function register() {
     if (password.current.value !== password2.current.value) {
       alertbox("Passwords do not match.");
         } else if (gender.current.value === "") {
@@ -49,12 +49,12 @@ export default function Register() {
         phone: phone.current.value,
         gender: gender.current.value,
       };
-      let result = adminStore.create(admin);
+      let result = await adminStore.create(admin);
       if (result === "Email already exists") {
         alertbox(result);
       } else {
-        // localStorage.setItem("admin", result._id);
-        // localStorage.removeItem("vet");
+        localStorage.setItem("admin", result._id);
+        localStorage.removeItem("vet");
         navigate("/dashboard");
       }
     }

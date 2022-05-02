@@ -7,6 +7,12 @@ const vaccineSchema = {
         datetime : {
             type: "string",
         },
+        boostername: {
+            type: 'string',
+        },
+        boosterdatetime : {
+            type: "string",
+        },
         patient:{
             type: "string",
         }

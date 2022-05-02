@@ -1,7 +1,7 @@
 import React from 'react';
 import ownerStore from '../db/stores/owner';
 import {useState,useEffect, useRef} from 'react';
-import { Navigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import Header from './Header';
 import Sidebar from './Sidebar';
 import './styles/Addpatient.css'
@@ -11,7 +11,7 @@ const { dialog, BrowserWindow } = window.require('electron').remote
 
 export default function Addowner() {
   const [owner, setOwner] = useState('');
-  const [redirect, setRedirect] = useState();
+  const navigate = useNavigate();
 
   const alertbox = (m) => {
     const window = BrowserWindow.getFocusedWindow();
@@ -30,7 +30,7 @@ export default function Addowner() {
     }
     else {
         // window.location.href = "/";
-        setRedirect("/login")
+        navigate("/login")
     }
     }, []);
 
@@ -65,29 +65,23 @@ export default function Addowner() {
             email: email.current.value
         }
 
-        console.log(patient);
 
         let result = await ownerStore.create(patient);
         if (result === "Email already exists") {
             alertbox(result);
             return;
         }
-        console.log(result);
 
         //  window.location.href = "/dashboard";
-        setRedirect("/dashboard");
+        navigate("/dashboard");
     }
 
    
 
-    if (redirect) {
-        return <Navigate to={redirect} />
-    }
-
     return (
         <div className="outer">
             <div className="lheader">
-                <div onClick={()=>{setRedirect("/dashboard")}} className='back-div'>
+                <div onClick={()=>{navigate("/dashboard")}} className='back-div'>
                     <img src={backIcon} alt="back"></img>
                 </div>
                 <Header />

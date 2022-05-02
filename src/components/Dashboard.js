@@ -27,18 +27,16 @@ export default function Dashboard(){
 
     const getData = async() => {
         let user = localStorage.getItem("admin");
-        if (!user) {
-            // window.location.href = "/";
-            navigate("/");
-        }
-        console.log(user)
+        // if (!user) {
+        //     // window.location.href = "/";
+        //     navigate("/");
+        // }
+
         // let pets = await patientStore.getPets(user);
         // setPets(pets);
         // setAppointments(await appointmentsStore.getPastAppointments(user));
         let opts = [];
         let owners = await ownerStore.readAll();
-        console.log(owners)
-        console.log(await adminStore.readAll());
         if (owners) {
             owners.forEach(owner => {
                 opts.push({value: owner._id, label: owner.email})

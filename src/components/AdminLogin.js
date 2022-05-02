@@ -50,7 +50,6 @@ export default function AdminLogin() {
         alertbox(result);
       }
       else {
-        console.log(result);
         localStorage.setItem("admin", result._id);
         localStorage.removeItem("user");
         localStorage.setItem("vet", result._id);

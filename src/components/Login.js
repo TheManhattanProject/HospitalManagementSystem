@@ -13,7 +13,6 @@ const { dialog, BrowserWindow } = window.require('electron').remote
 export default function Login() {
   const email = useRef();
   const password = useRef();
-  const [redirect, setRedirect] = useState();
   const navigate = useNavigate();
 
   const alertbox = (m) => {
