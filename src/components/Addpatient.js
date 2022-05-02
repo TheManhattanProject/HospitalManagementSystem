@@ -287,16 +287,6 @@ export default function Addpatient() {
                   </div>
                   <div className="form-group">
                     <label>Species :</label>
-                    {/* <AsyncCreatableSelect
-                      defaultOptions
-                      cacheOptions
-                      getOptionLabel={(e) => e.name}
-                      getOptionValue={(e) => e.name}
-                      loadOptions={promiseOptionsSpecies}
-                      onChange={handleAsyncSelectSpecies}
-                      onCreateOption={handleOnCreateAsyncSelectOwner}
-                      styles={customStyles}
-                    /> */}
                     <AsyncCreatableSelect
                       value={selectedSpecies}
                       filterOption={createFilter(filterConfig)}
