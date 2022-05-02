@@ -387,13 +387,6 @@ export default function Addpatient() {
                           onClick={() => removevaccine(i)}
                         >X
                         </button>
-                           {/* <p
-                            className="bold-text clickable-div crossElement"
-                          ><button
-                          className="removeButton"
-                          onClick={() => removevaccine(i)}
-                        >X
-                        </button></p> */}
                           <p className="bold-text">
                             Vaccination Name{" "}
                             <span className="vaccinationTitles">
@@ -419,22 +412,7 @@ export default function Addpatient() {
                               {vaccination.boosterdatetime}
                             </span>
                           </p>
-                          {/* <p
-                            className="bold-text clickable-div emptyElement"
-                            onClick={() => removevaccine(i)}
-                          > .</p> */}
-                          {/* <button
-                            className="removeButton"
-                            onClick={() => removevaccine(i)}
-                          >
-                            Remove
-                          </button> */}
-                          {/* <p
-                            className="bold-text clickable-div"
-                            onClick={() => removevaccine(i)}
-                          >
-                            x
-                          </p> */}
+                         
                         </div>
                       ))}
                     <div
