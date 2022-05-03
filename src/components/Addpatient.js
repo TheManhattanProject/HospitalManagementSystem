@@ -483,6 +483,11 @@ export default function Addpatient() {
                   </div>
                 </div>
               </div>
+              <div >
+                <button onClick={()=>{window.print()}}>
+                  Print
+                </button>
+              </div>
               <div className="submit-div">
                 <button type="submit" className="submit-btn">
                   Submit
