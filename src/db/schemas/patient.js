@@ -28,7 +28,10 @@ const patientschema = {
         },
         profile: {
             type: "string",
-        }
+        },
+        history: {
+            type: "string"
+        },
     },
 };
 

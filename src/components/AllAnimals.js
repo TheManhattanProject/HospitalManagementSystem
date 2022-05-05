@@ -1,8 +1,5 @@
 import React from "react";
-import appointmentsStore from "../db/stores/appointments";
-import ownerStore from "../db/stores/owner";
 import { useEffect, useState } from "react";
-import Select from "react-select";
 import AsyncSelect from "react-select/async";
 import Pet from "./Pet";
 import "./styles/Dashboard.css";
@@ -12,6 +9,7 @@ import Sidebar from "./Sidebar";
 import backIcon from "../assets/arrow.png";
 import PatientStore from "../db/stores/patient";
 import SpeciesStore from "../db/stores/species";
+import { createFilter } from "react-select";
 
 export default function AllAnimals() {
   const navigate = useNavigate();
@@ -44,10 +42,11 @@ export default function AllAnimals() {
     resolve(SpeciesStore.readAll());
   });
 
-  async function handleSelectOnChange(event) {
+  async function handleSelectOnChange(eventTemp) {
     setIsLoading(true);
     setAnimals((prev) => {
-      const temp = allAnimals.filter((temp) => temp.species === event.value);
+      const temp = allAnimals.filter((temp) => {
+       return temp.species === eventTemp.name});
       return temp;
     });
     setIsLoading(false);
@@ -57,12 +56,22 @@ export default function AllAnimals() {
     getData();
   }, []);
 
+
+
+  const filterConfig = {
+    ignoreCase: false,
+    ignoreAccents: false,
+    trim: false,
+    matchFromStart: false,
+    stringify: (option) => `${option.label}`,
+  };
+
   return (
     <div className="outer">
       <div className="lheader">
         <div
           onClick={() => {
-            navigate("");
+            navigate("/dashboard");
           }}
           className="back-div"
         >
@@ -74,6 +83,11 @@ export default function AllAnimals() {
         <Sidebar currentTab={10} />
         <div className="cont-out">
           <h1>All Animals</h1>
+          <div className="PrintButtonDiv">
+                <button className="PrintButton" onClick={()=>{window.print()}}>
+                  Print
+                </button>
+              </div>
           <div className="cont-in">
             
             {animals.length === 0 && (
@@ -87,6 +101,7 @@ export default function AllAnimals() {
                getOptionLabel={e => e.name}
                  getOptionValue={e => e.name}
                onChange={handleSelectOnChange}
+               filterOption={createFilter(filterConfig)}
              />
             )}
 {/* 

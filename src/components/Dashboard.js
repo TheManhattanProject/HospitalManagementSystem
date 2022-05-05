@@ -39,7 +39,7 @@ export default function Dashboard(){
         let owners = await ownerStore.readAll();
         if (owners) {
             owners.forEach(owner => {
-                opts.push({value: owner._id, label: owner.email})
+                opts.push({value: owner._id, label: `${owner.name} - ${owner.phone}`})
             })
             setOwnerList(opts);
         }
@@ -77,11 +77,12 @@ export default function Dashboard(){
             <h3>Pets</h3>
             {ownerList && <Select className ="selectbar" defaultValue={selectedOwner} options={ownerList} onChange={setSelectedOwner}/>}
             <div className="pets">
-                {pets.length!==0 && pets.map(pet => <Pet key={pet._id} pet={pet} />)}
-                <div className="add-pets">
+            <div className="add-pets">
                     <button type="button" onClick={() => navigate("/patient/add")}>+</button>
                     <p className='bold-text'>Add New</p>
                 </div>
+                {pets.length!==0 && pets.map(pet => <Pet key={pet._id} pet={pet} />)}
+                
             </div>
             {appointments && <PrevVisits appointments={appointments} appointment={{_id: 0}} />}
             {/* <h3>Previous Visits</h3>

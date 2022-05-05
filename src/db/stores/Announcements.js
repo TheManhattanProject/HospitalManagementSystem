@@ -38,7 +38,8 @@ class AnnouncementStore {
     }
 
     readAll() {
-        return this.db.find()
+        // 
+        return this.db.find();
     } 
 }
 

@@ -62,7 +62,7 @@ export default function Addpatient() {
 
   const age = useRef();
 
-  const species = useRef();
+  const history = useRef();
 
   const bodyweight = useRef();
 
@@ -105,6 +105,7 @@ export default function Addpatient() {
       fertility: fertility.current.value,
       bodyweight: bodyweight.current.value,
       owner: owner.value,
+      history:history.current.value,
       profile: profile,
     };
 
@@ -338,6 +339,16 @@ export default function Addpatient() {
                       required
                     />
                   </div>
+                  <div className="form-group">
+                    <label>History:</label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      placeholder="History"
+                      ref={history}
+                      required
+                    />
+                  </div>
                   {/* <div className="form-group">
                             <label>Health</label>
                             <input type="text" className="form-control" placeholder="Health" ref={health} onChange={e => setHealth(e.target.value)} required/>
@@ -482,11 +493,6 @@ export default function Addpatient() {
                     </Popup>
                   </div>
                 </div>
-              </div>
-              <div >
-                <button onClick={()=>{window.print()}}>
-                  Print
-                </button>
               </div>
               <div className="submit-div">
                 <button type="submit" className="submit-btn">

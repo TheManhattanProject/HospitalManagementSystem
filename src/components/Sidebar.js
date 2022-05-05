@@ -9,8 +9,9 @@ import appointmentIcon from "../assets/Appointment_icon.png"
 import inventoryIcon from "../assets/Inventory_icon.png"
 import profileIcon from "../assets/Profile_icon.png"
 import animalsIcon from "../assets/Animals.png";
-import megaPhone from "../assets/Megaphone.png"
-import peopleIcon from "../assets/People.png"
+import megaPhone from "../assets/Megaphone.png";
+import peopleIcon from "../assets/People.png";
+import markettingIcon from "../assets/Marketing.png";
 
 export default function Sidebar(props) {
     const navigate = useNavigate();
@@ -43,19 +44,19 @@ export default function Sidebar(props) {
                 </div>} */}
 
                 {user && <div className={props.currentTab===0 ? "nav-item nav-selected" : "nav-item"} onClick={() => navigate("/dashboard")}>
-                <img src={homeIcon} alt="Home"/>
-                    <p className='nav-name'>Home</p>
+                <img src={markettingIcon} alt="Home"/>
+                    <p className='nav-name'>Dashboard</p>
                 </div>}
 
-                {user && <div className={props.currentTab===1 ? "nav-item nav-selected" : "nav-item"} onClick={() => navigate("/patients")}>
+                {user && <div className={props.currentTab===1 ? "nav-item nav-selected" : "nav-item"} onClick={() => navigate("/patient/add")}>
                     <img src={petIcon} alt="Patients"/>
-                    <p className='nav-name'>Your Pets</p>
+                    <p className='nav-name'>Add Animals</p>
                 </div>}
-
+{/* 
                 {user && <div className={props.currentTab===2 ? "nav-item nav-selected" : "nav-item"} onClick={() => navigate("/patient/history")}>
                 <img src={historyIcon} alt="History"/>
                     <p className='nav-name'>History</p>
-                </div>}
+                </div>} */}
 
                 {user && <div className={props.currentTab===3 ? "nav-item nav-selected" : "nav-item"} onClick={() => navigate("/appointment")}>
                 <img src={appointmentIcon} alt="Appointment"/>
@@ -67,7 +68,7 @@ export default function Sidebar(props) {
                     <p className='nav-name'>Add owner</p>
                 </div>}
 
-                {user && <div className={props.currentTab===10 ? "nav-item nav-selected" : "nav-item"} onClick={() => navigate("/appointment")}>
+                {user && <div className={props.currentTab===10 ? "nav-item nav-selected" : "nav-item"} onClick={() => navigate("/allanimals")}>
                 <img src={animalsIcon} alt="Animals"/>
                     <p className='nav-name'>All Animals</p>
                 </div>}
@@ -98,7 +99,7 @@ export default function Sidebar(props) {
                 </div>}
 
                 
-                <div className={props.currentTab===11 ? "nav-item nav-selected" : "nav-item"} onClick={() => navigate("/appointment")}>
+                <div className={props.currentTab===11 ? "nav-item nav-selected" : "nav-item"} onClick={() => navigate("/allannouncementes")}>
                 <img src={megaPhone} alt="Announcements"/>
                     <p className='nav-name'>Announcements</p>
                 </div>
