@@ -1,18 +1,11 @@
 import React from "react";
-import patientStore from "../db/stores/patient";
-import appointmentsStore from "../db/stores/appointments";
-import ownerStore from "../db/stores/owner";
 import Popup from "reactjs-popup";
 import { useEffect, useState } from "react";
-import PrevVisits from "./PrevVisits";
-import Pet from "./Pet";
 import "./styles/Dashboard.css";
-import { Navigate } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import Header from "./Header";
 import Sidebar from "./Sidebar";
 import backIcon from "../assets/arrow.png";
-import Select from "react-select";
 import announcementsStore from "../db/stores/Announcements";
 import adminStore from "../db/stores/admin";
 
@@ -20,10 +13,12 @@ export default function AllAnnouncements() {
   const navigate = useNavigate();
   const [announcementsList, setAnnouncementList] = useState([]);
   const [open,setOpen]=useState(false);
+  const [openCreate,setOpenCreate]=useState(false);
   const [title,setTitle]=useState("");
   const [description,setDescription]=useState("");
   const [name,setName]=useState("");
   const closeModal = () => setOpen(false);
+  const closeCreateModal = () => setOpenCreate(false);
 
 
    async function generatePopUp(Data){
@@ -91,6 +86,50 @@ export default function AllAnnouncements() {
                 </div>
               </div>
             </div>
+          </Popup>
+          <Popup
+            open={openCreate}
+            closeOnDocumentClick
+            onClose={closeModal}
+            position="right center"
+            modal
+          >
+            <div className="popup-container">
+                        <div className="popup-btn-container">
+                          <p>Vaccination Form</p>
+                          <button className="close" onClick={closeModal}>
+                            {" "}
+                            &times;{" "}
+                          </button>
+                        </div>
+                        <div className="popup-form">
+                          <div className="popup-form-group">
+                            <label>Title :</label>
+                            <input
+                              type="text"
+                              className="popup-form-control"
+                              placeholder="Vaccine name"
+                              ref={vaccineName}
+                            />
+                          </div>
+                          <div className="popup-form-group">
+                            <label>Description :</label>
+                            <input
+                              type="text"
+                              className="popup-form-control"
+                              placeholder="Vaccine name"
+                              ref={vaccineName}
+                            />
+                          </div>
+                        </div>
+                        <button
+                          type="button"
+                          onClick={addVaccine}
+                          className="popup-form-btn"
+                        >
+                          Add
+                        </button>
+                      </div>
           </Popup>
           <h1>All Announcements</h1>
           <div className="cont-in">
