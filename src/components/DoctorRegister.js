@@ -1,8 +1,12 @@
 import React from 'react';
 import {useState,useRef} from 'react';
+import AsyncCreatableSelect from "react-select/async-creatable";
+import { createFilter } from "react-select";
 import veternarianStore from "../db/stores/veternarian";
-import { Navigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import PrevHeader from './PrevHeader'
+import DepartmetStore from "../db/stores/Department";
+import './styles/DoctorRegister.css';
 const { dialog, BrowserWindow } = window.require('electron').remote
 
 const emailPattern = /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/; 
@@ -11,15 +15,13 @@ export default function Register() {
     const name = useRef();
     const password = useRef();
     const password2 = useRef();
+    const navigate = useNavigate();
+    const [selectedSpeciality, SetselectedSpeciality] = useState("");
 
     const email = useRef();
     const phone = useRef();
-    const qualification = useRef();
-    const speciality = useRef();
-    const experience = useRef();
     const gender = useRef();
     const dob = useRef()
-    const [redirect, setRedirect]= useState();
 
     const alertbox = (m) => {
       const window = BrowserWindow.getFocusedWindow();
@@ -52,7 +54,7 @@ export default function Register() {
         email: email.current.value,
         phone: phone.current.value,
         gender: gender.current.value,
-        speciality: speciality.current.value,
+        speciality: selectedSpeciality.value,
     }
 
     let result = await veternarianStore.create(vet);
@@ -63,16 +65,81 @@ export default function Register() {
         }
     else {
         localStorage.setItem("vet", result._id);
-        // window.location.href = "/vet/dashboard";
-        setRedirect("/vet/dashboard");
+        navigate("/vet/dashboard");
     }
     
 
   }
 
-    if (redirect) {
-        return <Navigate to={redirect} />
-    }
+  const filterConfig = {
+    ignoreCase: false,
+    ignoreAccents: false,
+    trim: false,
+    matchFromStart: false,
+    stringify: (option) => `${option.label}`,
+  };
+
+  const promiseOptionsSpeciality = async (inputValue) => {
+    return DepartmetStore.readAll().then((datatemp) => {
+      return datatemp.map((temp) => {
+        return { value: temp.name, label: temp.name };
+      });
+    });
+  };
+
+  async function handleAsyncSelectSpeciality(event) {
+    SetselectedSpeciality(event);
+  }
+
+  async function handleOnCreateAsyncSelectOwner(event) {
+    const result = await DepartmetStore.create({ name: event });
+    SetselectedSpeciality({ value: event, label: event });
+  }
+
+
+  const customStyles = {
+    dropdownIndicator: () => ({
+      color: "grey",
+      paddingLeft: "10px",
+      paddingRight: "5px",
+    }),
+
+    control: (provided, state) => ({
+      ...provided,
+        border: "1px solid black !important",
+        borderRadius: "0.4rem",
+      outline: "none",
+      boxShadow: "none",
+      width: "16rem",
+      minHeight: '32px',
+      height: '32px',
+      backgroundColor: "white",
+      marginBottom: "0.4rem",
+      marginTop: "0.4rem",
+    }),
+    valueContainer: (provided, state) => ({
+      ...provided,
+      height: '32px',
+      padding: '0 2px'
+    }),
+    input: (provided, state) => ({
+      ...provided,
+      margin: '0px',
+    }),
+    indicatorSeparator: state => ({
+      display: 'none',
+    }),
+    indicatorsContainer: (provided, state) => ({
+      ...provided,
+      height: '30px',
+    }),
+
+    clearIndicator: () => ({
+      color: "grey",
+      paddingRight: "10px",
+    }),
+  };
+   
 
      return (    
     //     <div>
@@ -88,7 +155,7 @@ export default function Register() {
     //                 <input type="text" placeholder="speciality" onChange={e => setSpeciality(e.target.value)}/>
     //                 <input type="text" placeholder="experience" onChange={e => setExperience(e.target.value)}/>
     //                 <button onClick ={register}>register</button>
-    //                 <p className="message">Already registered? <button type="button" onClick={() => setRedirect("/vet/login")}>Login</button></p>
+    //                 <p className="message">Already registered? <button type="button" onClick={() => navigate("/vet/login")}>Login</button></p>
     //             </form>
     //         </div>
     //         </div>
@@ -105,8 +172,8 @@ export default function Register() {
                     <h3 className='closer'>Following details</h3>
                 </div>
                 <input type="text" placeholder="Name" ref={name}/>
-                     <input type="text" placeholder="Specialization" ref ={speciality} required/>
-                     <input type="phone" placeholder="Mobile No." ref={phone} required/>
+                    
+                     <input  type="phone" placeholder="Mobile No." ref={phone} required/>
                      <select name="gender" id="cars" ref={gender} required>
                         <option value="" selected disabled hidden>Gender</option>
                         <option value="Male">Male</option>
@@ -114,7 +181,18 @@ export default function Register() {
                         <option value="Non Binary">Non-Binary</option>
                     </select> 
                      <input type="text" placeholder='Date of Birth' onFocus={e => e.target.type="date"} ref={dob} required/>
-                     {/* <input type ="address" placeholder="address" onChange={e => setAddress(e.target.value)}/> */}
+                     <AsyncCreatableSelect
+                      value={selectedSpeciality}
+                      filterOption={createFilter(filterConfig)}
+                      defaultOptions
+                      loadOptions={promiseOptionsSpeciality}
+                      createOptionPosition={"first"}
+                      onChange={handleAsyncSelectSpeciality}
+                      onCreateOption={handleOnCreateAsyncSelectOwner}
+                      styles={customStyles}
+                      isSearchable={true}
+                      placeholder={"Speciality"}
+                    />
                 </div>
               </div>
   
@@ -134,7 +212,7 @@ export default function Register() {
                     <input type="password" placeholder="Confirm Password" ref={password2} required/>
                     <div className="buttons">
                     <button onClick={register}>Proceed</button>
-                    <button className="back-btn" type="button" onClick={() => setRedirect("/")}>
+                    <button className="back-btn" type="button" onClick={() => navigate("/")}>
                     Go Back
                   </button>
                   </div>
