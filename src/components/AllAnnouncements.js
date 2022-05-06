@@ -8,6 +8,7 @@ import Sidebar from "./Sidebar";
 import backIcon from "../assets/arrow.png";
 import announcementsStore from "../db/stores/Announcements";
 import adminStore from "../db/stores/admin";
+import "reactjs-popup/dist/index.css";
 
 export default function AllAnnouncements() {
   const navigate = useNavigate();
@@ -30,7 +31,9 @@ export default function AllAnnouncements() {
         description: descriptionRef.current.value,
         by: adminID,
       });
+      
       setOpenCreate(false);
+      await getData();
     }
   }
 
@@ -88,22 +91,14 @@ export default function AllAnnouncements() {
             <div className="popup-container">
               <div className="popup-btn-container">
                 <p>Announcement Detail</p>
-                <button className="close" onClick={closeModal}>
-                  {" "}
-                  &times;{" "}
+                <button className="removeButton" onClick={closeModal}>
+                 X
                 </button>
               </div>
               <div className="DivInPopUp">
-              <p className="ParagraphInPopUp">Title:-</p>
               <h3 className="HeadingInPopUp">{title}</h3>
-              </div>
-              <div className="DivInPopUp">
-              <p className="ParagraphInPopUp">Description:-</p>
               <p className="ParagraphInPopUp">{description}</p>
-              </div>
-              <div className="DivInPopUp">
-              <p className="ParagraphInPopUp">By:-</p>
-              <p className="ParagraphInPopUp"><i>{name}</i></p>
+              <p className="ParagraphInPopUp">-<i>{name}</i></p>
               </div>
             </div>
           </Popup>
