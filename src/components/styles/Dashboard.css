@@ -70,3 +70,17 @@ button{
     font-size: 32px;
     font-weight: bood;
 }
+
+.ParagraphInPopUp{
+    margin: 0;
+    padding: 0;
+}
+.HeadingInPopUp{
+    margin: 0;
+    padding: 0;
+    font-size: 32px;
+    font-weight: bold;
+}
+.DivInPopUp{
+    margin: 16px;
+}

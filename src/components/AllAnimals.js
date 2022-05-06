@@ -17,36 +17,32 @@ export default function AllAnimals() {
   const [animals, setAnimals] = useState([]);
   const [allAnimals, setAllAnimals] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-//   const [selectSpecicies, setSelectSpecies] = useState("");
+  //   const [selectSpecicies, setSelectSpecies] = useState("");
   const [selectOptions, setSelectOptions] = useState([]);
   const getData = async () => {
-
-
     // let species = await SpeciesStore.readAll();
     // let options = species.map((sName) => {
     //   return { value: sName.name, label: sName.name };
     // });
 
-  
     // setSelectOptions(options);
     let pets = await PatientStore.readAll();
     setAnimals(pets);
     setAllAnimals(pets);
-    setIsLoading(false)
+    setIsLoading(false);
   };
 
-
-
   const promiseOptions = (inputValue) =>
-  new Promise((resolve) => {
-    resolve(SpeciesStore.readAll());
-  });
+    new Promise((resolve) => {
+      resolve(SpeciesStore.readAll());
+    });
 
   async function handleSelectOnChange(eventTemp) {
     setIsLoading(true);
     setAnimals((prev) => {
       const temp = allAnimals.filter((temp) => {
-       return temp.species === eventTemp.name});
+        return temp.species === eventTemp.name;
+      });
       return temp;
     });
     setIsLoading(false);
@@ -55,8 +51,6 @@ export default function AllAnimals() {
   useEffect(() => {
     getData();
   }, []);
-
-
 
   const filterConfig = {
     ignoreCase: false,
@@ -84,27 +78,29 @@ export default function AllAnimals() {
         <div className="cont-out">
           <h1>All Animals</h1>
           <div className="PrintButtonDiv">
-                <button className="PrintButton" onClick={()=>{window.print()}}>
-                  Print
-                </button>
-              </div>
+            <button
+              className="PrintButton"
+              onClick={() => {
+                window.print();
+              }}
+            >
+              Print
+            </button>
+          </div>
           <div className="cont-in">
-            
-            {animals.length === 0 && (
-           <h3>No animals to show</h3>
+            {animals.length === 0 && <h3>No animals to show</h3>}
+            {animals.length !== 0 && (
+              <AsyncSelect
+                defaultOptions
+                className="selectbar"
+                loadOptions={promiseOptions}
+                getOptionLabel={(e) => e.name}
+                getOptionValue={(e) => e.name}
+                onChange={handleSelectOnChange}
+                filterOption={createFilter(filterConfig)}
+              />
             )}
-             {animals.length !== 0 && (
-             <AsyncSelect 
-             defaultOptions
-               className="selectbar"
-               loadOptions={promiseOptions}
-               getOptionLabel={e => e.name}
-                 getOptionValue={e => e.name}
-               onChange={handleSelectOnChange}
-               filterOption={createFilter(filterConfig)}
-             />
-            )}
-{/* 
+            {/* 
             {animals.length !== 0 && (
               <Select
                 className="selectbar"

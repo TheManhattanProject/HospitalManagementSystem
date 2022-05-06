@@ -1,6 +1,6 @@
 import React from "react";
 import Popup from "reactjs-popup";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import "./styles/Dashboard.css";
 import { useNavigate } from "react-router-dom";
 import Header from "./Header";
@@ -12,29 +12,49 @@ import adminStore from "../db/stores/admin";
 export default function AllAnnouncements() {
   const navigate = useNavigate();
   const [announcementsList, setAnnouncementList] = useState([]);
-  const [open,setOpen]=useState(false);
-  const [openCreate,setOpenCreate]=useState(false);
-  const [title,setTitle]=useState("");
-  const [description,setDescription]=useState("");
-  const [name,setName]=useState("");
+  const [open, setOpen] = useState(false);
+  const [openCreate, setOpenCreate] = useState(false);
+  const titleRef = useRef();
+  const descriptionRef = useRef();
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [name, setName] = useState("");
+  const [adminID, setAdminID] = useState("");
   const closeModal = () => setOpen(false);
   const closeCreateModal = () => setOpenCreate(false);
 
+  async function addAnnouncement() {
+    if (titleRef.current.value !== "" && descriptionRef.current.value !== "") {
+      const createdAnnouncement = await announcementsStore.create({
+        title: titleRef.current.value,
+        description: descriptionRef.current.value,
+        by: adminID,
+      });
+      setOpenCreate(false);
+    }
+  }
 
-   async function generatePopUp(Data){
+  async function generatePopUp(Data) {
     setTitle(Data.title);
     setDescription(Data.description);
-    let tempName=await adminStore.read(Data.by)
+    let tempName = await adminStore.read(Data.by);
     setName(tempName.name);
     setOpen(true);
-   }
-  
+  }
 
   const getData = async () => {
     let user = localStorage.getItem("admin");
-    console.log("Admin ..................");
-    console.log(user);
+    let vet = localStorage.getItem("vet");
+    if(user!==null){
+      setAdminID(user);
+    }
+    
     let temp = await announcementsStore.readAll();
+    temp=temp.sort(function(a,b){
+      // Turn your strings into dates, and then subtract them
+      // to get a value that is either negative, positive, or zero.
+      return new Date(b.createdAt) - new Date(a.createdAt);
+    });
     setAnnouncementList(temp);
   };
 
@@ -67,79 +87,109 @@ export default function AllAnnouncements() {
           >
             <div className="popup-container">
               <div className="popup-btn-container">
-                <p>Vaccination Form</p>
+                <p>Announcement Detail</p>
                 <button className="close" onClick={closeModal}>
                   {" "}
                   &times;{" "}
                 </button>
               </div>
-              <div className="popup-form">
-
-                <div className="popup-form-group">
-                  <h3>{title}</h3>
-                </div>
-                <div className="popup-form-group">
-                  <p>{description}</p>
-                </div>
-                <div className="popup-form-group">
-                  <p>{name}</p>
-                </div>
+              <div className="DivInPopUp">
+              <p className="ParagraphInPopUp">Title:-</p>
+              <h3 className="HeadingInPopUp">{title}</h3>
+              </div>
+              <div className="DivInPopUp">
+              <p className="ParagraphInPopUp">Description:-</p>
+              <p className="ParagraphInPopUp">{description}</p>
+              </div>
+              <div className="DivInPopUp">
+              <p className="ParagraphInPopUp">By:-</p>
+              <p className="ParagraphInPopUp"><i>{name}</i></p>
               </div>
             </div>
           </Popup>
           <Popup
             open={openCreate}
             closeOnDocumentClick
-            onClose={closeModal}
+            onClose={closeCreateModal}
             position="right center"
             modal
           >
             <div className="popup-container">
-                        <div className="popup-btn-container">
-                          <p>Vaccination Form</p>
-                          <button className="close" onClick={closeModal}>
-                            {" "}
-                            &times;{" "}
-                          </button>
-                        </div>
-                        <div className="popup-form">
-                          <div className="popup-form-group">
-                            <label>Title :</label>
-                            <input
-                              type="text"
-                              className="popup-form-control"
-                              placeholder="Vaccine name"
-                              ref={vaccineName}
-                            />
-                          </div>
-                          <div className="popup-form-group">
-                            <label>Description :</label>
-                            <input
-                              type="text"
-                              className="popup-form-control"
-                              placeholder="Vaccine name"
-                              ref={vaccineName}
-                            />
-                          </div>
-                        </div>
-                        <button
-                          type="button"
-                          onClick={addVaccine}
-                          className="popup-form-btn"
-                        >
-                          Add
-                        </button>
-                      </div>
+              <div className="popup-btn-container">
+                <p>Announcement Form</p>
+                <button className="close" onClick={closeCreateModal}>
+                  {" "}
+                  &times;{" "}
+                </button>
+              </div>
+              <div className="popup-form">
+                <div className="popup-form-group">
+                  <label>Title :</label>
+                  <input
+                    type="text"
+                    className="popup-form-control"
+                    placeholder="title"
+                    ref={titleRef}
+                  />
+                </div>
+                <div className="popup-form-group">
+                  <label>Description :</label>
+                  <input
+                    type="text"
+                    className="popup-form-control"
+                    placeholder="description"
+                    ref={descriptionRef}
+                  />
+                </div>
+              </div>
+              <button
+                type="button"
+                onClick={addAnnouncement}
+                className="popup-form-btn"
+              >
+                Add
+              </button>
+            </div>
           </Popup>
           <h1>All Announcements</h1>
+          <div className="PrintButtonDiv">
+            <button
+              className="PrintButton"
+              onClick={() => {
+                window.print();
+              }}
+            >
+              Print
+            </button>
+          </div>
+          <div>
+           {adminID!=="" && <button
+              // className=""
+              onClick={() => {
+                setOpenCreate(true);
+              }}
+            >
+              Create
+            </button>}
+          </div>
           <div className="cont-in">
             <div className="Announcements">
               {announcementsList.length !== 0 &&
-                announcementsList.map((annTemp) => (
-                  <div key={annTemp._id} className="AnnouncementDiv" onClick={() => {generatePopUp({title:annTemp.title,description:annTemp.description,by:annTemp.by})}}>
+                announcementsList.map((annTemp) => {
+                 return <div
+                    key={annTemp._id}
+                    className="AnnouncementDiv"
+                    onClick={() => {
+                      generatePopUp({
+                        title: annTemp.title,
+                        description: annTemp.description,
+                        by: annTemp.by,
+                      });
+                    }}
+                  >
                     <h3>{annTemp.title}</h3>
-                  </div>
-                ))}
+                  </div>;
+                })}
             </div>
           </div>
         </div>
