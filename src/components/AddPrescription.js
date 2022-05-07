@@ -349,6 +349,39 @@ export default function AddPrescription() {
                     </div>
                     </div>
                 </div>
+                <div className="investigations-div">
+                <p className='sub-heading'>Vitals:</p>
+                <table>
+                    <thead>
+                        <tr>
+                            <th className='td-1'>Sl No.</th>
+                            <th className='td-2'>Name</th>
+                            <th className='td-3'>Value</th>
+                            <th className='td-4'>Remarks</th>
+                            <th className='td-5'></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {files.length!==0 && files.map((t,i) => (
+                            <tr key={t._id}>
+                                <td>{i+1}</td>
+                                <td><input type="text" value={t.name} disabled/></td>
+                                <td><p>{t.filename}</p></td>
+                                <td><input type="text" value={t.remarks} disabled/></td>
+                                <td><button type="button" onClick={() => removefile(i)}>Remove</button></td>
+                            </tr>
+                        ))}
+                        <tr>
+                            <td>{files.length + 1}</td>
+                            <td><input type="text" ref={investigationname} /></td>
+                            <td><input type="file" onChange={e=>{fileset(e.target.files[0])}}/></td>
+                            <td><input type="text" ref={investigationremarks}/></td>
+                            <td><button type="button" onClick={savefile}>Add</button></td>
+                        </tr>
+                        
+                    </tbody>
+                </table>
+                </div>
 
                 <div className="investigations-div">
                 <p className='sub-heading'>Investigations:</p>

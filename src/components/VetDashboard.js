@@ -4,7 +4,7 @@ import VetAppointmentCard from './VetAppointmentCard';
 import Pet from './Pet';
 import Sidebar from './Sidebar';
 import './styles/VetDashboard.css';
-import {Navigate} from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 import Header from './Header';
 import backIcon from "../assets/arrow.png"
 
@@ -13,7 +13,7 @@ export default function VetDashboard() {
     const [appointments, setAppointments] = useState([]);
     const [futureappt, setFutureappt] = useState([]);
     const [patients, setPatients] = useState([]);
-    const [redirect, setRedirect] = useState();
+    const navigate = useNavigate();
     
 
     const getData = async () => {
@@ -27,7 +27,7 @@ export default function VetDashboard() {
             setFutureappt(future);
         }
         else {
-            setRedirect("/login");
+            navigate("/login");
         }
     }
  
@@ -38,14 +38,11 @@ export default function VetDashboard() {
         getData();
     }, []);
 
-    if(redirect){
-        return <Navigate to={redirect} />
-    }
 
     return (
         <div className="outer">
         <div className="lheader">
-            <div onClick={()=>{setRedirect("")}} className='back-div'>
+            <div onClick={()=>{navigate("/vet/dashboard")}} className='back-div'>
                 <img src={backIcon} alt="back"></img>
             </div>
             <Header />

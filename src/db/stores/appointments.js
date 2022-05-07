@@ -100,7 +100,6 @@ class AppointmentsStore {
         if (appointments.length>0) {
             for (let i = 0; i < appointments.length; i++) {
                 let pet = await patientStore.read(appointments[i].patient);
-                console.log(pet)
                 pets.push(pet);
             }
             pets = pets.filter((v,i,a)=>a.findIndex(v2=>(v2._id===v._id))===i)
