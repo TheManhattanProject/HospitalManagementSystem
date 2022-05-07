@@ -12,7 +12,6 @@ import Sidebar from "./Sidebar";
 import backIcon from "../assets/arrow.png";
 import "./styles/PatientHistory.css";
 import AsyncSelect from "react-select/async";
-import Select from 'react-select';
 
 export default function Patienthistory() {
   const navigate = useNavigate();
@@ -182,12 +181,6 @@ export default function Patienthistory() {
             {patients.length !== 0 && (
               <div className="pet-names">
                 <p className="sub-heading-book">Select a patient :</p>
-                {/* <Select
-                  className="selectbar"
-                  value={selectedpet}
-                  options={options}
-                  onChange={setSelectedpet}
-                /> */}
                 <AsyncSelect
                       defaultOptions
                       value={selectedpet}

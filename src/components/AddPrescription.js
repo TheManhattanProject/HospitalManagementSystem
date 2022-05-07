@@ -10,7 +10,7 @@ import treatmentStore from "../db/stores/treatment";
 import investigationStore from "../db/stores/investigation";
 import Creatable from 'react-select/creatable';
 import InventoryStore from "../db/stores/inventory";
-import { Navigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 import Header from './Header';
 import Sidebar from './Sidebar';
 import backIcon from "../assets/arrow.png"
@@ -24,7 +24,7 @@ const { dialog, BrowserWindow } = window.require('electron').remote
 
 export default function AddPrescription() {
 
-    const [redirect, setRedirect] = useState();
+    const navigate = useNavigate();
     const [searchParams, setSearchParams] = useSearchParams();
     const pid = searchParams.get("id");
     const [patient, setPatient] = useState();
@@ -52,6 +52,10 @@ export default function AddPrescription() {
     const [treatmentOptions, setTreatmentOptions] = useState([]);
     const [files, setFiles] = useState([]);
     const [images, setImages] = useState([]);
+    const vitalsName=useRef();
+    const vitalsValue=useRef()
+    const vitalsRemark=useRef();
+    const [vitals,setVitals]=useState([]);
     const imagetitle= useRef();
     const [imagepath, setImagepath] = useState("");
     const [imagefilename, setImagefilename] = useState("");
@@ -77,7 +81,7 @@ export default function AddPrescription() {
         async function getData(){
             let user = localStorage.getItem("vet");
             if (!user) {
-                setRedirect("/vet/login")
+                navigate("/vet/login")
             }
             let appt = await appointmentStore.read(pid);
             let patient = await patientStore.read(appt.patient);
@@ -124,7 +128,6 @@ export default function AddPrescription() {
             }
         }
 
-        console.log(freq);
         e.preventDefault();
         let treatment = {
             name: treatmentname.label,
@@ -135,7 +138,7 @@ export default function AddPrescription() {
 
         }
         console.log(treatment);
-        setTreatments([...treatments, treatment])
+        setTreatments((prev)=>{return [...prev,treatment]});
     }
   
 
@@ -150,7 +153,7 @@ export default function AddPrescription() {
             filename: investigationfilename,
             remarks: investigationremarks.current.value
         }
-        setFiles([...files, file])
+        setFiles((prev)=>{return [...prev, file]});
     }
     function saveimage() {
         if (!imagetitle.current.value || !imagepath) {
@@ -162,7 +165,7 @@ export default function AddPrescription() {
             path: imagepath,
             filename: imagefilename
         }
-        setImages([...images, image])
+        setImages((prev)=>{return [...prev,image]});
     }
 
 
@@ -240,7 +243,6 @@ export default function AddPrescription() {
         console.log("Hey");
         const result = await prescriptionStore.create(data);
         // const result = {_id: "0"}
-        console.log("Hey2");
         console.log(result);
         const res = await appointmentStore.update(appointment._id, {prescription: result._id});
         console.log(res);
@@ -261,7 +263,6 @@ export default function AddPrescription() {
         for (let i = 0; i < files.length; i++) {
             files[i].prescription = result._id;
             const fileres = await investigationStore.create(files[i]);
-            console.log(fileres);
         }
         for (let i = 0; i < images.length; i++) {
             images[i].prescription = result._id;
@@ -272,7 +273,7 @@ export default function AddPrescription() {
         console.log(await investigationStore.readAll())
 
         // window.location.href = `/patient/history?id=${patient._id}&apptid=${appointment._id}`;
-        setRedirect(`/patient/history?id=${patient._id}&apptid=${appointment._id}`);
+        navigate(`/patient/history?id=${patient._id}&apptid=${appointment._id}`);
 
     }
     async function removetreatment(i){
@@ -296,14 +297,32 @@ export default function AddPrescription() {
     }
 
 
-    if (redirect) {
-        return <Navigate to={redirect} />
-    }        
+    function createVitals(){
+        let temp = {
+            vName:vitalsName.current.value,
+            vValue:vitalsValue.current.value,
+            vRemark:vitalsRemark.current.value,
+        }
+
+        setVitals((prev)=>{return [...prev,temp]});
+        
+    }
+
+    function removeVitals(index) {
+
+        setVitals((prev)=>{
+            let temp = [...prev];
+            temp.splice(index, 1);
+
+            return temp;
+        });
+    }
+
 
     return (
         <div className="outer">
             <div className="lheader">
-                {patient && appointment && <div onClick={()=>{setRedirect(`/patient/history?id=${patient._id}&apptid=${appointment._id}`)}} className='back-div'>
+                {patient && appointment && <div onClick={()=>{navigate(`/patient/history?id=${patient._id}&apptid=${appointment._id}`)}} className='back-div'>
                     <img src={backIcon} alt="back"></img>
                 </div>}
                 <Header />
@@ -316,22 +335,22 @@ export default function AddPrescription() {
             <form>
                {patient && <div className='patient-details'>
                     <div className='patient-details-left'>
-                    <p className='pet-details'>Name :</p>
+                    <p className='pet-details'>Name</p>
                     <input type="text" value={patient.name} disabled/>
                     </div>
 
                     <div className='patient-details-left'>
-                    <p className='pet-details'>Age :</p>
+                    <p className='pet-details'>Age</p>
                     <input type="text" value={patient.age} disabled/>
                     </div>
 
                     <div className='patient-details-left'>
-                    <p className='pet-details'>Weight :</p>
+                    <p className='pet-details'>Weight</p>
                     <input type="text" value={patient.bodyweight} disabled/>
                     </div>
 
                     <div className='patient-details-left'>
-                    <p className='pet-details'>Sex :</p>
+                    <p className='pet-details'>Sex</p>
                     <input type="text" value={patient.sex} disabled/>
                     </div>
                 </div>}
@@ -362,21 +381,21 @@ export default function AddPrescription() {
                         </tr>
                     </thead>
                     <tbody>
-                        {files.length!==0 && files.map((t,i) => (
+                        {vitals.length!==0 && vitals.map((t,i) => (
                             <tr key={t._id}>
                                 <td>{i+1}</td>
-                                <td><input type="text" value={t.name} disabled/></td>
-                                <td><p>{t.filename}</p></td>
-                                <td><input type="text" value={t.remarks} disabled/></td>
-                                <td><button type="button" onClick={() => removefile(i)}>Remove</button></td>
+                                <td><p>{t.vName}</p></td>
+                                <td><p>{t.vValue}</p></td>
+                                <td><p>{t.vRemark}</p></td>
+                                <td><button type="button" onClick={() => removeVitals(i)}>Remove</button></td>
                             </tr>
                         ))}
                         <tr>
-                            <td>{files.length + 1}</td>
-                            <td><input type="text" ref={investigationname} /></td>
-                            <td><input type="file" onChange={e=>{fileset(e.target.files[0])}}/></td>
-                            <td><input type="text" ref={investigationremarks}/></td>
-                            <td><button type="button" onClick={savefile}>Add</button></td>
+                            <td>{vitals.length + 1}</td>
+                            <td><input type="text" ref={vitalsName} /></td>
+                            <td><input type="text" ref={vitalsValue}/></td>
+                            <td><input type="text" ref={vitalsRemark}/></td>
+                            <td><button type="button" onClick={createVitals}>Add</button></td>
                         </tr>
                         
                     </tbody>
@@ -528,7 +547,7 @@ export default function AddPrescription() {
                 <button className='button-end last-btn' onClick={handleSubmit}>Submit</button>
 
             </form>
-            {/* {patient && appointment && <button type="button" onClick={() => setRedirect(`/patient/history?id=${patient._id}&apptid=${appointment._id}`)}>Back</button>} */}
+            {/* {patient && appointment && <button type="button" onClick={() => navigate(`/patient/history?id=${patient._id}&apptid=${appointment._id}`)}>Back</button>} */}
         </div> 
         </div> 
         </div>  
