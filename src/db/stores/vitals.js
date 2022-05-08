@@ -43,6 +43,10 @@ class VitalStore {
         return  this.db.find()
     }
 
+    async getVitals(id){
+        return await this.db.find({prescription: id});
+    }
+
     readAll() {
         return  this.db.find()
     } 

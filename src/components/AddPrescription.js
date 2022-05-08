@@ -9,6 +9,7 @@ import appointmentStore from "../db/stores/appointments";
 import treatmentStore from "../db/stores/treatment";   
 import investigationStore from "../db/stores/investigation";
 import vitalStore from "../db/stores/vitals";
+import commentStore from "../db/stores/comments";
 import Creatable from 'react-select/creatable';
 import InventoryStore from "../db/stores/inventory";
 import { useNavigate } from "react-router-dom";
@@ -19,7 +20,6 @@ import './styles/Addprescription.css';
 const { dialog, BrowserWindow } = window.require('electron').remote
 
 
-// const {dialog} = window.require('electron').remote;
 
 
 
@@ -273,6 +273,12 @@ export default function AddPrescription() {
             let tempVitals=vitals[i]
             tempVitals.prescription = result._id;
             const vital_result = await vitalStore.create(tempVitals);
+        }
+
+        for (let i = 0; i < comments.length; i++) {
+            let tempComments=comments[i]
+            tempComments.prescription = result._id;
+            const comment_result = await commentStore.create(tempComments);
         }
 
         console.log(await investigationStore.readAll())

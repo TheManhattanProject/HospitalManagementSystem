@@ -43,6 +43,10 @@ class CommentStore {
         return  this.db.find()
     }
 
+    async getComments(id){
+        return await this.db.find({prescription: id});
+    }
+
     readAll() {
         return  this.db.find()
     } 
