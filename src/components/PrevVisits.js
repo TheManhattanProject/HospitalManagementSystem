@@ -2,11 +2,7 @@ import AppointmentCard from "./AppointmentCard";
 import "./styles/PrevVisits.css";
 
 export default function PrevVisits(props) {
-  console.log("insice Prevvisits .............")
-  // console.log(props.appointments)
-  // console.log("insice Prevvisits condition.............")
-  // console.log(props.appointments.length !== 0)
-  
+
 
   return (
     <div className="prev-visits-container">

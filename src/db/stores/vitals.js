@@ -1,18 +1,18 @@
 import path from "path";
 const Datastore = require('nedb-promises');
 const Ajv = require('ajv');
-const speciesSchema= require('../schemas/species');
+const vitalSchema= require('../schemas/vitals');
 const remote = window.require("electron").remote;
 
-class SpeciesStore {
+class VitalStore {
     constructor() {
         const ajv = new Ajv({
             allErrors: true,
             useDefaults: true
         });
 
-        this.schemaValidator = ajv.compile(speciesSchema);
-        const dbPath = path.join(remote.app.getPath("userData"), "/species.db");
+        this.schemaValidator = ajv.compile(vitalSchema);
+        const dbPath = path.join(remote.app.getPath("userData"), "/vitals.db");
         this.db = Datastore.create({
             autoload: true,
             filename: dbPath,
@@ -39,6 +39,7 @@ class SpeciesStore {
 
     test() {
          
+
         return  this.db.find()
     }
 
@@ -47,4 +48,4 @@ class SpeciesStore {
     } 
 }
 
-export default new SpeciesStore();
+export default new VitalStore();

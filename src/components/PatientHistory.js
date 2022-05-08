@@ -53,6 +53,9 @@ export default function Patienthistory() {
   };
 
   const setcurrappointment = (Cappointment) => {
+
+    console.log("inside set current appointment ....")
+    console.log(Cappointment)
     setAppointment(Cappointment);
   };
 

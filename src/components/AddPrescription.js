@@ -8,6 +8,7 @@ import prescriptionStore from "../db/stores/prescriptions";
 import appointmentStore from "../db/stores/appointments";
 import treatmentStore from "../db/stores/treatment";   
 import investigationStore from "../db/stores/investigation";
+import vitalStore from "../db/stores/vitals";
 import Creatable from 'react-select/creatable';
 import InventoryStore from "../db/stores/inventory";
 import { useNavigate } from "react-router-dom";
@@ -56,6 +57,8 @@ export default function AddPrescription() {
     const vitalsValue=useRef()
     const vitalsRemark=useRef();
     const [vitals,setVitals]=useState([]);
+    const commentValue=useRef();
+    const [comments,setComments]=useState([]);
     const imagetitle= useRef();
     const [imagepath, setImagepath] = useState("");
     const [imagefilename, setImagefilename] = useState("");
@@ -108,9 +111,6 @@ export default function AddPrescription() {
             alertbox("Please fill the inomplete fields");
             return;
         }
-        console.log(morn.current.checked);
-        console.log(noon.current.checked);
-        console.log(night.current.checked);
         
         // let freq="1"
         let freq = (morn.current.checked ? "1" : "0") + (noon.current.checked ? "1" : "0") + (night.current.checked ? "1" : "0");
@@ -143,17 +143,17 @@ export default function AddPrescription() {
   
 
     function savefile() {
-        if (!investigationfilename || !investigationpath || !investigationremarks.current.value || !investigationname.current.value) {
-            alertbox("Please fill all the fields for the report");
-            return;
-        }
         let file ={
             name: investigationname.current.value,
             path: investigationpath,
             filename: investigationfilename,
             remarks: investigationremarks.current.value
         }
+
         setFiles((prev)=>{return [...prev, file]});
+        setInvestigationfilename("");
+        setInvestigationpath("")
+       
     }
     function saveimage() {
         if (!imagetitle.current.value || !imagepath) {
@@ -166,6 +166,7 @@ export default function AddPrescription() {
             filename: imagefilename
         }
         setImages((prev)=>{return [...prev,image]});
+        setImagefilename("");
     }
 
 
@@ -240,12 +241,9 @@ export default function AddPrescription() {
             nextAppointment: nextappt.current.value,
             diagnosis: diagnosis.current.value,
         }
-        console.log("Hey");
         const result = await prescriptionStore.create(data);
         // const result = {_id: "0"}
-        console.log(result);
         const res = await appointmentStore.update(appointment._id, {prescription: result._id});
-        console.log(res);
         console.log(await appointmentStore.read(appointment._id));
 
         for (let i = 0; i < treatments.length; i++) {
@@ -261,13 +259,20 @@ export default function AddPrescription() {
 
         }
         for (let i = 0; i < files.length; i++) {
-            files[i].prescription = result._id;
-            const fileres = await investigationStore.create(files[i]);
+            let tempFiles=files[i]
+            tempFiles.prescription = result._id;
+            const fileres = await investigationStore.create(tempFiles);
         }
         for (let i = 0; i < images.length; i++) {
-            images[i].prescription = result._id;
-            const image_result = await fileStore.create(images[i]);
-            console.log(image_result);
+            let tempImages=images[i]
+            tempImages.prescription = result._id;
+            const image_result = await fileStore.create(tempImages);
+        }
+
+        for (let i = 0; i < vitals.length; i++) {
+            let tempVitals=vitals[i]
+            tempVitals.prescription = result._id;
+            const vital_result = await vitalStore.create(tempVitals);
         }
 
         console.log(await investigationStore.readAll())
@@ -311,6 +316,26 @@ export default function AddPrescription() {
     function removeVitals(index) {
 
         setVitals((prev)=>{
+            let temp = [...prev];
+            temp.splice(index, 1);
+
+            return temp;
+        });
+    }
+
+
+    function createComments(){
+        let temp = {
+            remarks:commentValue.current.value,
+        }
+
+        setComments((prev)=>{return [...prev,temp]});
+        
+    }
+
+    function removeComments(index) {
+
+        setComments((prev)=>{
             let temp = [...prev];
             temp.splice(index, 1);
 
@@ -382,7 +407,7 @@ export default function AddPrescription() {
                     </thead>
                     <tbody>
                         {vitals.length!==0 && vitals.map((t,i) => (
-                            <tr key={t._id}>
+                            <tr key={i}>
                                 <td>{i+1}</td>
                                 <td><p>{t.vName}</p></td>
                                 <td><p>{t.vValue}</p></td>
@@ -416,7 +441,7 @@ export default function AddPrescription() {
                     </thead>
                     <tbody>
                         {files.length!==0 && files.map((t,i) => (
-                            <tr key={t._id}>
+                            <tr key={i}>
                                 <td>{i+1}</td>
                                 <td><input type="text" value={t.name} disabled/></td>
                                 <td><p>{t.filename}</p></td>
@@ -451,7 +476,7 @@ export default function AddPrescription() {
                     </thead>
                     <tbody>
                         {treatments.length!==0 && treatments.map((t,i) => (
-                            <tr key={t._id}>
+                            <tr key={i}>
                                 <td className="td1-1">{i+1}</td>
                                 <td className="td1-2"><input type="text" value={t.name} disabled/> </td>
                                 <td className="td1-3">
@@ -508,6 +533,33 @@ export default function AddPrescription() {
                             <td><button type="button" onClick={submittreatment}>Add</button></td>
                         </tr>
 
+                    </tbody>
+                </table>
+                </div>
+                <div className="investigations-div">
+                <p className='sub-heading'>Additional Remarks:</p>
+                <table>
+                    <thead>
+                        <tr>
+                            <th className='td-1'>Sl No.</th>
+                            <th className='td-2'>Comments</th>
+                            <th className='td-5'></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {comments.length!==0 && comments.map((t,i) => (
+                            <tr key={i}>
+                                <td>{i+1}</td>
+                                <td><p>{t.remarks}</p></td>
+                                <td><button type="button" onClick={() => removeComments(i)}>Remove</button></td>
+                            </tr>
+                        ))}
+                        <tr>
+                            <td>{comments.length + 1}</td>
+                            <td><input type="text" ref={commentValue} /></td>
+                            <td><button type="button" onClick={createComments}>Add</button></td>
+                        </tr>
+                        
                     </tbody>
                 </table>
                 </div>

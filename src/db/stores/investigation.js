@@ -29,10 +29,12 @@ class InvestigationStore {
     async create(data) {
         const isValid = this.validate(data);
         if (isValid) {
-            const filePath = path.join( appDir, data.prescription, data.filename);
-            ipcRenderer.invoke('copy-file', [data.path, filePath]);
-            // fs.copyFileSync( data.path, filePath );
-            data.path = filePath;
+            if(data.filename!==""){
+                const filePath = path.join( appDir, data.prescription, data.filename);
+                ipcRenderer.invoke('copy-file', [data.path, filePath]);
+                // fs.copyFileSync( data.path, filePath );
+                data.path = filePath;
+            }
             return await this.db.insert(data);
         }
     }
