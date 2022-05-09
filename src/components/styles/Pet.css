@@ -14,7 +14,9 @@
   }
   
   .petCard:hover {
-    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.582);
+    background-color: #f5f5f5;
+    border: 1px solid rgb(110, 110, 110);
   }
   /* img{
     width: 90%;

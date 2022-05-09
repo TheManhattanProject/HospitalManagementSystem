@@ -378,7 +378,7 @@ export default function Addpatient() {
                     {/* <input type="text" className="form-control" value={fertility} onChange={e => setFertility(e.target.value)} /> */}
                   </div>
 
-                  <p className="sub-heading">Vaccination Chart</p>
+                  <p className="sub-heading-vchart">Vaccination Chart</p>
                   <div className="vaccinations">
                     {vaccinations.length !== 0 &&
                       vaccinations.map((vaccination, i) => (
@@ -388,26 +388,28 @@ export default function Addpatient() {
                           onClick={() => removevaccine(i)}
                         >X
                         </button>
-                          <p className="bold-text">
-                            Vaccination Name{" "}
+                          <p className="bold-text-vchart">
+                            <span>
+                              Vaccination Name :{" "}
+                            </span>
                             <span className="vaccinationTitles">
                               {vaccination.name}
                             </span>
                           </p>
-                          <p className="bold-text">
-                            Vaccination Date{" "}
+                          <p className="bold-text-vchart">
+                            Vaccination Date :{" "}
                             <span className="vaccinationTitles">
                               {vaccination.datetime}
                             </span>
                           </p>
-                          <p className="bold-text">
-                            Booster Dose Name{" "}
+                          <p className="bold-text-vchart">
+                            Booster Dose Name :{" "}
                             <span className="vaccinationTitles">
                               {vaccination.boostername}
                             </span>{" "}
                           </p>
-                          <p className="bold-text">
-                            Booster Dose Date{" "}
+                          <p className="bold-text-vchart">
+                            Booster Dose Date :{" "}
                             <span className="vaccinationTitles">
                               {" "}
                               {vaccination.boosterdatetime}
@@ -432,11 +434,11 @@ export default function Addpatient() {
                       onClose={closeModal}
                       position="right center"
                       modal
-                    >
+                    > 
                       <div className="popup-container">
                         <div className="popup-btn-container">
                           <p>Vaccination Form</p>
-                          <button className="close" onClick={closeModal}>
+                          <button className="close-popup-btn" onClick={closeModal}>
                             {" "}
                             &times;{" "}
                           </button>

@@ -18,6 +18,7 @@
     border-radius: 100%;
     background-size: 60px 60px;
   }
+
 .first{
     display: flex;
     flex-direction: column;
@@ -32,6 +33,10 @@
     /* justify-content: space-between;
     align-items: flex-end; */
 
+}
+.third{
+    box-sizing: border-box;
+    padding: 1rem;
 }
 .second label{
     margin: auto 0.4rem;
@@ -92,22 +97,33 @@
     width: 4rem;
     margin-left: auto;
     margin-right: 1rem;
+    margin-top: 0.75rem;
+    margin-bottom: 1.2rem;
+
 }
 
 .popup-form-group {
     display: flex;
     flex-direction: row;
-    align-items: left;
+    align-items: center;
     justify-content: space-between;
+    margin: 0.05rem 0;
 }
 
 .popup-form-group input {
     width: 15rem;
+    font-size: 1rem;
+    padding: 0.5rem;
+    
 }
 
+
 .popup-form-group label {
+    width: 10rem;
     margin: auto 0.4rem;
     font-weight: 500;
+    font-size: 1.1rem;
+    color: rgb(29, 29, 29);
 }
 
 .popup-container {
@@ -124,14 +140,25 @@
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
+    background-color:rgba(0,42,106);
+    border-radius: 10px;
+    color: white;
+    margin-bottom: 0.5rem;
 }
 
 .popup-btn-container p {
     display: inline;
-    font-weight: 500;
+    font-weight: 420;
     font-size: 1.2rem;
     margin-bottom: 0;
-    margin-left: 1rem;
+    margin-left: 1.3rem;
+    padding: 0.7rem 0.7rem 0.7rem 0rem;
+}
+
+.close-popup-btn{
+    background-color: white;
+    color: black;
+    width: 2rem;
 }
 
 .submit-div {
@@ -139,11 +166,20 @@
     justify-content: flex-end;
     flex-grow: 1;
 }
+.sub-heading-vchart{
+    margin-top: 2rem;
+    font-weight: 550;
+    font-size: 25px;
+    
+    
+}
 
 .vaccinations {
     position: relative;
     display: flex;
     flex-direction: column;
+    box-sizing: border-box;
+   
 }
 
 .vaccinationCard {
@@ -160,6 +196,13 @@
 
 .vaccinationCard p {
     margin-bottom: 0;
+    padding: 0.3rem 0.5rem;
+}
+
+.bold-text-vchart{
+    padding: 0.5rem;
+    display: flex;
+    justify-content: space-between;
 }
 
 .clickable-div {
@@ -177,13 +220,17 @@
 }
 
 .removeButton{
-    margin:0;
+    margin:1rem;
     border: 0;
-    height: 20px;
+    height: 30px;
+    width: 30px;
     font-size: 10px;
+    text-align: center;
+    font-weight: 400;
     padding: 0;
     border-radius: 10px;
-    width: 20px;
+    background-color: white;
+    color: black;
 }
 .removeButtonFload{
     position: absolute;
