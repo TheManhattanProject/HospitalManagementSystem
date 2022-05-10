@@ -180,6 +180,16 @@ export default function Patienthistory() {
 
         <div className="cont-out">
           <h1>History</h1>
+          <div className="PrintButtonDiv">
+            <button
+              className="PrintButton"
+              onClick={() => {
+                window.print();
+              }}
+            >
+              Print
+            </button>
+          </div>
           <div className="cont-in">
             {patients.length !== 0 && (
               <div className="pet-names">

@@ -24,13 +24,6 @@ export default function DoctorLogin() {
     });
   }
 
-  useEffect(() => {
-    if (localStorage.getItem("vet") != null) {
-      // window.location.href = "/vet/dashboard";
-      navigate("/vet/dashboard");
-    }
-  }, [])
-
 
     async function logindoctor(event){
       event.preventDefault();

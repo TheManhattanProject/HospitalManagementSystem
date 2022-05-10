@@ -1,15 +1,14 @@
 import veternarianStore from "../db/stores/veternarian";
 import React from "react";
-import {useState, useEffect, useRef} from "react";
-import {Navigate} from "react-router-dom";
+import {useState, useRef} from "react";
+import { useNavigate } from 'react-router-dom';
 import PrevHeader from "./PrevHeader";
 import doctorIcon from "../assets/Doctor_icon.svg";
 const { dialog, BrowserWindow } = window.require('electron').remote
 
 export default function AdminLogin() {
-  // const [email, setEmail] = useState();
+  const navigate = useNavigate();
   const email = useRef();
-  // const [password, setPassword] = useState();
   const password = useRef();
   const [redirect, setRedirect] = useState();
 
@@ -22,22 +21,6 @@ export default function AdminLogin() {
       message: m,
     });
   }
-
-  useEffect(() => {
-    if (localStorage.getItem("user") != null) {
-      setRedirect("/dashboard");
-      // window.location.href = "/dashboard";
-    }
-    if (localStorage.getItem("admin")!=null) {
-      setRedirect("/inventory");
-      // window.location.href = "/admin/dashboard";
-    }
-    if (localStorage.getItem("vet") != null) {
-      setRedirect("/vet/dashboard");
-      // window.location.href = "/vet/dashboard";
-    }
-    
-  }, [])
 
 
     async function logindoctor(event){
@@ -55,13 +38,10 @@ export default function AdminLogin() {
         localStorage.setItem("vet", result._id);
 
         // window.location.href = "/vet/dashboard";
-        setRedirect("/inventory");
+        navigate("/inventory");
       }
     }
 
-    if (redirect) {
-      return <Navigate to={redirect} />;
-    }
   
     return (
       <div className="out">
@@ -75,7 +55,7 @@ export default function AdminLogin() {
                 <div className="PatientCard-image">
                   <img src={doctorIcon} alt="Doctor" />
                 </div>
-                <button type="button" onClick={() => setRedirect("/vet/register")}>
+                <button type="button" onClick={() => navigate("/vet/register")}>
                   Sign Up Here
                 </button>
                 
@@ -102,7 +82,7 @@ export default function AdminLogin() {
                   />
                   <div className="buttons">
                   <button onClick={logindoctor}>Proceed</button>
-                  <button className="back-btn" type="button" onClick={() => setRedirect("/vet/login")}>
+                  <button className="back-btn" type="button" onClick={() => navigate("/vet/login")}>
                   Go Back
                 </button>
                 </div>

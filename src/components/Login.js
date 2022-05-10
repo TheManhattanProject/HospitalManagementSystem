@@ -1,10 +1,7 @@
 import adminStore from "../db/stores/admin";
-// import veternarianStore from "../db/stores/veternarian";
 import React from "react";
-import { useState } from "react";
-import { useEffect,useRef } from "react";
+import { useRef } from "react";
 import "./styles/Login.css";
-import { Navigate } from "react-router-dom";
 import { useNavigate } from 'react-router-dom';
 import PrevHeader from "./PrevHeader";
 import patientIcon from "../assets/Patient_icon.svg"

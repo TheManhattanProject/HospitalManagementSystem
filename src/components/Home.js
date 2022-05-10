@@ -1,11 +1,10 @@
 import React from "react";
 import "./styles/Home.css";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useNavigate } from 'react-router-dom';
 import PrevHeader from "./PrevHeader";
 import patientImg from "../assets/Patient_icon.svg";
 import vetImg from "../assets/Doctor_icon.svg";
-import PatientStore from '../db/stores/patient'
 
 export default function Home() {
   const navigate = useNavigate();
